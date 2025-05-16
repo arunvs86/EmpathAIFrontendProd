@@ -22,6 +22,8 @@ import TherapistAvailabilityForm from "./pages/TherapistAvailabilityForm";
 import ResetPassword from "./pages/ResetPassword";
 import LetterToLovedOne from "./pages/Letter";
 import LetterView from "./components/LetterView";
+import LetterComposer from "./components/LetterComposer";
+import LettersPage from './pages/LettersPage';
 
 function App() {
   return (
@@ -39,8 +41,9 @@ function App() {
           {/* <Route path="messages" element={<Messages />} /> */}
           {/* Add other routes as needed */}
           
-          <Route path="/letter" element={<LetterToLovedOne />} />
-          <Route path="/letterView" element={<LetterView />} />
+          <Route path="/letter" element={<LetterComposer />} />
+          <Route path="/letters" element={<LettersPage />} />
+          <Route path="/letters/:id" element={<LetterView />} />
 
 
         <Route path="/therapists" element={<Therapists />} />

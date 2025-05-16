@@ -73,11 +73,11 @@ export default function HomeLayout() {
       </div>
 
       {/* Bottom Navigation (mobile) */}
-      <div className="fixed bottom-0 left-0 right-0 md:left-48 lg:right-48 z-20 flex justify-center">
+      {/* <div className="fixed bottom-0 left-0 right-0 md:left-48 lg:right-48 z-20 flex justify-center">
         <div className="w-full max-w-3xl">
           <BottomNav />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -143,14 +143,7 @@ export default function Header() {
                 <Bell className="w-4 h-4 mr-2" />
                 Notifications
               </Link>
-              <Link
-                to={`/profile/${currentUser.id}/journals`}
-                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setOpenUser(false)}
-              >
-                <Bell className="w-4 h-4 mr-2" />
-                My Journals
-              </Link>
+          
               <button
                 onClick={logout}
                 className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
