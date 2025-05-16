@@ -4,17 +4,7 @@ import { useNavigate, NavLink, Link } from 'react-router-dom';
 import { ChevronDown, MessageCircle, Bell, LogOut } from 'lucide-react';
 
 // Primary and secondary tabs
-const PRIMARY_TABS = [
-  { label: 'All Posts', to: '/' },
-  { label: 'Communities', to: '/communities' },
-  { label: 'Faith-Based', to: '/faith' },
-];
-const MORE_TABS = [
-  { label: 'Events Nearby', to: '/feed/events' },
-  { label: 'Plant a Sapling', to: '/feed/sapling' },
-  { label: 'Wellness Tips', to: '/feed/wellness' },
-  { label: 'Mindful Meditation', to: '/feed/meditation' },
-];
+
 
 export default function Header() {
   const navigate = useNavigate();
@@ -24,6 +14,19 @@ export default function Header() {
   const moreRef = useRef(null);
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
   const avatarUrl = currentUser.profile_picture || '/assets/avatar.png';
+
+  const PRIMARY_TABS = [
+    { label: 'All Posts', to: '/' },
+    { label: 'Communities', to: '/communities' },
+    { label: 'Faith-Based', to: '/faith' },
+    { label: 'My Journals', to: `/profile/${currentUser.id}/journals` },
+  ];
+  const MORE_TABS = [
+    { label: 'Events Nearby', to: '/feed/events' },
+    { label: 'Plant a Sapling', to: '/feed/sapling' },
+    { label: 'Wellness Tips', to: '/feed/wellness' },
+    { label: 'Mindful Meditation', to: '/feed/meditation' },
+  ];
 
   // Close popovers when clicking outside
   useEffect(() => {

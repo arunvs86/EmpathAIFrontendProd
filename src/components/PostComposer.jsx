@@ -38,7 +38,8 @@ export default function PostComposer({ onPostCreated }) {
       headers: { Authorization: `Bearer ${token}` },
       body: form,
     });
-    if (!res.ok) throw new Error('Media upload failed');
+    console.log(res)
+    if (!res.ok) throw new Error(res);
     const files = await res.json(); // [{ url, resource_type }, …]
     return files.map(f => f.url);
   };
