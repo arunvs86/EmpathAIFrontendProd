@@ -1,5 +1,5 @@
 
-const BASE_URL = "https://empathaiv2-backend.onrender.com/appointments";
+const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//appointments";
 
 /**
  * Book an appointment.
@@ -165,7 +165,7 @@ export async function getTherapistAppointments(therapistId) {
 
 export async function fetchUpcomingAppointments() {
   const token = localStorage.getItem("token");
-  const res = await fetch("https://empathaiv2-backend.onrender.com/appointments/upcoming", {
+  const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//appointments/upcoming", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

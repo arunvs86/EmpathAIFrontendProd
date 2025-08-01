@@ -5,7 +5,7 @@ import LetterComposer from '../components/LetterComposer';
 export default function LettersPage() {
   const [letters, setLetters] = useState([]);
   const [loading, setLoading] = useState(true);
-  const api = "https://empathaiv2-backend.onrender.com";
+  const api = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/";
 
   // Fetch your user’s letters
   useEffect(() => {
@@ -41,19 +41,19 @@ export default function LettersPage() {
         {loading ? (
           <p>Loading…</p>
         ) : letters.length === 0 ? (
-          <p className="text-gray-600">You haven’t written any letters yet.</p>
+          <p className="text-white/60">You haven’t written any letters yet.</p>
         ) : (
           <ul className="space-y-4">
             {letters.map(ltr => (
               <li
                 key={ltr._id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow transition"
+                className="border border-gray-200 bg-white/10 rounded-lg p-4 hover:shadow transition"
               >
                 <Link to={`/letters/${ltr._id}`} className="block space-y-1">
-                  <p className="text-gray-800">
+                  <p className="text-white">
                     {ltr.text.slice(0, 60)}{ltr.text.length>60 && '…'}
                   </p>
-                  <time className="text-sm text-gray-500">
+                  <time className="text-sm text-white">
                     {new Date(ltr.createdAt).toLocaleString()}
                   </time>
                 </Link>

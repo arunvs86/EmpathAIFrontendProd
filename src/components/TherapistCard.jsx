@@ -8,7 +8,7 @@ function TherapistCard({ therapist }) {
   const avatar = therapist.User?.profile_picture || "/assets/avatar.png";
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm hover:shadow-md transition-shadow">
+    <div onClick={() => navigate(`/therapists/${therapist.id}`)} className="bg-white border border-gray-200 rounded-md p-4 shadow-sm hover:shadow-md transition-shadow">
       <img
         src={avatar}
         alt="Avatar"

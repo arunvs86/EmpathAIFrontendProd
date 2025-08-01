@@ -5,54 +5,113 @@ function CreatePost({ onPostCreated }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError("");
 
-    // Build payload with default category "grief support"
-    const payload = {
-      content,
-      media: [], // no media feature for now
-      categories: ["grief support"],
-    };
+//     // Build payload with default category "grief support"
+//     const payload = {
+//       content,
+//       media: [], // no media feature for now
+//       categories: ["grief support"],
+//     };
 
-    // Retrieve token from localStorage
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("Not authenticated. Please log in.");
-      setLoading(false);
-      return;
-    }
+//     // Retrieve token from localStorage
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       setError("Not authenticated. Please log in.");
+//       setLoading(false);
+//       return;
+//     }
 
-    try {
-      const response = await fetch("https://empathaiv2-backend.onrender.com/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+//     try {
+//       const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify(payload),
+//       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Post creation failed");
-      }
+// // Clone the response so we can safely attempt to parse JSON,
+//     // but still fall back to text if JSON.parse blows up.
+//     const clone = response.clone();
 
-      const result = await response.json();
-      console.log("Post created:", result);
-      // Call the callback to indicate post creation (e.g., switch tab or refresh feed)
-      if (onPostCreated) onPostCreated(result);
-      // Clear the content field
-      setContent("");
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+//     let body;
+//     try {
+//       body = await response.json();      // attempt JSON parse once
+//     } catch (parseErr) {
+//       const text = await clone.text();   // if JSON fails, grab raw text
+//       throw new Error(text || "Unexpected non-JSON response");
+//     }
+    
+//       if (!response.ok) {
+//         // const errorData = await response.json();
+//         throw new Error(body.error || body.message || "Post creation failed");
+//       }
+
+//       // const result = await response.json();
+//       // console.log("Post created:", result);
+//       // Call the callback to indicate post creation (e.g., switch tab or refresh feed)
+//       if (onPostCreated) onPostCreated(body);
+//       // Clear the content field
+//       setContent("");
+//     } catch (err) {
+//       console.error(err);
+//       setError(err.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+
+  const payload = {
+    content,
+    media: [],
+    categories: ["grief support"],
   };
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setError("Not authenticated. Please log in.");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    // — parse the body exactly once —
+    const body = await response.json();
+
+    if (!response.ok) {
+      // use the field your server actually returns (error or message)
+      throw new Error(body.error || body.message || "Post creation failed");
+    }
+
+    console.log("Post created:", body);
+    if (onPostCreated) onPostCreated(body);
+    setContent("");
+  } catch (err) {
+    console.error("Submit failed:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">

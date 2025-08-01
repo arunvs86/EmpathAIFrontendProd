@@ -1,219 +1,246 @@
-// import React, { useState } from "react";
+// // src/components/LeftSidebar.jsx
+// import React, { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Star, Clock, FileText, MessageSquare } from "lucide-react";
+// import { createChat } from "../services/chatApi";
 
-// function LeftSidebar() {
-//   // Use one state variable to track which section is expanded
+// export default function LeftSidebar() {
 //   const [activeSection, setActiveSection] = useState(null);
+//   const [favorites, setFavorites] = useState([]);
+//   const [recentlyViewed, setRecentlyViewed] = useState([]);
+//   const navigate = useNavigate();
 
-//   const toggleSection = (section) => {
+//   useEffect(() => {
+//     setFavorites(
+//       JSON.parse(localStorage.getItem("myFavorites") || "[]").slice(0, 4)
+//     );
+//     setRecentlyViewed(
+//       JSON.parse(
+//         localStorage.getItem("recentlyViewedCommunities") || "[]"
+//       ).slice(0, 4)
+//     );
+//   }, []);
+
+//   const toggleSection = (section) =>
 //     setActiveSection(activeSection === section ? null : section);
+
+//   const handleLetters = () => navigate("/letters");
+//   const handleBotChat = async () => {
+//     const user = JSON.parse(localStorage.getItem("user") || "{}");
+//     const botId = "c7291129-8ed5-40d6-a504-b96f957ceb88";
+//     if (!user.id) return alert("Please log in.");
+//     if (user.id === botId) return alert("Bot cannot message itself.");
+//     try {
+//       const chat = await createChat(botId);
+//       navigate(`/chats/${chat._id}`);
+//     } catch {
+//       alert("Failed to open bot chat.");
+//     }
 //   };
+
+//   // Styles for card-style buttons
+//   const cardClass =
+//     "flex items-center flex-shrink-0 gap-2 px-3 py-2 bg-white/30 hover:bg-white/40 rounded-2xl shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200";
+//   const iconClass = "w-5 h-5 text-white flex-shrink-0";
+//   const labelClass = "text-white font-semibold text-sm whitespace-nowrap";
 
 //   return (
 //     <aside className="w-full h-full p-4">
-//       <div className="bg-white shadow-md rounded p-4 space-y-6">
-//         {/* Search Bar */}
-//         <div className="mb-4">
-//           <input
-//             type="text"
-//             placeholder="Search..."
-//             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-//           />
-//         </div>
+//       <div className="flex flex-col gap-2">
+//         {/* Favourites */}
+//         <div>
+//   <button
+//     onClick={() => toggleSection("favourites")}
+//     className={cardClass}
+//   >
+//     <Star className={iconClass} />
+//     <span className={labelClass}>Favourites</span>
+//   </button>
+//   {activeSection === "favourites" && (
+//     <ul className="mt-2 space-y-1 pl-6">
+//       {favorites.length > 0 ? (
+//         favorites.map((f) => (
+//           <li key={f.id}>
+//             <button
+//               onClick={() => navigate(f.link)}
+//               className="block text-white text-xs hover:underline truncate max-w-[12rem]"
+//             >
+//               {f.name}
+//             </button>
+//           </li>
+//         ))
+//       ) : (
+//         <li className="px-4 py-2 text-sm text-white/70">
+//           No favourites yet.
+//         </li>
+//       )}
+//     </ul>
+//   )}
+// </div>
 
-//         {/* Favourites Accordion */}
-//         <div className="bg-white rounded shadow transition-all duration-200">
-//           <button
-//             onClick={() => toggleSection("favourites")}
-//             className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
-//           >
-//             <h3 className="text-lg font-semibold text-gray-800">Favourites</h3>
-//           </button>
-//           {activeSection === "favourites" && (
-//             <div className="p-4">
-//               <ul className="space-y-2 text-emerald-600 text-sm">
-//                 <li>Favourite 1</li>
-//                 <li>Favourite 2</li>
-//                 <li>Favourite 3</li>
-//                 <li>Favourite 4</li>
-//               </ul>
-//             </div>
-//           )}
-//         </div>
+// {/* Recently Viewed */}
+// <div>
+//   <button
+//     onClick={() => toggleSection("recentlyViewed")}
+//     className={cardClass}
+//   >
+//     <Clock className={iconClass} />
+//     <span className={labelClass}>Recently Viewed</span>
+//   </button>
+//   {activeSection === "recentlyViewed" && (
+//     <ul className="mt-2 space-y-1 pl-6">
+//       {recentlyViewed.length > 0 ? (
+//         recentlyViewed.map((c) => (
+//           <li key={c.id}>
+//             <button
+//               onClick={() => navigate(c.link)}
+//               className="block text-white text-xs hover:underline truncate max-w-[12rem]"
+//             >
+//               {c.name}
+//             </button>
+//           </li>
+//         ))
+//       ) : (
+//         <li className="px-4 py-2 text-sm text-white/70">
+//           Nothing here yet.
+//         </li>
+//       )}
+//     </ul>
+//   )}
+// </div>
 
-//         {/* Recently Viewed Accordion */}
-//         <div className="bg-white rounded shadow transition-all duration-200">
-//           <button
-//             onClick={() => toggleSection("recentlyViewed")}
-//             className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
-//           >
-//             <h3 className="text-lg font-semibold text-gray-800">Recently Viewed</h3>
-//           </button>
-//           {activeSection === "recentlyViewed" && (
-//             <div className="p-4">
-//               <ul className="space-y-2 text-emerald-600 text-sm">
-//                 <li>Item 1</li>
-//                 <li>Item 2</li>
-//                 <li>Item 3</li>
-//                 <li>Item 4</li>
-//               </ul>
-//             </div>
-//           )}
-//         </div>
+//         {/* My Letters */}
+//         <button onClick={handleLetters} className={cardClass}>
+//           <FileText className={iconClass} />
+//           <span className={labelClass}>My Letters</span>
+//         </button>
 
-//         {/* Suggested Accordion */}
-//         <div className="bg-white rounded shadow transition-all duration-200">
-//           <button
-//             onClick={() => toggleSection("suggested")}
-//             className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
-//           >
-//             <h3 className="text-lg font-semibold text-gray-800">Suggested</h3>
-//           </button>
-//           {activeSection === "suggested" && (
-//             <div className="p-4">
-//               <ul className="space-y-2 text-emerald-600 text-sm">
-//                 <li>Suggested 1</li>
-//                 <li>Suggested 2</li>
-//                 <li>Suggested 3</li>
-//                 <li>Suggested 4</li>
-//                 <li>Suggested 5</li>
-//                 <li>Suggested 6</li>
-//               </ul>
-//             </div>
-//           )}
-//         </div>
-
-//         {/* Religious Support Accordion */}
-//         <div className="bg-white rounded shadow transition-all duration-200">
-//           <button
-//             onClick={() => toggleSection("religious")}
-//             className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
-//           >
-//             <h3 className="text-lg font-semibold text-gray-800">
-//               Religious Support
-//             </h3>
-//           </button>
-//           {activeSection === "religious" && (
-//             <div className="p-4">
-//               <ul className="space-y-2 text-emerald-600 text-sm">
-//                 <li>Community A</li>
-//                 <li>Community B</li>
-//                 <li>Community C</li>
-//                 <li>Community D</li>
-//               </ul>
-//             </div>
-//           )}
-//         </div>
+//         {/* EmpathAI Bot */}
+//         <button onClick={handleBotChat} className={cardClass}>
+//           <MessageSquare className={iconClass} />
+//           <span className={labelClass}>EmpathAI Bot</span>
+//         </button>
 //       </div>
 //     </aside>
 //   );
 // }
 
-// export default LeftSidebar;
-
 // src/components/LeftSidebar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Star, Clock, FileText, MessageSquare } from "lucide-react";
 import { createChat } from "../services/chatApi";
 
 export default function LeftSidebar() {
   const [activeSection, setActiveSection] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFavorites(
+      JSON.parse(localStorage.getItem("myFavorites") || "[]").slice(0, 4)
+    );
+    setRecentlyViewed(
+      JSON.parse(
+        localStorage.getItem("recentlyViewedCommunities") || "[]"
+      ).slice(0, 4)
+    );
+  }, []);
 
   const toggleSection = (section) =>
     setActiveSection(activeSection === section ? null : section);
 
-  // Navigate to your Letters page
-  const handleLetters = () => {
-    navigate("/letters");
-  };
-
-  // Start or open a chat with the bot
+  const handleLetters = () => navigate("/letters");
   const handleBotChat = async () => {
-    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
     const botId = "c7291129-8ed5-40d6-a504-b96f957ceb88";
-    if (!currentUser.id) return alert("Please log in.");
-    if (currentUser.id === botId) return alert("Bot cannot message itself.");
+    if (!user.id) return alert("Please log in.");
+    if (user.id === botId) return alert("Bot cannot message itself.");
     try {
       const chat = await createChat(botId);
       navigate(`/chats/${chat._id}`);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to open bot chat.");
     }
   };
 
+const cardClass =
+     "flex items-center gap-2 whitespace-nowrap px-3 py-2 bg-white/20 hover:border border-amber-300 bg-white/30 rounded-2xl   transform hover:-translate-y-0.5 transition-all duration-200 transition";
+  
+  const iconClass = "w-5 h-5 text-white";
+  const labelClass = "text-white font-medium text-sm";
+
+  const renderSectionList = (items) => (
+    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-2 mt-2">
+      <ul className="flex flex-wrap gap-2 text-bold">
+        {items.map((it) => (
+          <li key={it.id}>
+            <button
+              onClick={() => navigate(it.link)}
+              title={it.name}
+              className="
+                inline-block
+                bg-white/20 hover:bg-white/30
+                text-white
+                font-semibold
+                text-xs
+                truncate
+                max-w-[8rem]
+                px-2 py-1
+                rounded-full
+                transition
+              "
+            >
+              {it.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
   return (
     <aside className="w-full h-full p-4">
-      <div className="bg-white shadow-md rounded p-4 space-y-6">
-        {/* Search Bar */}
+      <div className="flex flex-col gap-4">
+        {/* Favourites */}
         <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-          />
-        </div>
-
-        {/* Favourites Accordion */}
-        <div className="bg-white rounded shadow transition-all duration-200">
           <button
             onClick={() => toggleSection("favourites")}
-            className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
+            className={cardClass}
           >
-            <h3 className="text-lg font-semibold text-gray-800">
-              Favourites
-            </h3>
+            <Star className={iconClass} />
+            <span className={labelClass}>Favourites</span>
           </button>
-          {activeSection === "favourites" && (
-            <div className="p-4">
-              <ul className="space-y-2 text-emerald-600 text-sm">
-                <li>Favourite 1</li>
-                <li>Favourite 2</li>
-                <li>Favourite 3</li>
-                <li>Favourite 4</li>
-              </ul>
-            </div>
+          {activeSection === "favourites" && favorites.length > 0 && (
+            renderSectionList(favorites)
           )}
         </div>
 
-        {/* Recently Viewed Accordion */}
-        <div className="bg-white rounded shadow transition-all duration-200">
+        {/* Recently Viewed */}
+        <div>
           <button
             onClick={() => toggleSection("recentlyViewed")}
-            className="w-full text-left px-4 py-3 bg-gray-50 border-b border-gray-200 focus:outline-none hover:bg-gray-100"
+            className={cardClass}
           >
-            <h3 className="text-lg font-semibold text-gray-800">
-              Recently Viewed
-            </h3>
+            <Clock className={iconClass} />
+            <span className={labelClass}>Recently Viewed</span>
           </button>
-          {activeSection === "recentlyViewed" && (
-            <div className="p-4">
-              <ul className="space-y-2 text-emerald-600 text-sm">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-                <li>Item 4</li>
-              </ul>
-            </div>
+          {activeSection === "recentlyViewed" && recentlyViewed.length > 0 && (
+            renderSectionList(recentlyViewed)
           )}
         </div>
 
-        {/* My Letters Link */}
-        <button
-          onClick={handleLetters}
-          className="w-full text-left px-4 py-3 bg-gray-50 rounded shadow hover:bg-gray-100 focus:outline-none"
-        >
-          <h3 className="text-lg font-semibold text-gray-800">My Letters</h3>
+        {/* My Letters */}
+        <button onClick={handleLetters} className={cardClass}>
+          <FileText className={iconClass} />
+          <span className={labelClass}>My Letters</span>
         </button>
 
-        {/* EmpathAI Bot Chat */}
-        <button
-          onClick={handleBotChat}
-          className="w-full text-left px-4 py-3 bg-gray-50 rounded shadow hover:bg-gray-100 focus:outline-none"
-        >
-          <h3 className="text-lg font-semibold text-gray-800">
-            EmpathAI Bot
-          </h3>
+        {/* EmpathAI Bot */}
+        <button onClick={handleBotChat} className={cardClass}>
+          <MessageSquare className={iconClass} />
+          <span className={labelClass}>EmpathAI Bot</span>
         </button>
       </div>
     </aside>

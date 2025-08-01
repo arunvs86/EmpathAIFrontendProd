@@ -3,14 +3,14 @@ import CreatableSelect from 'react-select/creatable';
 import { ImageIcon, VideoIcon, Music, FileText } from 'lucide-react';
 
 const CATEGORY_OPTIONS = [
-  { value: 'Wellness tips', label: 'Wellness tips' },
-  { value: 'Mindful meditation', label: 'Mindful meditation' },
   { value: 'Self-Care', label: 'Self-Care' },
   { value: 'Grief & Bereavement', label: 'Grief & Bereavement' },
+  { value: 'Religious Support', label: 'Religious Support' },
+  { value: 'Spiritual Healing', label: 'Spiritual Healing' },
 ];
 const MAX_WORDS = 500;
 
-export default function PostComposer({ onPostCreated }) {
+export default function PostComposer({communityId, onPostCreated }) {
   const [content, setContent] = useState('');
   const [categories, setCategories] = useState([]);
   const [mediaFiles, setMediaFiles] = useState([]);
@@ -33,7 +33,7 @@ export default function PostComposer({ onPostCreated }) {
     const token = localStorage.getItem('token');
     const form = new FormData();
     mediaFiles.forEach(f => form.append('media', f));
-    const res = await fetch('https://empathaiv2-backend.onrender.com/media/upload', {
+    const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: form,
@@ -55,8 +55,13 @@ export default function PostComposer({ onPostCreated }) {
 
       // 2) send post payload
       const token = localStorage.getItem('token');
-      const payload = { content, categories, media: mediaUrls };
-      const res = await fetch('https://empathaiv2-backend.onrender.com/posts', {
+      const payload = {
+         content, 
+        categories, 
+        media: mediaUrls,
+        ...(communityId && { community_id: communityId })
+    };
+      const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,8 +69,23 @@ export default function PostComposer({ onPostCreated }) {
         },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error((await res.json()).message);
-      onPostCreated(await res.json());
+      // console.log(res)
+      // if (!res.ok) {
+      //   const { error } = await res.json();
+      //   throw new Error(error);
+      // }
+
+      const data = await res.json();
+
+
+      // 2) If non-2xx, use the server-provided error message:
+      if (!res.ok) {
+        // you can either throw or set local UI error state:
+        // throw new Error(data.error || "Unknown error");
+        return alert(data.error || "Failed to create post");
+      }
+
+      onPostCreated(data);
 
       // reset form
       setContent('');
@@ -79,97 +99,145 @@ export default function PostComposer({ onPostCreated }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-6 mb-8">
-      <h3 className="text-2xl font-semibold mb-4 text-gray-900">Create a New Post</h3>
+    <div className="bg-white/5  rounded-2xl p-6 mb-8 hover:border border-amber-300">
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           rows={4}
-          placeholder="What's on your mind?"
+          placeholder="Type here and share your toughts 💭 Someone's listening. 🤗"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg p-4 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-300"
-          style={{ resize: 'vertical' }}
+          onChange={e => setContent(e.target.value)}
+          className="w-full bg-white/5 placeholder-white/90 placeholder-bold rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-white/50 text-white"
         />
 
-        <CreatableSelect
-          isMulti
-          options={CATEGORY_OPTIONS}
-          value={CATEGORY_OPTIONS.filter(o => categories.includes(o.value))}
-          onChange={(sel) => setCategories(sel ? sel.map(s => s.value) : [])}
-          className="react-select-container"
-          classNamePrefix="react-select"
-          placeholder="Select or add categories..."
-        />
 
-        {/* media controls */}
-        <div className="flex space-x-6 text-gray-600">
+<CreatableSelect
+  isMulti
+  options={CATEGORY_OPTIONS}
+  value={CATEGORY_OPTIONS.filter(o => categories.includes(o.value))}
+  onChange={sel => setCategories(sel ? sel.map(s => s.value) : [])}
+  className="react-select-container text-white bg-white/5 placeholder-white"
+  classNamePrefix="react-select"
+  placeholder="Select or add categories..."
+  styles={{
+    control: provided => ({
+      ...provided,
+      background: "rgba(112, 109, 97, 0.5)",
+      borderColor: "white",
+      boxShadow: "none",
+      "&:hover": { borderColor: "amber" },
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: "white",
+    }),
+    multiValue: provided => ({
+      ...provided,
+      background: "rgba(120, 120, 120, 0.3)",
+    }),
+    multiValueLabel: provided => ({
+      ...provided,
+      color: "white",
+    }),
+    input: provided => ({
+      ...provided,
+      color: "white",
+    }),
+    placeholder: provided => ({
+      ...provided,
+      color: "rgba(247, 244, 244, 0.7)",
+      font: "bold",
+    }),
+    option: (provided, { isFocused, isSelected }) => ({
+      ...provided,
+      background: isFocused
+        ? "rgba(230,230,230,0.8)"
+        : isSelected
+        ? "rgba(200,200,200,0.8)"
+        : "white",
+      color: "#333",
+    }),
+    menu: provided => ({
+      ...provided,
+      background: "white",
+      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+      borderRadius: "0.5rem",
+      zIndex: 9999,
+    }),
+  }}
+/>
+
+
+        <div className="flex items-center gap-6">
           <button
             type="button"
             onClick={() => fileInputRef.current.click()}
-            className="flex items-center space-x-1 hover:text-gray-900"
+            className="flex items-center space-x-2 text-white/90 hover:text-amber-300"
           >
             <ImageIcon className="w-5 h-5" />
-            <span className="text-sm">Media</span>
+            <span>Add Media</span>
           </button>
+          <input
+            type="file"
+            multiple
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
         </div>
-        <input
-          type="file"
-          multiple
-          accept="image/*,video/*,audio/*"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileChange}
-        />
 
-        {/* previews */}
         {mediaFiles.length > 0 && (
-          <div className="grid grid-cols-4 gap-2 mt-4">
+          <div className="grid grid-cols-3 gap-3">
             {mediaFiles.map((file, i) => (
-              <div key={i} className="relative rounded overflow-hidden">
+              <div key={i} className="relative rounded-lg overflow-hidden">
                 {file.type.startsWith('image/') && (
                   <img
                     src={URL.createObjectURL(file)}
                     alt={file.name}
-                    className="h-24 w-full object-cover rounded"
+                    className="w-full h-24 object-cover"
                   />
                 )}
                 {file.type.startsWith('video/') && (
                   <video
+                    controls
                     src={URL.createObjectURL(file)}
-                    className="h-24 w-full rounded"
-                    muted
+                    className="w-full h-24 object-cover rounded-lg"
                   />
                 )}
                 {file.type.startsWith('audio/') && (
-                  <div className="h-24 w-full bg-gray-100 flex items-center justify-center text-xs text-gray-600">
-                    {file.name}
-                  </div>
+                  <audio
+                    controls
+                    src={URL.createObjectURL(file)}
+                    className="w-full"
+                  />
                 )}
                 <button
                   type="button"
                   onClick={() => setMediaFiles(prev => prev.filter((_, j) => j !== i))}
-                  className="absolute top-1 right-1 bg-white rounded-full p-1 text-red-600 hover:text-red-800 focus:outline-none"
-                >
-                  ✕
-                </button>
+                  className="absolute top-1 right-1 text-red-400 bg-white/50 rounded-full p-0.5"
+                >✕</button>
               </div>
             ))}
           </div>
         )}
 
-        <div className="flex items-center justify-between">
-          <span className={`text-sm ${remaining < 0 ? 'text-red-600' : 'text-gray-600'}`}>
-            {remaining} words remaining
+        <div className="flex justify-between items-center">
+          <span
+            className={`text-sm ${
+              remaining < 0 ? "text-red-400" : "text-white/80"
+            }`}
+          >
+            {remaining} words left
           </span>
           <button
             type="submit"
             disabled={submitting || !content.trim() || remaining < 0}
-            className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 w-32 text-white font-semibold py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+            className="hover:border-amber-300 text-amber-300 px-6 py-2 rounded-full font-semibold transition disabled:opacity-50 border border-white"
           >
-            {submitting ? 'Posting...' : 'Post'}
+            {submitting ? "Sharing..." : "Share"}
           </button>
         </div>
       </form>
     </div>
   );
+  
 }
