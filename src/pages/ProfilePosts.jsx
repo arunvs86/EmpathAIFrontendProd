@@ -9,7 +9,7 @@ export default function ProfilePosts() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts/user/${userId}?page=1&limit=20`, {
+    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/user/${userId}?page=1&limit=20`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())

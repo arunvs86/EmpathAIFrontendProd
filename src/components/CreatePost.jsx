@@ -26,7 +26,7 @@ function CreatePost({ onPostCreated }) {
 //     }
 
 //     try {
-//       const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts", {
+//       const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts", {
+    const response = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

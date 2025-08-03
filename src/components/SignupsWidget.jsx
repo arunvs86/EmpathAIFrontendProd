@@ -28,7 +28,7 @@ export default function SignupsWidget() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//admin/metrics/signups?days=30&minCount=5`, {
+    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/admin/metrics/signups?days=30&minCount=5`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -43,7 +43,7 @@ export default function SignupsWidget() {
   const openDrill = (day) => {
     setDrawerDate(day);
     setDrillLoading(true);
-    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//admin/metrics/signups/drill?date=${day}`, {
+    fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/admin/metrics/signups/drill?date=${day}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())

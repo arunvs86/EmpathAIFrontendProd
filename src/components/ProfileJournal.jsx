@@ -25,7 +25,7 @@
 //     if (!file) return;
 //     const formData = new FormData();
 //     formData.append('media', file);
-//     const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', { method: 'POST', body: formData });
+//     const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload', { method: 'POST', body: formData });
 //     const [uploaded] = await res.json();
 //     setAttachments(prev => [...prev, uploaded.url]);
 //   };
@@ -41,7 +41,7 @@
 //         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
 //         const formData = new FormData();
 //         formData.append('media', audioBlob, 'voice_note.webm');
-//         const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', { method: 'POST', body: formData });
+//         const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload', { method: 'POST', body: formData });
 //         const [uploaded] = await res.json();
 //         setAttachments(prev => [...prev, uploaded.url]);
 //       };
@@ -199,7 +199,7 @@
 //     setLoading(true);
 //     const token = localStorage.getItem('token');
 //     try {
-//       const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals?userId=${userId}`, {
+//       const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals?userId=${userId}`, {
 //         headers: { Authorization: `Bearer ${token}` }
 //       });
 //       const data = await res.json();
@@ -215,7 +215,7 @@
 //     const token = localStorage.getItem('token');
 //     const isEditing = editingEntry && editingEntry._id;
 //     const method = isEditing ? 'PUT' : 'POST';
-//     const url = isEditing ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals/${editingEntry._id}` : 'https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals';
+//     const url = isEditing ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals/${editingEntry._id}` : 'https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals';
 //     await fetch(url, {
 //       method,
 //       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -230,7 +230,7 @@
 //   const handleDelete = async id => {
 //     if (!confirm('Delete this entry?')) return;
 //     const token = localStorage.getItem('token');
-//     await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+//     await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
 //     fetchEntries();
 //   };
 
@@ -312,7 +312,7 @@ function JournalEditor({ entry, onSave, onCancel }) {
     if (!file) return;
     const formData = new FormData();
     formData.append('media', file);
-    const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', { method: 'POST', body: formData });
+    const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload', { method: 'POST', body: formData });
     const [uploaded] = await res.json();
     setAttachments(prev => [...prev, uploaded.url]);
   };
@@ -328,7 +328,7 @@ function JournalEditor({ entry, onSave, onCancel }) {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const formData = new FormData();
         formData.append('media', audioBlob, 'voice_note.webm');
-        const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', { method: 'POST', body: formData });
+        const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload', { method: 'POST', body: formData });
         const [uploaded] = await res.json();
         setAttachments(prev => [...prev, uploaded.url]);
       };
@@ -464,7 +464,7 @@ export default function ProfileJournals() {
     setLoading(true);
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals?userId=${userId}`, {
+      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals?userId=${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -480,7 +480,7 @@ export default function ProfileJournals() {
     const token = localStorage.getItem('token');
     const isEditing = editingEntry && editingEntry._id;
     const method = isEditing ? 'PUT' : 'POST';
-    const url = isEditing ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals/${editingEntry._id}` : 'https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals';
+    const url = isEditing ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals/${editingEntry._id}` : 'https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals';
     await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -500,7 +500,7 @@ export default function ProfileJournals() {
   const handleDelete = async id => {
     if (!confirm('Delete this entry?')) return;
     const token = localStorage.getItem('token');
-    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
     fetchEntries();
   };
 

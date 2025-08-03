@@ -20,7 +20,7 @@ export default function ProfileHabits() {
   const loadAll = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const hRes = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits", {
+    const hRes = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits", {
       headers: { Authorization: `Bearer ${token}` },
     });
     const hData = await hRes.json();
@@ -28,7 +28,7 @@ export default function ProfileHabits() {
 
     const all = await Promise.all(
       hData.map((h) =>
-        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${h._id}/logs`, {
+        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${h._id}/logs`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json())
       )
@@ -72,8 +72,8 @@ export default function ProfileHabits() {
     const token = localStorage.getItem("token");
     const method = data._id ? "PUT" : "POST";
     const url = data._id
-      ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${data._id}`
-      : "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits";
+      ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${data._id}`
+      : "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits";
     await fetch(url, {
       method,
       headers: {
@@ -90,7 +90,7 @@ export default function ProfileHabits() {
   const deleteHabit = async (id) => {
     if (!confirm("Delete this habit?")) return;
     const token = localStorage.getItem("token");
-    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${id}`, {
+    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -99,7 +99,7 @@ export default function ProfileHabits() {
 
   const toggleToday = async (hid, done) => {
     const token = localStorage.getItem("token");
-    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${hid}/log`, {
+    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${hid}/log`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export default function ProfileHabits() {
     const token = localStorage.getItem("token");
     await Promise.all(
       Object.entries(state).map(([hid, done]) =>
-        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${hid}/log`, {
+        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${hid}/log`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

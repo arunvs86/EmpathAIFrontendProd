@@ -22,7 +22,7 @@ export default function LetterComposer({ onLetterCreated }) {
     const form = new FormData();
     mediaFiles.forEach(f => form.append('media', f));
     const res = await fetch(
-      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload`,
+      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload`,
       {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +46,7 @@ export default function LetterComposer({ onLetterCreated }) {
       const payload = { text, media: mediaUrls };
 
       const res = await fetch(
-        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//letters`,
+        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/letters`,
         {
           method: 'POST',
           headers: {

@@ -28,7 +28,7 @@
 //     fd.append("chatId", chatId);
   
 //     const token = localStorage.getItem("token");
-//     const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/voice", {
+//     const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/voice", {
 //       method: "POST",
 //       headers: { Authorization: `Bearer ${token}` },
 //       body: fd,
@@ -104,7 +104,7 @@ function VoiceRecorder({ chatId, onUpload }) {
     fd.append("chatId", chatId);
 
     const token = localStorage.getItem("token");
-    const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/voice", {
+    const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/voice", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: fd,

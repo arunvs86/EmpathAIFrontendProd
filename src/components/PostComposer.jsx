@@ -33,7 +33,7 @@ export default function PostComposer({communityId, onPostCreated }) {
     const token = localStorage.getItem('token');
     const form = new FormData();
     mediaFiles.forEach(f => form.append('media', f));
-    const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload', {
+    const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: form,
@@ -61,7 +61,7 @@ export default function PostComposer({communityId, onPostCreated }) {
         media: mediaUrls,
         ...(communityId && { community_id: communityId })
     };
-      const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts', {
+      const res = await fetch('https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

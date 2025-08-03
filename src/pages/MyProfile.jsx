@@ -44,7 +44,7 @@ export default function MyProfile() {
       try {
         // 1) Fetch profile user via GET /users?ids=
         const uRes = await fetch(
-          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//users?ids=${userId}`,
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users?ids=${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const usersArr = await uRes.json();
@@ -54,7 +54,7 @@ export default function MyProfile() {
 
         // 2) Fetch posts count
         const pRes = await fetch(
-          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts/user/${userId}`,
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/user/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const posts = await pRes.json();
@@ -63,13 +63,13 @@ export default function MyProfile() {
         let journals = [], communities = [], habits = [];
         if (isOwnProfile) {
           const [jRes, cRes, hRes] = await Promise.all([
-            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//journals?userId=${userId}`, {
+            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/journals?userId=${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//users/${userId}/communities`, {
+            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}/communities`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits?userId=${userId}`, {
+            fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits?userId=${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]);

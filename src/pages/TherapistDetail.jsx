@@ -70,11 +70,19 @@ function TherapistDetail() {
               const prev = finalStatus[d][slot];
               // once booked, always booked
               if (prev === "booked") return;
-              if (rec.status === "booked") {
+              // if (rec.status === "booked") {
+              //   finalStatus[d][slot] = "booked";
+              // } else if (rec.status === "requested") {
+              //   finalStatus[d][slot] = prev === "booked" ? "booked" : "requested";
+              // }
+              const isBooked = rec.status === "booked" || rec.status === "confirmed";
+              console.log("isBooked", isBooked)
+              if (isBooked) {
                 finalStatus[d][slot] = "booked";
               } else if (rec.status === "requested") {
                 finalStatus[d][slot] = prev === "booked" ? "booked" : "requested";
-              } else {
+              }
+               else {
                 finalStatus[d][slot] = prev || "available";
               }
             });
@@ -147,7 +155,7 @@ function TherapistDetail() {
   //       additional_details: additionalDetails.trim(),
   //     };
 
-  //     const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//appointments", {
+  //     const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments", {
   //       method: "POST",
   //       headers: {
   //         "Content-Type": "application/json",
@@ -206,7 +214,7 @@ function TherapistDetail() {
       };
 
       const res = await fetch(
-        "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//appointments",
+        "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments",
         {
           method: "POST",
           headers: {

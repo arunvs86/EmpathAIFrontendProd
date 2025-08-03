@@ -190,7 +190,7 @@ export default function Signup() {
       const formDataObj = new FormData();
       formDataObj.append("media", file);
   
-      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload", {
+      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload", {
         method: "POST",
         body: formDataObj,
       });
@@ -232,7 +232,7 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//auth/register", {
+      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

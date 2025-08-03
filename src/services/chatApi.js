@@ -1,5 +1,5 @@
 // src/services/chatApi.js
-const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//chats";
+const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/chats";
 
 export async function getMessages(chatId) {
   const token = localStorage.getItem("token");
@@ -29,7 +29,7 @@ export async function sendMessage({ chatId, content, messageType,overrideSenderI
   const token = localStorage.getItem("token");
   console.log("text length:", content.length)
   console.log(content.split(' ').length);
-  const response = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//chats/message`, {
+  const response = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/chats/message`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

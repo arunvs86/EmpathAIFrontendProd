@@ -42,7 +42,7 @@ export default function ProfileWeeklyHabits() {
       const token = localStorage.getItem("token");
       // habits
       const resH = await fetch(
-        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits?userId=${userId}`,
+        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits?userId=${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const habitsData = await resH.json();
@@ -51,7 +51,7 @@ export default function ProfileWeeklyHabits() {
       // logs per habit
       const allLogs = await Promise.all(
         habitsData.map((h) =>
-          fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${h._id}/logs`, {
+          fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${h._id}/logs`, {
             headers: { Authorization: `Bearer ${token}` },
           }).then((r) => r.json())
         )
@@ -118,8 +118,8 @@ export default function ProfileWeeklyHabits() {
     const token = localStorage.getItem("token");
     const method = editingHabit ? "PUT" : "POST";
     const url = editingHabit
-      ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${editingHabit._id}`
-      : `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits`;
+      ? `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${editingHabit._id}`
+      : `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits`;
     await fetch(url, {
       method,
       headers: {
@@ -132,7 +132,7 @@ export default function ProfileWeeklyHabits() {
     setEditingHabit(null);
     // refresh list
     const res = await fetch(
-      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits?userId=${userId}`,
+      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits?userId=${userId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     setHabits(await res.json());
@@ -142,7 +142,7 @@ export default function ProfileWeeklyHabits() {
   const handleHabitDelete = async (id) => {
     if (!confirm("Delete this habit?")) return;
     const token = localStorage.getItem("token");
-    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${id}`, {
+    await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -157,7 +157,7 @@ export default function ProfileWeeklyHabits() {
       Object.entries(state)
         .filter(([hid, val]) => init[hid] !== val)
         .map(([habitId, completed]) =>
-          fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${habitId}/log`, {
+          fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${habitId}/log`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export default function ProfileWeeklyHabits() {
     // refresh logs
     const allLogs = await Promise.all(
       habits.map((h) =>
-        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//habits/${h._id}/logs`, {
+        fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${h._id}/logs`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => r.json())
       )

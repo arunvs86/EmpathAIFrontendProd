@@ -49,7 +49,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
       const formData = new FormData();
       formData.append("media", file);
 
-      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload", {
+      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -67,7 +67,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//users/${userId}`, {
+      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -107,7 +107,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
         })
       };
 
-      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//users/${userId}`, {
+      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

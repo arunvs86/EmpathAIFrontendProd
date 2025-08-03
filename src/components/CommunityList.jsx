@@ -24,9 +24,9 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
         let url;
         // if we're on profile/:userId/communities and it's the user's own profile
         if (location.pathname.match(/^\/profile\/[^/]+\/communities/) && isOwnProfile) {
-          url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//users/${userId}/communities`;
+          url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}/communities`;
         } else {
-          url = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities";
+          url = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities";
         }
         const res = await fetch(url, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined

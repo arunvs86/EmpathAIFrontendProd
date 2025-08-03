@@ -1,6 +1,6 @@
 // frontend/src/services/dashboardApi.js
 
-const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//api/dashboard";
+const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/dashboard";
 
 /** 1. User Adoption & Activity */
 export async function fetchUserSummary() {
@@ -32,7 +32,7 @@ export async function fetchAllUsers() {
 
   
 export async function fetchUserDetail(userId) {
-    const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//api/dashboard/users/detail/${userId}`);
+    const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/dashboard/users/detail/${userId}`);
     if (!res.ok) throw new Error(`API Error (${res.status}): ${await res.text()}`);
     return res.json();
   }

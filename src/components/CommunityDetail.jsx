@@ -41,12 +41,12 @@ export default function CommunityDetail({ communityId, onBack }) {
     (async () => {
       try {
         // 1) Community
-        let res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${id}`);
+        let res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${id}`);
         if (!res.ok) throw new Error((await res.json()).error);
         const communityData = await res.json();
 
         // 2) Posts (always fetch, but we’ll conditionally render)
-        res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//posts/community/${id}`);
+        res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/community/${id}`);
         if (!res.ok) throw new Error((await res.json()).error);
         const postData = await res.json();
 
@@ -65,7 +65,7 @@ export default function CommunityDetail({ communityId, onBack }) {
     const fetchMembers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${community._id}/members`, {
+        const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}/members`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) throw new Error("Failed to fetch members");
@@ -101,7 +101,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${community._id}/requests`,
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}/requests`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) throw new Error("Failed to load requests");
@@ -145,7 +145,7 @@ export default function CommunityDetail({ communityId, onBack }) {
   const handleJoin = async () => {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${id}/join`,
+      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${id}/join`,
       { method: "POST", headers: { Authorization: `Bearer ${token}` } }
     );
     if (!res.ok) throw new Error((await res.json()).error);
@@ -155,7 +155,7 @@ export default function CommunityDetail({ communityId, onBack }) {
   const handleRequestToJoin = async () => {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${id}/request`,
+      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${id}/request`,
       { method: "POST", headers: { Authorization: `Bearer ${token}` } }
     );
     if (!res.ok) throw new Error((await res.json()).error);
@@ -165,7 +165,7 @@ export default function CommunityDetail({ communityId, onBack }) {
   const handleLeave = async () => {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${id}/leave`,
+      `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${id}/leave`,
       { method: "POST", headers: { Authorization: `Bearer ${token}` } }
     );
     if (!res.ok) throw new Error((await res.json()).error);
@@ -180,7 +180,7 @@ export default function CommunityDetail({ communityId, onBack }) {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${id}/approve`,
+        `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${id}/approve`,
         {
           method: "POST",
           headers: {
@@ -219,7 +219,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${community._id}/remove-member`,
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}/remove-member`,
           {
             method: "POST",
             headers: {
@@ -291,7 +291,7 @@ export default function CommunityDetail({ communityId, onBack }) {
     if (!window.confirm("Are you sure you want to delete this community?")) return;
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${community._id}`, {
+      const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -514,7 +514,7 @@ export default function CommunityDetail({ communityId, onBack }) {
             if (!file) return;
             const fd = new FormData();
             fd.append("media", file);
-            const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload", {
+            const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload", {
               method: "POST",
               body: fd
             });
@@ -531,7 +531,7 @@ export default function CommunityDetail({ communityId, onBack }) {
           onClick={async () => {
             try {
               const token = localStorage.getItem("token");
-              const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities/${community._id}`, {
+              const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",

@@ -144,7 +144,7 @@ function TherapistAvailabilityForm() {
             selected_time_slots: { [date]: [slot] },
           };
 
-          const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//therapists", {
+          const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/therapists", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -33,7 +33,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
     console.log("formData", formData)
     try {
       const res = await fetch(
-        "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//communities",
+        "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities",
         {
           method: "POST",
           headers: {
@@ -127,7 +127,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
       formDataUpload.append("media", file);
 
       try {
-        const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net//media/upload", {
+        const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/media/upload", {
           method: "POST",
           body: formDataUpload,
         });
