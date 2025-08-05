@@ -271,11 +271,11 @@ function TherapistDetail() {
           {therapist.User?.username}
         </h2> */}
         <div className="flex items-center gap-4 mb-3">
-  <img
+  {therapist.User?.profile_picture && <img
     src={therapist.User?.profile_picture}
     alt=""
     className="w-14 h-14 rounded-full object-cover border-2 border-emerald-500 shadow-md"
-  />
+  />}
   <h2 className="text-2xl font-bold text-white">
     {therapist.User?.username}
   </h2>
@@ -312,7 +312,7 @@ function TherapistDetail() {
       <div className="bg-gray/50 shadow-md rounded-md p-6">
         <h3 className="text-xl font-semibold mb-4">Available Slots</h3>
         {dates.length === 0 && (
-          <p className="text-gray-500">No available dates at the moment.</p>
+          <p className="text-white/90">No available dates at the moment.</p>
         )}
         {dates.map((date) => (
           <div key={date} className="mb-6">

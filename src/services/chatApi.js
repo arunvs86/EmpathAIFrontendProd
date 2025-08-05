@@ -46,7 +46,7 @@ export async function sendMessage({ chatId, content, messageType,overrideSenderI
   if (overrideSenderId) {
     console.log("start time", Date.now())
     console.log("Delaying message by 15 seconds due to overrideSenderId...");
-    await new Promise(resolve => setTimeout(resolve, content.split(' ').length * 400)); // 15000 ms = 15 seconds
+    await new Promise(resolve => setTimeout(resolve, content.split(' ').length * 200)); // 15000 ms = 15 seconds
     console.log("end time", Date.now())
   }
 

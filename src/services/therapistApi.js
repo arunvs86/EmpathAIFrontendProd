@@ -30,7 +30,8 @@ export async function fetchTherapists() {
 export async function fetchTherapistAvailability(therapistId) {
     const response = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/therapists/therapist/${therapistId}`);
     if (!response.ok) {
-      throw new Error("Failed to fetch availability");
+      console.log(response)
+      throw new Error(response.error);
     }
     return response.json();
   }

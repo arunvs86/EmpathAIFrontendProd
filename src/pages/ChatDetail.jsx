@@ -305,6 +305,7 @@ function ChatDetail() {
       if (chatHasBot) {
         setBotTyping(true);
   
+        console.log("User message: ", userMessage)
         const botResponse = await fetch("https://flask-app-275410178944.europe-west2.run.app/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

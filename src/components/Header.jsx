@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { ChevronDown, MessageCircle, Bell, LogOut } from "lucide-react";
-import socket from "../services/socket";
+import socket ,{registerUserWithSocket} from "../services/socket";
 import { useUnreadChats } from "../contexts/UnreadChatsContext";
 
 export default function Header() {
@@ -37,6 +37,23 @@ export default function Header() {
     });
     return () => socket.off("newMessage");
   }, [unreadChats, setUnreadChats, currentUser.id]);
+
+  useEffect(() => {
+    if (currentUser?.id) {
+      registerUserWithSocket(currentUser.id);
+    }
+  }, [currentUser?.id]);
+
+
+  useEffect(() => {
+    socket.on("postModerated", ({ postId, reason, message }) => {
+      alert(message || `Your post was deleted due to: ${reason}`);
+      console.warn(`Post ${postId} removed: ${reason}`);
+      window.location.reload();
+    });
+  
+    return () => socket.off("postModerated");
+  }, []);
 
   const totalUnread = Object.keys(unreadChats).length;
   const logout = () => {
