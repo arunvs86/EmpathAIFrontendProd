@@ -37,6 +37,7 @@ function ChatDetail() {
     const fetchChatDetails = async () => {
       try {
         const chats = await getUserChats();
+        console.log("cahts", chats)
         const chat = chats.find((c) => c._id === chatId);
         setChatDetails(chat || null);
       } catch (err) {
@@ -232,57 +233,6 @@ function ChatDetail() {
         }
       }
     };
-
-  // const handleSend = async () => {
-  //   if (!newContent.trim()) return;
-  //   try {
-  //     const createdMsg = await sendMessage({
-  //       chatId,
-  //       content: newContent,
-  //       messageType: "text",
-  //     });
-  //     setMessages((prev) => [...prev, createdMsg]);
-  //     socket.emit("newMessage", { chatId, message: createdMsg });
-  //     const userMessage = newContent;
-  //     setNewContent("");
-
-  //     if (otherParticipant?.id === botId) {
-  //       await new Promise(resolve => setTimeout(resolve, 2000)); // 15000 ms = 15 seconds
-
-  //       setBotTyping(true); // 
-
-  //       const botResponse = await fetch("https://flask-app-275410178944.europe-west2.run.app/ask", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           question: userMessage,
-  //           session_id: currentUserId, // using chatId as session identifier
-  //         }),
-  //       });
-  //       if (!botResponse.ok) {
-  //         throw new Error("Failed to fetch chatbot response");
-  //       }
-  //       const botData = await botResponse.json();
-      
-  //       // Here we call sendMessage again with an override for senderId to persist the bot message.
-  //       // This requires your backend to support an optional 'overrideSenderId' field.
-  //       const botMsg = await sendMessage({
-  //         chatId,
-  //         content: botData.response,
-  //         messageType: "text",
-  //         overrideSenderId: botId,  // New property to instruct backend to store bot's ID as sender.
-  //       });
-  //       setMessages((prev) => [...prev, botMsg]);
-  //       socket.emit("newMessage", { chatId, message: botMsg });      }
-  //   } catch (err) {
-  //     console.error("Error sending message:", err);
-  //     setError("Failed to send message");
-  //   }finally{
-  //     setBotTyping(false);
-  //   }
-  // };
 
   const handleSend = async () => {
     if (!newContent.trim()) return;

@@ -28,8 +28,11 @@ function ChatList() {
 
   if (loading) return <p className="p-4">Loading chats...</p>;
   if (error) return <p className="p-4 text-red-600">{error}</p>;
-  if (chats.length === 0) {
-    return <p className="p-4 text-gray-600">No chats available.</p>;
+  {console.log("chats", chats)}
+  const visibleChats = chats.filter(chat => chat.lastMessage?.trim() !== '');
+
+  if (visibleChats.length === 0) {
+    return <p className="p-4 text-white/90">No chats available.</p>;
   }
 
   return (
@@ -39,7 +42,7 @@ function ChatList() {
           Your Chats
         </h2>
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {chats.map(chat => (
+        {visibleChats.map(chat => (
           <ChatCard
             key={chat._id}
             chat={chat}

@@ -54,6 +54,7 @@ import DashboardPage from './pages/DashboardPage';
  import AdminActionsDetail from './pages/AdminActionsDetail';
 import PlantSaplingPage from "./pages/PlantSaplingPage";
 import WellnessTipsPage from "./pages/WellnessTipsPage";
+import AboutAppPage from "./pages/AboutAppPage";
 // import MoodTrendsDetail from './pages/MoodTrendsDetail';
 // import MoodCorrelationDetail from './pages/MoodCorrelationDetail';
 import PrivateRoute from "./components/PrivateRoute"; // Import it at the top
@@ -68,6 +69,7 @@ function App() {
 
         <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomeLayout />}>
+
 
         {/* Dashboard parent route */}
         <Route path="/dashboard" element={<DashboardLayout />}>
@@ -127,8 +129,7 @@ function App() {
           <Route path="/plant-sapling" element={<PlantSaplingPage />} />
           <Route path="/wellness-tips" element={<WellnessTipsPage />} />
           <Route path="/spiritual" element={<ReligiousPracticesPage/>} />
-
-
+          <Route path="/about" element={<AboutAppPage/>} />
 
 
 
@@ -166,6 +167,7 @@ function App() {
         <Route path="habits" element={<ProfileHabits />} /> */}
       </Route>
       </Route>
+
         
       </Routes>
     </Router>

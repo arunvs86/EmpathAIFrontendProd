@@ -67,6 +67,7 @@ export default function Header() {
     { label: "Communities", to: "/communities" },
     { label: "Spiritual support", to: "/spiritual" },
     { label: "My Journals", to: `/profile/${currentUser.id}/journals` },
+    { label: "My Habits", to: `/profile/${currentUser.id}/habits` },
   ];
   const MORE_TABS = [
     // { label: "Events Nearby", to: "/feed/events" },
@@ -82,7 +83,7 @@ export default function Header() {
       <div className="h-16 flex items-center justify-between px-6 max-w-7xl mx-auto">
         <h1
           className="hover:text-amber-300 font-bold font-calligraphy text-2xl cursor-pointer text-white"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/about")}
         >
           EmpathAI
         </h1>

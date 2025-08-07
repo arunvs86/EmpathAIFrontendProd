@@ -390,20 +390,24 @@ function HabitEditor({ habit, onSave, onCancel }) {
           </button>
         </div>
         <div className="space-y-4">
-          <input
+          <label className="block font-semibold  mb-2">
+          Habit Name
+            <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Habit name"
             required
             className="w-full border rounded px-3 py-2"
           />
+          </label>
+          <label className="block font-semibold  mb-2">
+          Description(Optional)
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description (optional)"
             rows={2}
             className="w-full border rounded px-3 py-2"
           />
+          </label>
           <div>
             <label className="block font-semibold mb-1">
               Frequency

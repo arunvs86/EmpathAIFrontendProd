@@ -66,7 +66,7 @@ const BOT_TYPES = [
 ];
 const FEELINGS = [
   "Anxiety", "Depression", "Denial", "Grief",
-  "Stress", "Loneliness", "Anger", "Fear"
+  "Stress", "Loneliness", "Anger", "Fear", "I'm okay" , "Happy", "Helpful"
 ];
 
 export default function Signup() {
@@ -241,7 +241,7 @@ export default function Signup() {
         const err = await res.json();
         throw new Error(err.message);
       }
-      setNotification({ message: "Signup successful! Please check your email and verify your account", type: "success" });
+      setNotification({ message: "Signup successful! Please check your email and verify your account. Please check your junk folder in case you couldn't find the email.", type: "success" });
       setTimeout(() => navigate("/login"), 10000);
 
     } catch (err) {
@@ -491,7 +491,7 @@ export default function Signup() {
                 Share what you’re currently feeling?
               </label>
             </div>
-            {formData.showFeelings && (
+            {/* {formData.showFeelings && (
               <div className="grid grid-cols-2 gap-2 border border-black rounded p-3">
                 {FEELINGS.map(f => (
                   <label key={f} className="flex items-center">
@@ -505,7 +505,46 @@ export default function Signup() {
                   </label>
                 ))}
               </div>
-            )}
+            )} */}
+            {formData.showFeelings && (
+  <div className="space-y-4">
+    <div className="grid grid-cols-2 gap-2 border border-black rounded p-3">
+      {FEELINGS.map(f => (
+        <label key={f} className="flex items-center">
+          <input
+            type="checkbox"
+            checked={formData.current_feelings.includes(f)}
+            onChange={() => toggleList("current_feelings", f)}
+            className="mr-2"
+          />
+          {f}
+        </label>
+      ))}
+    </div>
+
+    {/* Custom feeling input */}
+    <div className="flex items-center gap-2">
+      <input
+        type="text"
+        placeholder="Add a custom feeling..."
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const val = e.target.value.trim();
+            if (val && !formData.current_feelings.includes(val)) {
+              setFormData(p => ({
+                ...p,
+                current_feelings: [...p.current_feelings, val]
+              }));
+              e.target.value = "";
+            }
+          }
+        }}
+        className="w-full border border-black rounded px-3 py-2"
+      />
+    </div>
+  </div>
+)}
 
             {/* Therapist‐only section */}
             {type === "therapist" && (
