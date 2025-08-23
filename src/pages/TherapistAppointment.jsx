@@ -24,6 +24,7 @@ function TherapistAppointments() {
       try {
         const data = await getTherapistAppointments(currentUser.id);
         setAppointments(data);
+        console.log("appointmentsData", data)
       } catch (err) {
         setError(err.message);
       }

@@ -194,7 +194,7 @@ function ChatDetail() {
   
           // c) call your bot API with the transcript text
           const botResponse = await fetch(
-            "https://flask-app-275410178944.europe-west2.run.app/ask",
+            "https://empathgriefbot-f8a7a8apccd9cqe0.uksouth-01.azurewebsites.net/ask",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -256,7 +256,7 @@ function ChatDetail() {
         setBotTyping(true);
   
         console.log("User message: ", userMessage)
-        const botResponse = await fetch("https://flask-app-275410178944.europe-west2.run.app/ask", {
+        const botResponse = await fetch("https://empathgriefbot-f8a7a8apccd9cqe0.uksouth-01.azurewebsites.net/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

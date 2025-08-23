@@ -55,6 +55,8 @@ import DashboardPage from './pages/DashboardPage';
 import PlantSaplingPage from "./pages/PlantSaplingPage";
 import WellnessTipsPage from "./pages/WellnessTipsPage";
 import AboutAppPage from "./pages/AboutAppPage";
+import UserAppointments from "./pages/UserAppointments";
+import TherapistAppointmentsPage from "./pages/TherapistAppointments";
 // import MoodTrendsDetail from './pages/MoodTrendsDetail';
 // import MoodCorrelationDetail from './pages/MoodCorrelationDetail';
 import PrivateRoute from "./components/PrivateRoute"; // Import it at the top
@@ -137,6 +139,8 @@ function App() {
         <Route path="/therapist/appointments" element={<TherapistAppointments />} />
         <Route path="/therapist/availability" element={<TherapistAvailabilityForm />} />
         <Route path="/therapists/:id" element={<TherapistDetail />} />
+        <Route path="/appointments" element={<UserAppointments />} />
+        <Route path="/therapist/appointments" element={<TherapistAppointments />} />
         <Route path="/chats" element={<ChatList />} />
         <Route path="/chats/:chatId" element={<ChatDetail />} />
         {/* <Route path="/profile/:userId/journals" element={<ProfileJournals />} />

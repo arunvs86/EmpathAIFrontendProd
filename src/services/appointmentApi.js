@@ -1,6 +1,11 @@
 
 const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments";
 
+const auth = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
+
 /**
  * Book an appointment.
  * 
@@ -176,4 +181,19 @@ export async function fetchUpcomingAppointments() {
     throw new Error(err.error || "Failed to load upcoming appointments");
   }
   return res.json(); // expect an array of appointments
+}
+
+
+export async function fetchOccupiedSlots(therapistId, from, to) {
+  const params = new URLSearchParams();
+  if (from) params.set("from", from);
+  if (to) params.set("to", to);
+
+  const res = await fetch(`${BASE_URL}/therapists/${therapistId}/occupied?${params}`, {
+    method: "GET",
+    headers: auth(),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Failed to load occupied slots");
+  return data; // { date: { slot: status } }
 }
