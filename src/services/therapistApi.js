@@ -49,8 +49,76 @@ export async function fetchTherapistAvailability(therapistId) {
   const hdrs = { method: "GET", headers: authHeaders() };
 
   // 1) preferred
-  let { res, data } = await fetchJson(`${API}/therapists/${therapistId}/availability`, hdrs);
-  if (res.ok) return data;
+  // let { res, data } = await fetchJson(`${API}/therapists/${therapistId}/availability`, hdrs);
+  // console.log("avail data:", data)
+  // if (res.ok) return data;
+
+const { res, data } = await fetchJson(`${API}/therapists/${therapistId}/availability`, hdrs);
+console.log("avail data:", data);
+
+if (!res.ok || !Array.isArray(data)) return data;
+
+// Helpers
+const now = new Date();
+const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const isToday = (d) => d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+const parseLocalDate = (yyyyMMdd) => {
+  // Avoid timezone issues from Date("YYYY-MM-DD")
+  const [y, m, d] = String(yyyyMMdd).split("-").map(Number);
+  return new Date(y, (m || 1) - 1, d || 1);
+};
+
+const filtered = data
+  .map(item => {
+    const selectedDates = Array.isArray(item.selected_dates) ? item.selected_dates : [];
+    const timeSlotsMap = item.selected_time_slots && typeof item.selected_time_slots === "object"
+      ? item.selected_time_slots
+      : {};
+
+    // keep only today or future dates
+    const futureDates = selectedDates.filter(ds => parseLocalDate(ds) >= startOfToday);
+
+    // filter slots
+    const filteredSlots = {};
+    for (const [dateStr, slots] of Object.entries(timeSlotsMap)) {
+      const dateObj = parseLocalDate(dateStr);
+      if (dateObj < startOfToday) continue; // skip past dates entirely
+
+      const kept = (Array.isArray(slots) ? slots : []).filter(slot => {
+        // slot format "HH:MM-HH:MM"
+        if (!isToday(dateObj)) return true; // future date → keep all
+        const [start] = String(slot).split("-");
+        const [h, m] = start.split(":").map(Number);
+        const slotTime = new Date(now);
+        slotTime.setHours(h || 0, m || 0, 0, 0);
+        return slotTime > now; // keep only times later today
+      });
+
+      if (kept.length) filteredSlots[dateStr] = kept;
+    }
+
+    // Also prune selected_dates that no longer have slots for that day
+    const prunedDates = futureDates.filter(ds => {
+      const d = parseLocalDate(ds);
+      if (!filteredSlots[ds]) return false; // no slots left for this date
+      return true;
+    });
+
+    return {
+      ...item,
+      selected_dates: prunedDates,
+      selected_time_slots: filteredSlots,
+    };
+  })
+  // Drop availability entries that have no dates/slots left
+  .filter(item =>
+    Array.isArray(item.selected_dates) && item.selected_dates.length > 0 &&
+    item.selected_time_slots && Object.keys(item.selected_time_slots).length > 0
+  );
+
+return filtered;
+  
+
 
   // 2) double "/therapists" fallback (when route path includes it AND router is mounted at /therapists)
   let tried2 = false;
