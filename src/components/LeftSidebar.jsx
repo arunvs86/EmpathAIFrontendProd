@@ -116,6 +116,18 @@ const cardClass =
           <span className={labelClass}>EmpathAI Bot</span>
         </button>
       </div>
+
+      {/* Privacy Policy link at bottom */}
+      <div className="absolute bottom-4 left-4">
+      <a
+        href="https://www.nottingham.ac.uk/utilities/privacy/privacy.aspx"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs text-gray-300 text-md ml-5 mt-5 hover:text-amber-400 transition underline"
+      >
+        Privacy Policy
+      </a>
+    </div>
     </aside>
   );
 }
