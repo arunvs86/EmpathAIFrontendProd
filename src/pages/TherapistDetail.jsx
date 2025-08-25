@@ -447,7 +447,16 @@ function TherapistDetail() {
         setTherapist(tData);
 
         // 1) Fetch availability rows
-        const availArr = await fetchTherapistAvailability(id);
+        let availArr = await fetchTherapistAvailability(id);
+
+        // If API wraps inside .data or returns a single object
+        if (availArr && !Array.isArray(availArr)) {
+          if (availArr.data && Array.isArray(availArr.data)) {
+            availArr = availArr.data;
+          } else {
+            availArr = [availArr]; // force into array if it's a single object
+          }
+        }
 
         // 2) Build { date: Set(slots) }
         const master = {};
