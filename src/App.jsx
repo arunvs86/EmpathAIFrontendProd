@@ -112,8 +112,11 @@ function App() {
               <MainContent />
             }
           />
+          
           {/* Nested routes rendered in HomeLayout's <Outlet /> */}
-          <Route index element={<MainContent />} />
+          {/* <Route index element={<MainContent />} /> */}
+          <Route index element={<Navigate to="/communities" replace />} />
+
           <Route path="create" element={<CreatePost />} />
           {/* <Route path="communities" element={<CommunityView />} />
           <Route path="communities/:id" element={<CommunityDetail />} /> */}

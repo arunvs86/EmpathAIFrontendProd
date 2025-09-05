@@ -63,11 +63,14 @@ export default function Header() {
   };
 
   const PRIMARY_TABS = [
-    { label: "All Posts", to: "/" },
-    { label: "Communities", to: "/communities" },
+    // { label: "All Posts", to: "/" },
+    // { label: "Communities", to: "/communities" },
     { label: "Spiritual support", to: "/spiritual" },
-    { label: "My Journals", to: `/profile/${currentUser.id}/journals` },
-    { label: "My Habits", to: `/profile/${currentUser.id}/habits` },
+    { label: "Plant a Sapling", to: "/plant-sapling" },
+    { label: "Wellness Tips", to: "/wellness-tips" },
+    { label: "Mindful Meditation", to: "/mindful-meditation" },
+    // { label: "My Journals", to: `/profile/${currentUser.id}/journals` },
+    // { label: "My Habits", to: `/profile/${currentUser.id}/habits` },
   ];
   const MORE_TABS = [
     // { label: "Events Nearby", to: "/feed/events" },
@@ -83,7 +86,7 @@ export default function Header() {
       <div className="h-16 flex items-center justify-between px-6 max-w-7xl mx-auto">
       <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/about")}>
   <img
-    src="/assets/images/logo.png"
+    src="/assets/images/Nottingham_Blue_white_text_logo_SCREEN.png"
     alt="EmpathAI Logo"
     className="h-10 w-auto"
   />
@@ -107,7 +110,7 @@ export default function Header() {
             </NavLink>
           ))}
 
-          <div className="relative" ref={moreRef}>
+          {/* <div className="relative" ref={moreRef}>
             <button
               onClick={() => setOpenMore((o) => !o)}
               className="flex items-center text-gray-200 hover:text-amber-300 transition"
@@ -128,7 +131,7 @@ export default function Header() {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
         </nav>
 
         <div className="flex items-center space-x-4">

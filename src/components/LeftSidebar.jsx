@@ -1,7 +1,7 @@
 // src/components/LeftSidebar.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star, Clock, FileText, MessageSquare } from "lucide-react";
+import { Star, Clock, FileText, MessageSquare, Users, Notebook, ListChecks } from "lucide-react";
 import { createChat } from "../services/chatApi";
 
 export default function LeftSidebar() {
@@ -9,6 +9,7 @@ export default function LeftSidebar() {
   const [favorites, setFavorites] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
     setFavorites(
@@ -20,6 +21,16 @@ export default function LeftSidebar() {
       ).slice(0, 4)
     );
   }, []);
+
+  const goCommunities = () => navigate("/communities");
+  const goMyJournals = () => {
+  if (!currentUser?.id) return navigate("/login");
+    navigate(`/profile/${currentUser.id}/journals`);
+  };
+  const goMyHabits = () => {
+    if (!currentUser?.id) return navigate("/login");
+    navigate(`/profile/${currentUser.id}/habits`);
+  };
 
   const toggleSection = (section) =>
     setActiveSection(activeSection === section ? null : section);
@@ -76,6 +87,7 @@ const cardClass =
   return (
     <aside className="w-full h-full p-4">
       <div className="flex flex-col gap-4">
+              
         {/* Favourites */}
         <div>
           <button
@@ -83,7 +95,7 @@ const cardClass =
             className={cardClass}
           >
             <Star className={iconClass} />
-            <span className={labelClass}>Favourites</span>
+            <span className={labelClass}>Favourite Communities</span>
           </button>
           {activeSection === "favourites" && favorites.length > 0 && (
             renderSectionList(favorites)
@@ -97,12 +109,28 @@ const cardClass =
             className={cardClass}
           >
             <Clock className={iconClass} />
-            <span className={labelClass}>Recently Viewed</span>
+            <span className={labelClass}>Recently Viewed Communities</span>
           </button>
           {activeSection === "recentlyViewed" && recentlyViewed.length > 0 && (
             renderSectionList(recentlyViewed)
           )}
         </div>
+
+        <div className="flex flex-col gap-3">
+          
+          <button onClick={goMyJournals} className={cardClass}>
+            <Notebook className={iconClass} />
+            <span className={labelClass}>My Journals</span>
+          </button>
+          <button onClick={goMyHabits} className={cardClass}>
+            <ListChecks className={iconClass} />
+            <span className={labelClass}>My Habits</span>
+          </button>
+          <button onClick={goCommunities} className={cardClass}>
+            <Users className={iconClass} />
+            <span className={labelClass}>Communities</span>
+          </button>
+       </div>
 
         {/* My Letters */}
         <button onClick={handleLetters} className={cardClass}>
