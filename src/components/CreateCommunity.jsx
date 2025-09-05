@@ -74,11 +74,11 @@ export default function CreateCommunity({ onCommunityCreated }) {
           <input
             name="name"
             type="text"
-            placeholder="e.g. Mindful Writers"
+            placeholder="e.g. Grief Support"
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full bg-white/20 placeholder-gray-700 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/70"
+            className="w-full bg-white/20 text-gray-800 font-bold placeholder-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/70"
           />
         </div>
 
@@ -93,7 +93,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
             placeholder="Short description…"
             value={formData.description}
             onChange={handleChange}
-            className="w-full bg-white/20 placeholder-gray-700 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/70 resize-none"
+            className="w-full bg-white/20 text-gray-800 placeholder-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/70 resize-none"
           />
         </div>
 
