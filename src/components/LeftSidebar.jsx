@@ -117,7 +117,10 @@ const cardClass =
         </div>
 
         <div className="flex flex-col gap-3">
-          
+        <button onClick={goCommunities} className={cardClass}>
+            <Users className={iconClass} />
+            <span className={labelClass}>Communities</span>
+          </button>
           <button onClick={goMyJournals} className={cardClass}>
             <Notebook className={iconClass} />
             <span className={labelClass}>My Journals</span>
@@ -126,10 +129,7 @@ const cardClass =
             <ListChecks className={iconClass} />
             <span className={labelClass}>My Habits</span>
           </button>
-          <button onClick={goCommunities} className={cardClass}>
-            <Users className={iconClass} />
-            <span className={labelClass}>Communities</span>
-          </button>
+          
        </div>
 
         {/* My Letters */}

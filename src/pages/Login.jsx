@@ -65,7 +65,7 @@ const Login = () => {
       if (result.user) localStorage.setItem("user", JSON.stringify(result.user));
 
       setNotification({ message: result.message || "Login successful!", type: "success" });
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/about"), 1500);
     } catch (error) {
       setNotification({ message: error.message, type: "error" });
     }
