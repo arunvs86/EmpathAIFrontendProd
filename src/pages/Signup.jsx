@@ -113,7 +113,7 @@ export default function Signup() {
     current_feelings: [],
     // therapist fields
     specialization_tags: [], experience_years: "",
-    license_number: "", languages_spoken: [],
+    license_number: "", link: "", languages_spoken: [],
     session_duration: "", appointment_types: [],
     availability_preference: "weekly_schedule",
     // admin / bot
@@ -220,6 +220,7 @@ export default function Signup() {
         specialization_tags: formData.specialization_tags,
         experience_years: Number(formData.experience_years),
         license_number: formData.license_number,
+        link: formData.link,
         languages_spoken: formData.languages_spoken,
         session_duration: Number(formData.session_duration),
         appointment_types: formData.appointment_types,
@@ -584,6 +585,17 @@ export default function Signup() {
                     <input
                       name="license_number"
                       value={formData.license_number}
+                      onChange={handleChange}
+                      className="w-full border border-black rounded px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">
+                      Link 
+                    </label>
+                    <input
+                      name="link"
+                      value={formData.link}
                       onChange={handleChange}
                       className="w-full border border-black rounded px-3 py-2"
                     />

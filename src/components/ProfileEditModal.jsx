@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export default function ProfileEditModal({ userId, onClose, onSaved }) {
@@ -15,8 +15,9 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
     city: stored.city || "",
     faith_support: stored.faith_support || false,
     // therapist fields
-    experience_years: isTherapist ? stored?.Therapist?.experience_years : undefined,
-    license_number: isTherapist ? stored?.Therapist?.license_number : undefined,
+    experience_years: isTherapist ? (stored?.Therapist?.experience_years ?? "") : "",
+    license_number: isTherapist ? (stored?.Therapist?.license_number ?? "") : "",
+    link: isTherapist ? (stored?.Therapist?.link ?? ""):"",
     // languages_spoken: isTherapist ? stored.languages_spoken.join(",") : undefined,
     languages_spoken: isTherapist && Array.isArray(stored?.Therapist?.languages_spoken)
   ? stored.Therapist.languages_spoken.join(",")
@@ -25,7 +26,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
   ? stored.Therapist.specialization_tags.join(",")
   : "",
 
-    session_duration: isTherapist ? stored?.Therapist?.session_duration : undefined,
+    session_duration: isTherapist ? (stored?.Therapist?.session_duration ?? "") : "",
     // appointment_types: isTherapist ? stored.appointment_types.join(",") : undefined,
     appointment_types: isTherapist && Array.isArray(stored?.Therapist?.appointment_types) ? stored.Therapist.appointment_types.join(",")
     : "",
@@ -39,6 +40,53 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
     const { name, value, type, checked } = e.target;
     setForm(f => ({ ...f, [name]: type === "checkbox" ? checked : value }));
   };
+
+  useEffect(() => {
+    if (!isTherapist) return;
+  
+    const needsFetch =
+      !stored?.Therapist ||
+      stored?.Therapist?.license_number == null || // pick any key you consider required
+      stored?.Therapist?.experience_years == null;
+  
+    if (!needsFetch) return;
+  
+    (async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/therapists/therapistByUser/${userId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!res.ok) return;
+        const t = await res.json();
+  
+        // Prefill the form with what we got
+        setForm((f) => ({
+          ...f,
+          experience_years: t?.experience_years ?? f.experience_years ?? "",
+          license_number:   t?.license_number   ?? f.license_number   ?? "",
+          link:             t?.link             ?? f.link             ?? "",
+          languages_spoken: Array.isArray(t?.languages_spoken)
+            ? t.languages_spoken.join(",")
+            : (f.languages_spoken || ""),
+          specialization_tags: Array.isArray(t?.specialization_tags)
+            ? t.specialization_tags.join(",")
+            : (f.specialization_tags || ""),
+          session_duration: t?.session_duration ?? f.session_duration ?? "",
+          appointment_types: Array.isArray(t?.appointment_types)
+            ? t.appointment_types.join(",")
+            : (f.appointment_types || ""),
+        }));
+  
+        // Cache in localStorage so next open is instant
+        const merged = { ...stored, Therapist: t };
+        localStorage.setItem("user", JSON.stringify(merged));
+      } catch (_) {
+        /* ignore */
+      }
+    })();
+  }, [isTherapist, userId]);
 
   const handleProfilePicUpload = async (e) => {
     const file = e.target.files[0];
@@ -96,6 +144,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
         ...(isTherapist && {
           experience_years: Number(form.experience_years),
           license_number: form.license_number,
+          link: form.link,
           languages_spoken: form.languages_spoken.split(",").map(s => s.trim()),
           specialization_tags: form.specialization_tags
           .split(",")
@@ -265,6 +314,15 @@ return createPortal(
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
             placeholder="License Number"
+          />
+
+          <label className="block text-sm font-medium text-gray-700 mt-4">link</label>
+          <input
+            name="link"
+            value={form.link}
+            onChange={handleChange}
+            className="w-full border px-3 py-2 rounded"
+            placeholder="Link"
           />
 
           <label className="block text-sm font-medium text-gray-700 mt-4">Languages Spoken</label>
