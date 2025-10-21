@@ -24,6 +24,7 @@
     "lightbox.js-react": "^1.5.3",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.509.0",
+    "luxon": "^3.7.2",
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-calendar-heatmap": "^1.10.0",

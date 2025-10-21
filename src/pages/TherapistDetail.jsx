@@ -9,6 +9,7 @@ import {
 
 import { fetchOccupiedSlots } from "../services/appointmentApi";
 import { createChat } from "../services/chatApi";
+import { DateTime } from "luxon";
 
 function TherapistDetail() {
   const { id } = useParams();              // therapist PK in route
@@ -127,12 +128,36 @@ function TherapistDetail() {
     }
 
     const { date, time } = bookingCtx;
-    const [start] = time.split(/–|-/).map((s) => s.trim());
-    const scheduledAt = new Date(`${date}T${start}:00`);
-    if (isNaN(scheduledAt)) {
-      alert("Invalid date/time.");
-      return;
-    }
+    // const [start] = time.split(/–|-/).map((s) => s.trim());
+    // const scheduledAt = new Date(`${date}T${start}:00`);
+
+  //   const [start] = time.split(/–|-/).map((s) => s.trim()); // "HH:mm"
+  //   const [hh, mm] = start.split(':').map(Number);
+
+  //   const scheduledAtISO = DateTime.fromISO(date, { zone: 'Europe/London' })
+  // .set({ hour: hh, minute: mm, second: 0, millisecond: 0 })
+  // .toISO({ suppressMilliseconds: true, includeOffset: true });
+
+  // console.log("scheduledAtISO",scheduledAtISO)
+  //   if (isNaN(scheduledAtISO)) {
+  //     alert("Invalid date/time.");
+  //     return;
+  //   }
+
+  const [start] = time.split(/–|-/).map((s) => s.trim()); // "HH:mm"
+const scheduledAtISO = DateTime.fromFormat(
+  `${date} ${start}`,
+  'yyyy-LL-dd HH:mm',
+  { zone: 'Europe/London' }           // <-- force UK time, handles BST
+).toISO({ suppressMilliseconds: true, includeOffset: true });
+
+
+  console.log("scheduledAtISO", scheduledAtISO);
+  if (!DateTime.fromISO(scheduledAtISO, { setZone: true }).isValid) {
+    alert("Invalid date/time.");
+    return;
+  }
+
 
     try {
       setLoading(true);
@@ -147,7 +172,7 @@ function TherapistDetail() {
       const payload = {
         user_id: user.id,
         therapist_id: therapist.id, // therapist PK
-        scheduled_at: scheduledAt.toISOString(),
+        scheduled_at: scheduledAtISO,
         session_duration: 30,
         session_type: "video",
         primary_concern: primaryConcern,
@@ -371,13 +396,12 @@ function TherapistDetail() {
         {dates.map((date) => (
           <div key={date} className="mb-6">
             <div className="bg-gray p-2 rounded-md mb-2">
-              <h4 className="bg-gray font-medium">
-                {new Date(date).getDate() +
-                  "-" +
-                  (new Date(date).getMonth() + 1) +
-                  "-" +
-                  new Date(date).getFullYear()}
-              </h4>
+            <div className="bg-gray p-2 rounded-md mb-2">
+  {(() => {
+    const d = DateTime.fromISO(date, { zone: 'Europe/London' });
+    return <h4 className="bg-gray font-medium">{d.toFormat('dd-LL-yyyy')}</h4>;
+  })()}
+</div>
             </div>
 
             {(slotsMap[date] || []).length > 0 ? (
