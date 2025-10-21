@@ -19,6 +19,22 @@ import {
   deleteAvailabilityDate,
 } from "../services/therapistApi";
 
+import { DateTime } from "luxon";
+
+/** Format an ISO datetime in UK time (handles BST/GMT) */
+function formatUK(isoOrDate, durationMins = 30) {
+  // Accept ISO string or Date
+  const dt = (isoOrDate instanceof Date)
+    ? DateTime.fromJSDate(isoOrDate, { zone: 'utc' }).setZone('Europe/London')
+    : DateTime.fromISO(String(isoOrDate), { setZone: true }).setZone('Europe/London');
+
+  if (!dt.isValid) return String(isoOrDate);
+
+  const end = dt.plus({ minutes: durationMins });
+  // e.g. "21 Oct 2025, 15:00–15:30 BST"
+  return `${dt.toFormat('dd LLL yyyy, HH:mm')}–${end.toFormat('HH:mm z')}`;
+}
+
 /** Normalize slot (handle hyphen/en dash/em dash + pad) */
 function normalizeSlot(slot = "") {
   const parts = String(slot).split(/-|–|—/);
@@ -525,9 +541,8 @@ function TherapistAvailabilityForm() {
                   <strong>User:</strong> {appt.User?.username || appt.user_id}
                 </p>
                 <p className="text-white">
-                  <strong>When:</strong>{" "}
-                  {new Date(appt.scheduled_at).toLocaleString()}
-                </p>
+  <strong>When:</strong> {formatUK(appt.scheduled_at, appt.session_duration || 30)}
+</p>
                 {appt.primary_concern && (
                   <p className="text-white/90">
                     <strong>Concern:</strong> {appt.primary_concern}

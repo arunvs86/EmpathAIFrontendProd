@@ -197,7 +197,7 @@ export default function RightSidebar() {
    .toISO({ suppressMilliseconds: true, includeOffset: true });
 
  const apptDT = DateTime.fromISO(ukISO, { setZone: true }); // stays in UK zone
- const apptTime = apptDT.toFormat("dd LLL yyyy, HH:mm 'UK'");
+ const apptTime = apptDT.toFormat("dd LLL yyyy, HH:mm 'UK time'");
 
                   return (
                     <li key={appt.id} className="space-y-1">
