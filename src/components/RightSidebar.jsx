@@ -43,7 +43,6 @@ export default function RightSidebar() {
         for (const appt of upcoming) {
           // updates[appt.id] = getTimeRemaining(appt.scheduled_at);
           updates[appt.id] = getTimeRemaining(appt.scheduled_at, appt.scheduled_at_uk_iso);
-
         }
         return updates;
       });
@@ -129,7 +128,7 @@ export default function RightSidebar() {
       setContactSubmitting(false);
     }
   };
-
+  }
   return (
     <aside className="w-full h-full p-4">
       <div className="flex flex-col gap-3">
@@ -341,4 +340,4 @@ export default function RightSidebar() {
       )}
     </aside>
   );
-}
+  }
