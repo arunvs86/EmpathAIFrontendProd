@@ -80,6 +80,7 @@ export default function RightSidebar() {
          minutes: String(minutes).padStart(2, "0"),
          seconds: String(seconds).padStart(2, "0"),
        };
+      }
 
   // --- Contact modal helpers ---
   const validateContact = ({ name, email, message }) => {
@@ -128,7 +129,7 @@ export default function RightSidebar() {
       setContactSubmitting(false);
     }
   };
-  }
+  
   return (
     <aside className="w-full h-full p-4">
       <div className="flex flex-col gap-3">
