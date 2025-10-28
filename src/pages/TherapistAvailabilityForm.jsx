@@ -312,6 +312,7 @@ function TherapistAvailabilityForm() {
   const [loadingApps, setLoadingApps] = useState(false);
   const [appsError, setAppsError] = useState("");
   const [loadingId, setLoadingId] = useState(null);
+  const [loadingAction, setLoadingAction] = useState(null); // "accept" | "reject" | null
 
   useEffect(() => {
     if (activeTab !== "appointments") return;
@@ -334,6 +335,7 @@ function TherapistAvailabilityForm() {
 
   const onDecision = async (id, decision) => {
     setLoadingId(id);
+    setLoadingAction(decision); // "accept" or "reject"
     try {
       await handleAppointmentDecision(id, decision);
       setAppointments((list) => list.filter((a) => a.id !== id));
@@ -341,6 +343,7 @@ function TherapistAvailabilityForm() {
       alert(err.message);
     } finally {
       setLoadingId(null);
+      setLoadingAction(null);
     }
   };
 
@@ -550,24 +553,34 @@ function TherapistAvailabilityForm() {
                 )}
               </div>
               <div className="space-y-2">
-                <button
-                  onClick={() => onDecision(appt.id, "accept")}
-                  disabled={loadingId === appt.id}
-                  className={`px-3 py-1 rounded transition ${
-                    loadingId === appt.id
-                      ? "bg-emerald-400 cursor-not-allowed opacity-70"
-                      : "bg-emerald-600 hover:bg-emerald-700 text-white"
-                  }`}
-                >
-                  {loadingId === appt.id ? "Accepting…" : "Accept"}
-                </button>
-                <button
-                  onClick={() => onDecision(appt.id, "reject")}
-                  className="block bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                  disabled={loadingId === appt.id}
-                >
-                  Reject
-                </button>
+              <button
+  onClick={() => onDecision(appt.id, "accept")}
+  disabled={loadingId === appt.id}
+  className={`px-3 py-1 rounded transition ${
+    loadingId === appt.id && loadingAction === "accept"
+      ? "bg-emerald-400 cursor-not-allowed opacity-70"
+      : "bg-emerald-600 hover:bg-emerald-700 text-white"
+  }`}
+>
+  {loadingId === appt.id && loadingAction === "accept"
+    ? "Accepting…"
+    : "Accept"}
+</button>
+
+<button
+  onClick={() => onDecision(appt.id, "reject")}
+  disabled={loadingId === appt.id}
+  className={`block px-3 py-1 rounded transition ${
+    loadingId === appt.id && loadingAction === "reject"
+      ? "bg-red-400 cursor-not-allowed opacity-70"
+      : "bg-red-600 hover:bg-red-700 text-white"
+  }`}
+>
+  {loadingId === appt.id && loadingAction === "reject"
+    ? "Rejecting…"
+    : "Reject"}
+</button>
+
               </div>
             </div>
           ))}
