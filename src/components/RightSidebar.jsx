@@ -199,34 +199,37 @@ export default function RightSidebar() {
 
  const apptDT = DateTime.fromISO(ukISO, { setZone: true }); // stays in UK zone
  const apptTime = apptDT.toFormat("dd LLL yyyy, HH:mm 'UK time'");
-
+ console.log(" appt data", appt)
                   return (
                     <li key={appt.id} className="space-y-1">
-                      <div>
-                        With <strong>{appt.counterpart}</strong> at {apptTime}
-                      </div>
+  <div>
+    With <strong>{appt.counterpart}</strong> at {apptTime}
+  </div>
 
-                      <div className="relative group">
-                        <button
-                          disabled={!within15Min}
-                          onClick={() => window.open(appt.meet_url, "_blank")}
-                          className={`mt-1 text-xs px-3 py-1 rounded-lg transition
-                            ${
-                              within15Min
-                                ? "bg-green-600 text-white hover:bg-green-700"
-                                : "bg-gray-400 text-gray-200 cursor-not-allowed"
-                            }`}
-                        >
-                          Join Session
-                        </button>
+  <div className="relative group">
+    <button
+      disabled={!within15Min || !appt.join_url}
+      onClick={() => window.open(appt.join_url, "_blank")}
+      className={`mt-1 text-xs px-3 py-1 rounded-lg transition
+        ${
+          within15Min && appt.join_url
+            ? "bg-green-600 text-white hover:bg-green-700"
+            : "bg-gray-400 text-gray-200 cursor-not-allowed"
+        }`}
+    >
+      Join Session
+    </button>
 
-                        {!within15Min && (
-                          <div className="absolute z-10  ml-2 mt-1 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-52">
-                            Link will be enabled 15 minutes before the meeting
-                          </div>
-                        )}
-                      </div>
-                    </li>
+    {(!within15Min || !appt.join_url) && (
+      <div className="absolute z-10 ml-2 mt-1 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-52">
+        {!appt.join_url
+          ? "Link not generated yet."
+          : "Link will be enabled 15 minutes before the meeting"}
+      </div>
+    )}
+  </div>
+</li>
+
                   );
                 })}
             </ul>
