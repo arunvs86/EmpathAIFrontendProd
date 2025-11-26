@@ -419,6 +419,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       )}
 
       {/* Create Post Form */}
+      {community.members.includes(currentUser.id) ? (
       <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6">
         <h2 className="font-calligraphy text-3xl text-white mb-4">
           Share in {community.name}
@@ -427,7 +428,11 @@ export default function CommunityDetail({ communityId, onBack }) {
           onPostCreated={newPost => setPosts(posts => [newPost, ...posts])}
           communityId={id}
         />
-      </div>
+      </div>) : (
+        <p className="text-gray-200">
+          You must join this community to create a new post.
+        </p>
+      )}
 
       {/* Posts List (only for members) */}
       {community.members.includes(currentUser.id) ? (
