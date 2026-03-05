@@ -216,7 +216,7 @@ const Login = () => {
         {!showForgot && (
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Don't have an account?{' '}
+              Don't have an account yet?{' '}
               <button
                 type="button"
                 onClick={() => navigate("/signup/user")}
