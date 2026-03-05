@@ -109,7 +109,7 @@ export default function Signup() {
   const [formData, setFormData] = useState({
     username: "", email: "", password: "",
     dob: "", gender: "", country: "", city: "", bio: "",profile_picture: "",
-    faith_support: false, showFeelings: false,
+    faith_support: false,   isSueRyderReference: false, showFeelings: false,
     current_feelings: [],
     // therapist fields
     specialization_tags: [], experience_years: "",
@@ -464,6 +464,42 @@ export default function Signup() {
     onChange={handleFileUpload}
     className="w-full border border-black rounded px-3 py-2"
   />
+</div>
+
+<div>
+  <label className="block font-semibold mb-2">
+    Were you referred by Sue Ryder?
+  </label>
+
+  <div className="flex gap-6">
+    <label className="flex items-center">
+      <input
+        type="radio"
+        name="isSueRyderReference"
+        value="true"
+        checked={formData.isSueRyderReference === true}
+        onChange={() =>
+          setFormData(p => ({ ...p, isSueRyderReference: true }))
+        }
+        className="mr-2"
+      />
+      Yes
+    </label>
+
+    <label className="flex items-center">
+      <input
+        type="radio"
+        name="isSueRyderReference"
+        value="false"
+        checked={formData.isSueRyderReference === false}
+        onChange={() =>
+          setFormData(p => ({ ...p, isSueRyderReference: false }))
+        }
+        className="mr-2"
+      />
+      No
+    </label>
+  </div>
 </div>
 
 

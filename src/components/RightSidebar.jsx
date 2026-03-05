@@ -23,6 +23,7 @@ export default function RightSidebar() {
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const isTherapist = user.role === "therapist";
+  const isSueRyderReference = user.isSueRyderReference === true;
 
   useEffect(() => {
     if (activeSection === "upcoming") {
@@ -164,14 +165,19 @@ export default function RightSidebar() {
         </div>
 
         {/* Book Appointments */}
+        {!isSueRyderReference && (
+
         <div>
           <button onClick={() => navigate("/therapists")} className={cardClass}>
             <Calendar className="w-4 h-4" />
             <span className={labelClass}>Book Appointments</span>
           </button>
         </div>
+      )}
 
         {/* Upcoming Appointments */}
+        {!isSueRyderReference && (
+
         <div>
           <button onClick={() => toggleSection("upcoming")} className={cardClass}>
             <Clock className={iconClass} />
@@ -235,9 +241,11 @@ export default function RightSidebar() {
             </ul>
           )}
         </div>
+        )}
 
         {/* Therapist Availability */}
-        {isTherapist && (
+        {!isSueRyderReference &&
+        isTherapist && (
           <button
             onClick={() => navigate("/therapist/availability")}
             className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition"
