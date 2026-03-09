@@ -5,7 +5,7 @@ import { BookOpen, Link as LinkIcon, Calendar, Clock, Mail, X } from "lucide-rea
 import { fetchUpcomingAppointments } from "../services/appointmentApi";
  import { DateTime } from "luxon";
 
-const API = "http://localhost:5003";
+const API = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net";
 
 export default function RightSidebar() {
   const navigate = useNavigate();

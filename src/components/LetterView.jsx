@@ -36,7 +36,7 @@ export default function LetterView() {
   const { id } = useParams();
   const [letter, setLetter] = useState(null);
   const letterRef = useRef(null);
-  const api = "http://localhost:5003/";
+  const api = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/";
 
   useEffect(() => {
     (async () => {

@@ -1,5 +1,5 @@
 
-const BASE_URL = "http://localhost:5003/appointments";
+const BASE_URL = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments";
 
 const auth = () => ({
   "Content-Type": "application/json",
@@ -170,7 +170,7 @@ export async function getTherapistAppointments(therapistId) {
 
 export async function fetchUpcomingAppointments() {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:5003/appointments/upcoming", {
+  const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments/upcoming", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

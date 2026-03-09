@@ -24,9 +24,9 @@
 //         let url;
 //         // if we're on profile/:userId/communities and it's the user's own profile
 //         if (location.pathname.match(/^\/profile\/[^/]+\/communities/) && isOwnProfile) {
-//           url = `http://localhost:5003/users/${userId}/communities`;
+//           url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}/communities`;
 //         } else {
-//           url = "http://localhost:5003/communities";
+//           url = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities";
 //         }
 //         const res = await fetch(url, {
 //           headers: token ? { Authorization: `Bearer ${token}` } : undefined
@@ -139,9 +139,9 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
         let url;
         // If we're on profile/:userId/communities and it's the user's own profile
         if (location.pathname.match(/^\/profile\/[^/]+\/communities/) && isOwnProfile) {
-          url = `http://localhost:5003/users/${userId}/communities`;
+          url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users/${userId}/communities`;
         } else {
-          url = "http://localhost:5003/communities";
+          url = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities";
         }
         const res = await fetch(url, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined
