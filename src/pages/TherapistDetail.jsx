@@ -181,7 +181,7 @@ const scheduledAtISO = DateTime.fromFormat(
         additional_details: additionalDetails.trim(),
       };
 
-      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/appointments", {
+      const res = await fetch("http://localhost:5003/appointments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

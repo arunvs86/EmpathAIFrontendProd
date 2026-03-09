@@ -126,7 +126,7 @@
 //     );
   
 //     try {
-//       const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/transcribe", {
+//       const res = await fetch("http://localhost:5003/api/transcribe", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({ audioUrl })
@@ -187,7 +187,7 @@
 
 //         try {
 //           // a) fetch transcript
-//           const tRes = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/transcribe", {
+//           const tRes = await fetch("http://localhost:5003/api/transcribe", {
 //             method: "POST",
 //             headers: { "Content-Type": "application/json" },
 //             body: JSON.stringify({ audioUrl: message.content }),
@@ -585,7 +585,7 @@ function ChatDetail() {
     );
   
     try {
-      const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/transcribe", {
+      const res = await fetch("http://localhost:5003/api/transcribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ audioUrl })
@@ -640,7 +640,7 @@ function ChatDetail() {
 
       try {
         // a) fetch transcript
-        const tRes = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/api/transcribe", {
+        const tRes = await fetch("http://localhost:5003/api/transcribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ audioUrl: message.content }),

@@ -39,7 +39,7 @@
 //       try {
 //         const token = localStorage.getItem("token");
 //         if (!token) throw new Error("Please log in.");
-//         const res = await fetch("https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts", {
+//         const res = await fetch("http://localhost:5003/posts", {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
 //         if (!res.ok) {
@@ -190,14 +190,14 @@ function MainContent() {
         const userId = user?.id;
         if (!token || !user) throw new Error("Please log in.");
 
-        let url = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts";
+        let url = "http://localhost:5003/posts";
         if (feedType === "personalized") {
-          url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/personalized/${userId}`;}
+          url = `http://localhost:5003/posts/personalized/${userId}`;}
         // } else if (feedType === "saved") {
-        //   url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/saved/${userId}`; // Implement this later
+        //   url = `http://localhost:5003/posts/saved/${userId}`; // Implement this later
         // }
         if (feedType === "saved") {
-          url = `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/bookmarked/${userId}`;
+          url = `http://localhost:5003/posts/bookmarked/${userId}`;
         }
 
         const res = await fetch(url, {

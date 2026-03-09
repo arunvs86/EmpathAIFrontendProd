@@ -1,5 +1,5 @@
 // frontend/src/services/therapistApi.js
-const API = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net";
+const API = "http://localhost:5003";
 
 function authHeaders() {
   const token = localStorage.getItem("token");

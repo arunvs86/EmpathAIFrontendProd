@@ -74,7 +74,11 @@ function App() {
 
 
         {/* Dashboard parent route */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+
+        
+         
+         
+         <Route path="/dashboard" element={<DashboardLayout />}>
           {/* Overview */}
           <Route index element={<DashboardPage />} />
 
@@ -104,6 +108,7 @@ function App() {
           <Route path="mood/correlation"   element={<MoodCorrelationDetail />} />   
            */}
         </Route>
+                
 
         <Route
             path="faith"

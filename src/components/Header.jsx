@@ -4,6 +4,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { ChevronDown, MessageCircle, Bell, LogOut } from "lucide-react";
 import socket ,{registerUserWithSocket} from "../services/socket";
 import { useUnreadChats } from "../contexts/UnreadChatsContext";
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -16,6 +17,17 @@ export default function Header() {
   const avatarUrl = currentUser.profile_picture || "/assets/avatar.png";
 
   const { unreadChats, setUnreadChats } = useUnreadChats();
+
+  /* Spanish Translation */
+
+  const { t, i18n } = useTranslation();
+
+  const toggleLang = () => {
+    const next = i18n.language === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(next);
+    localStorage.setItem('lang', next);
+  };
+
 
   useEffect(() => {
     const handler = (e) => {
@@ -62,16 +74,20 @@ export default function Header() {
     navigate("/login");
   };
 
+  // const PRIMARY_TABS = [
+  //   { label: "Spiritual support", to: "/spiritual" },
+  //   { label: "Plant a Sapling", to: "/plant-sapling" },
+  //   { label: "Wellness Tips", to: "/wellness-tips" },
+  //   { label: "Mindful Meditation", to: "/mindful-meditation" },
+  // ];
+
   const PRIMARY_TABS = [
-    // { label: "All Posts", to: "/" },
-    // { label: "Communities", to: "/communities" },
-    { label: "Spiritual support", to: "/spiritual" },
-    { label: "Plant a Sapling", to: "/plant-sapling" },
-    { label: "Wellness Tips", to: "/wellness-tips" },
-    { label: "Mindful Meditation", to: "/mindful-meditation" },
-    // { label: "My Journals", to: `/profile/${currentUser.id}/journals` },
-    // { label: "My Habits", to: `/profile/${currentUser.id}/habits` },
+    { label: t('nav.spiritual'), to: "/spiritual" },
+    { label: t('nav.plantSapling'), to: "/plant-sapling" },
+    { label: t('nav.wellnessTips'), to: "/wellness-tips" },
+    { label: t('nav.mindfulMeditation'), to: "/mindful-meditation" },
   ];
+
   const MORE_TABS = [
     // { label: "Events Nearby", to: "/feed/events" },
     { label: "Plant a Sapling", to: "/plant-sapling" },
@@ -143,6 +159,11 @@ export default function Header() {
               </span>
             )}
           </Link>
+
+          <button onClick={toggleLang} className="text-sm font-semibold text-gray-200 hover:text-amber-300 transition">
+                {t('header.switchLang')}
+                </button>
+                
           {/* <Link to="/notifications" className="text-gray-200 hover:text-amber-300 transition">
             <Bell className="w-6 h-6" />
           </Link> */}
@@ -153,7 +174,7 @@ export default function Header() {
               className="flex items-center text-white hover:text-amber-400 transition"
             >
               <span className="text-sm cursor-pointer" onClick={goProfile}>   
-                Hello, {currentUser.username}
+                {t('header.hello')}, {currentUser.username}
               </span>
               <img
                 src={avatarUrl}
@@ -173,6 +194,8 @@ export default function Header() {
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Messages
                 </Link>
+
+                
                 
                 <button
                   onClick={logout}

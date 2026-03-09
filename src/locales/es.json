@@ -1,0 +1,48 @@
+{
+    "header": {
+      "hello": "Hola ",
+      "messages": "Mensajes",
+      "logout": "Cerrar sesión",
+      "switchLang": "English"
+    },
+    "nav": {
+      "spiritual": "Apoyo espiritual",
+      "plantSapling": "Plantar un árbol",
+      "wellnessTips": "Consejos de bienestar",
+      "mindfulMeditation": "Meditación consciente"
+    },
+    "about": {
+      "hero1": "EmpathAI es un espacio seguro para procesar el duelo y el dolor emocional.",
+      "hero2": "Basado en IA responsable y respaldado por investigación de expertos.",
+      "aboutTitle": "Acerca de EmpathAI",
+      "aboutP1": "EmpathAI es una plataforma de bienestar basada en investigación, diseñada para apoyar a personas en el duelo, el malestar emocional y los desafíos de salud mental mediante IA responsable, apoyo entre pares y herramientas reflexivas.",
+      "aboutP2": "Desarrollado bajo la guía de la Profesora Elvira Pérez Vallejos, líder mundial en salud mental digital y ética de la IA en la Universidad de Nottingham, EmpathAI une tecnología de vanguardia con atención compasiva.",
+      "featuresTitle": "Lo que ofrece EmpathAI",
+      "feature1Title": "Chatbot de IA empático",
+      "feature1Desc": "Nuestro chatbot con IA ofrece apoyo suave y fundamentado en momentos difíciles como el duelo, la ansiedad o el agobio emocional. Responde con empatía, nunca con juicio.",
+      "feature2Title": "Diario reflexivo",
+      "feature2Desc": "Escribe sobre tus pensamientos, recuerdos y emociones en un espacio seguro y privado. El diario puede ser una herramienta poderosa para procesar el duelo y la claridad emocional.",
+      "feature3Title": "Seguimiento de hábitos y estado de ánimo",
+      "feature3Desc": "Registra hábitos y patrones emocionales para comprender mejor tu bienestar a lo largo del tiempo. Los recordatorios suaves te ayudan a mantenerte consciente de tu ritmo diario.",
+      "feature4Title": "Escribir cartas a tus seres queridos",
+      "feature4Desc": "Expresa amor, añoranza o sentimientos no resueltos a través de rituales guiados de escritura de cartas. Una forma profundamente sanadora de reconectar y soltar.",
+      "feature5Title": "Meditación consciente",
+      "feature5Desc": "Enraízate con meditaciones cortas diseñadas para el duelo, la calma o el agobio emocional. Aprende a pausar, respirar y volver suavemente al presente.",
+      "feature6Title": "Plantar un árbol y dedicarlo",
+      "feature6Desc": "Una guía suave para plantar un árbol memorial en honor a un ser querido. Crea un tributo vivo y un ritual que nutre el recuerdo y el crecimiento.",
+      "feature7Title": "Consejos de bienestar",
+      "feature7Desc": "Pequeñas sugerencias respaldadas por la ciencia para apoyar la salud mental y emocional, ya sea que estés simplemente sobreviviendo el día o buscando reconstruirte poco a poco.",
+      "researchTitle": "Liderazgo en investigación",
+      "researchP1": "EmpathAI es un proyecto liderado por la Profesora Elvira Pérez Vallejos, Profesora de Salud Mental y Tecnología Digital, con nombramiento conjunto en la Escuela de Ciencias de la Computación y la Escuela de Medicina de la Universidad de Nottingham.",
+      "researchP2": "La Profesora Pérez Vallejos es reconocida internacionalmente por su trabajo en Ética de la IA, y fue nombrada recientemente entre las 100 Mujeres Brillantes en Ética de la IA (2025). Lidera más de £100M en investigación interdisciplinaria.",
+      "privacyTitle": "Privacidad y protección de datos",
+      "privacyIntro": "Tus datos se tratan con los más altos estándares de cuidado y seguridad.",
+      "privacyItem1": "Todos los mensajes enviados al chatbot y entre usuarios se almacenan de forma cifrada.",
+      "privacyItem2": "Los datos se almacenan de forma segura en servidores dentro de la Universidad de Nottingham.",
+      "privacyItem3": "No vendemos, compartimos ni monetizamos tus datos personales. Nunca.",
+      "whyTitle": "Por qué importa",
+      "whyP1": "EmpathAI es más que una herramienta tecnológica: es un compañero compasivo en los momentos más vulnerables de la vida. Guiados por expertos en IA Responsable, nuestra misión es ofrecer apoyo emocionalmente inteligente que sea seguro, inclusivo y fundamentado en la ética del mundo real.",
+      "whyP2": "EmpathAI forma parte de una visión más amplia para integrar éticamente la IA en ámbitos sensibles como el apoyo al duelo, los cuidados al final de la vida y la salud mental.",
+      "whyQuote": "🕊️ La empatía no es una función. Es nuestra base."
+    }
+  }
