@@ -77,7 +77,7 @@ export default function SignupsWidget() {
               </BarChart>
             </ResponsiveContainer>
             <Typography variant="caption" color="textSecondary">
-              * Click a bar to see that day’s new users
+              * Click a bar to see that day's new users
             </Typography>
           </Box>
         </CardContent>

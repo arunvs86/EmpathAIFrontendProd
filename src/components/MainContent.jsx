@@ -29,7 +29,7 @@
 //               setSelectedTopic("");
 //               setSortOrder("desc");
 //             }
-//         // else: leave user’s manual choice intact
+//         // else: leave user's manual choice intact
 //      }, [location.pathname]);
 
 //   // Fetch posts once on mount
@@ -162,7 +162,7 @@ function MainContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [feedType, setFeedType] = useState("all"); // 'personalized' | 'all' | 'saved'
+  const [feedType, setFeedType] = useState("all"); // "personalized' | "all" | 'saved"
   const [searchText, setSearchText] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");

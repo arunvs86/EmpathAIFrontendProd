@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { BookOpen, Link as LinkIcon, Calendar, Clock, Mail, X } from "lucide-react";
 import { fetchUpcomingAppointments } from "../services/appointmentApi";
  import { DateTime } from "luxon";
+import { useTranslation } from 'react-i18next';
 
 const API = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net";
 
 export default function RightSidebar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [upcoming, setUpcoming] = useState([]);
@@ -120,7 +122,7 @@ export default function RightSidebar() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Failed to send message");
-      setContactMsg({ type: "success", text: "Thanks! We’ve received your message." });
+      setContactMsg({ type: "success", text: t('sidebar.contactSuccess') });
       setContactForm({ name: "", email: "", message: "" });
       // auto-close after a moment
       setTimeout(() => setOpenContact(false), 1200);
@@ -138,7 +140,7 @@ export default function RightSidebar() {
         <div>
           <button onClick={() => toggleSection("helpful")} className={cardClass}>
             <LinkIcon className={iconClass} />
-            <span className={labelClass}>Helpful Links</span>
+            <span className={labelClass}>{t('sidebar.helpfulLinks')}</span>
           </button>
           {activeSection === "helpful" && (
             <ul className="ml-8 space-y-1 text-white/90 text-sm">
@@ -170,7 +172,7 @@ export default function RightSidebar() {
         <div>
           <button onClick={() => navigate("/therapists")} className={cardClass}>
             <Calendar className="w-4 h-4" />
-            <span className={labelClass}>Book Appointments</span>
+            <span className={labelClass}>{t('sidebar.bookAppt')}</span>
           </button>
         </div>
       )}
@@ -181,14 +183,14 @@ export default function RightSidebar() {
         <div>
           <button onClick={() => toggleSection("upcoming")} className={cardClass}>
             <Clock className={iconClass} />
-            <span className={labelClass}>Upcoming Appointments</span>
+            <span className={labelClass}>{t('sidebar.upcomingAppts')}</span>
           </button>
 
           {activeSection === "upcoming" && (
             <ul className="ml-8 space-y-2 text-white/90 text-sm mt-2">
-              {loading && <li>Loading…</li>}
+              {loading && <li>{t('sidebar.loading')}</li>}
               {err && <li className="text-red-300">{err}</li>}
-              {!loading && !err && upcoming.length === 0 && <li>No upcoming.</li>}
+              {!loading && !err && upcoming.length === 0 && <li>{t('sidebar.noUpcoming')}</li>}
               {!loading &&
                 !err &&
                 upcoming.map((appt) => {
@@ -209,7 +211,7 @@ export default function RightSidebar() {
                   return (
                     <li key={appt.id} className="space-y-1">
   <div>
-    With <strong>{appt.counterpart}</strong> at {apptTime}
+    {t('sidebar.with')} <strong>{appt.counterpart}</strong> at {apptTime}
   </div>
 
   <div className="relative group">
@@ -223,14 +225,14 @@ export default function RightSidebar() {
           : "bg-gray-400 text-gray-200 cursor-not-allowed"
       }`}
   >
-    Join Session
+    {t('sidebar.joinSession')}
   </button>
 
   {(!within15Min || !appt.join_url) && (
     <div className="absolute z-10 ml-2 mt-1 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-52">
       {!appt.join_url
-        ? "Link not generated yet."
-        : "Link will be enabled 15 minutes before the meeting"}
+        ? t('sidebar.linkNotReady')
+        : t('sidebar.linkEnable15')}
     </div>
   )}
 </div>
@@ -251,14 +253,14 @@ export default function RightSidebar() {
             className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition"
           >
             <Calendar className="w-4 h-4" />
-            <span className="text-sm font-medium">Add Availability</span>
+            <span className="text-sm font-medium">{t('sidebar.addAvailability')}</span>
           </button>
         )}
 
         {/* Contact Us (opens modal) */}
         <button onClick={() => setOpenContact(true)} className={cardClass}>
           <Mail className={iconClass} />
-          <span className={labelClass}>Get in touch with us</span>
+          <span className={labelClass}>{t('sidebar.contactUs')}</span>
         </button>
       </div>
 
@@ -274,7 +276,7 @@ export default function RightSidebar() {
           {/* Dialog */}
           <div className="relative w-full max-w-md mx-4 rounded-2xl bg-white/95 backdrop-blur p-5 shadow-2xl">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">Get in touch with us</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t('sidebar.contactUs')}</h3>
               <button
                 onClick={() => setOpenContact(false)}
                 className="p-1 rounded hover:bg-gray-200"
@@ -286,7 +288,7 @@ export default function RightSidebar() {
 
             <form onSubmit={submitContact} className="space-y-3">
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Your name</label>
+                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactName')}</label>
                 <input
                   type="text"
                   className="w-full text-gray-800 rounded-lg border px-3 py-2"
@@ -297,7 +299,7 @@ export default function RightSidebar() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Email</label>
+                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactEmail')}</label>
                 <input
                   type="email"
                   className="w-full text-gray-800 rounded-lg border px-3 py-2"
@@ -308,13 +310,13 @@ export default function RightSidebar() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Message</label>
+                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactMessage')}</label>
                 <textarea
                   rows={4}
                   className="w-full text-gray-800 rounded-lg border px-3 py-2"
                   value={contactForm.message}
                   onChange={(e) => setContactForm((s) => ({ ...s, message: e.target.value }))}
-                  placeholder="How can we help?"
+                  placeholder={t('sidebar.contactPlaceholder')}
                 />
               </div>
 
@@ -334,7 +336,7 @@ export default function RightSidebar() {
                   className="px-4 py-2 rounded-lg border"
                   onClick={() => setOpenContact(false)}
                 >
-                  Cancel
+                  {t('sidebar.cancel')}
                 </button>
                 <button
                   type="submit"
@@ -343,7 +345,7 @@ export default function RightSidebar() {
                     contactSubmitting ? "bg-gray-400" : "bg-emerald-600 hover:bg-emerald-700"
                   }`}
                 >
-                  {contactSubmitting ? "Sending…" : "Send"}
+                  {contactSubmitting ? t('sidebar.sending') : t('sidebar.send')}
                 </button>
               </div>
             </form>

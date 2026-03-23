@@ -7,7 +7,7 @@ export default function LettersPage() {
   const [loading, setLoading] = useState(true);
   const api = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/";
 
-  // Fetch your user’s letters
+  // Fetch your user's letters
   useEffect(() => {
     (async () => {
       try {
@@ -41,7 +41,7 @@ export default function LettersPage() {
         {loading ? (
           <p>Loading…</p>
         ) : letters.length === 0 ? (
-          <p className="text-white/60">You haven’t written any letters yet.</p>
+          <p className="text-white/60">You haven't written any letters yet.</p>
         ) : (
           <ul className="space-y-4">
             {letters.map(ltr => (

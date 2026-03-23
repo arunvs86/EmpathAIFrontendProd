@@ -92,8 +92,10 @@ import {
   handleRescheduleDecision,
 } from "../services/appointmentApi";
 import AppointmentCard from "../components/AppointmentCard";
+import { useTranslation } from 'react-i18next';
 
 export default function TherapistAppointmentsPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -168,9 +170,9 @@ export default function TherapistAppointmentsPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Therapist Appointments</h1>
-      {loading && <p>Loading...</p>}
-      {!loading && appointments.length === 0 && <p>No appointments found.</p>}
+      <h1 className="text-2xl font-bold mb-4">{t('appt.manageTitle')}</h1>
+      {loading && <p>{t('appt.loading')}</p>}
+      {!loading && appointments.length === 0 && <p>{t('appt.none')}</p>}
 
       {appointments.map((appt) => (
         <AppointmentCard

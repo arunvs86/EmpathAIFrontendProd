@@ -51,7 +51,7 @@ function Timer({ duration = 180 }) {
           </button>
         )}
       </div>
-      {timeLeft === 0 && <div className="text-lg text-red-600">Time’s up!</div>}
+      {timeLeft === 0 && <div className="text-lg text-red-600">Time's up!</div>}
     </div>
   );
 }

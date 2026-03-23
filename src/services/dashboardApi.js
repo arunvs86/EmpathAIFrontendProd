@@ -132,7 +132,7 @@ export async function fetchSentimentLiftAll() {
   }
   
   /**
-   * Fetch a single user’s sentiment lift
+   * Fetch a single user's sentiment lift
    * GET /api/dashboard/sentiment/lift/:userId
    */
   export async function fetchSentimentLift(userId) {

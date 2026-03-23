@@ -40,7 +40,7 @@ export default function DashboardPage() {
       <MetricCard
         title="DAU"
         value={summary.DAU}
-        subtitle="Today’s active users"
+        subtitle="Today's active users"
         route="users/summary"
       />
       <MetricCard

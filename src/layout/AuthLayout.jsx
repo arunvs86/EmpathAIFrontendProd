@@ -17,7 +17,7 @@ export default function AuthLayout({ children }) {
 
       {/* floating Lottie particles */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* make sure you’ve added the <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script> in index.html */}
+        {/* make sure you've added the <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script> in index.html */}
         <lottie-player
           autoplay
           loop

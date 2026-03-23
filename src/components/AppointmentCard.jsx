@@ -148,6 +148,7 @@
 import React, { useState } from "react";
 import { formatUk } from "../utils/datetime";
 import StatusBadge from "./StatusBadge";
+import { useTranslation } from 'react-i18next';
 
 export default function AppointmentCard({
   appointment,
@@ -157,6 +158,7 @@ export default function AppointmentCard({
   onDecision,              // therapist → (id, "accept"|"reject")
   onRescheduleDecision,    // therapist → (id, "accept"|"reject")
 }) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   const handleClick = async (action, ...args) => {
@@ -201,7 +203,7 @@ export default function AppointmentCard({
           {/* Proposed time (if reschedule pending) */}
           {status === "reschedule_pending" && appointment.proposed_scheduled_at && (
             <p className="text-sm text-blue-700 mt-1">
-              Proposed: {formatUk(appointment.proposed_scheduled_at)}
+              {t('appt.proposed')}: {formatUk(appointment.proposed_scheduled_at)}
             </p>
           )}
 
@@ -213,7 +215,7 @@ export default function AppointmentCard({
           {/* Meet link hint (if present) */}
           {appointment.meet_url && status === "confirmed" && (
             <p className="text-xs text-gray-500 mt-1">
-              Meet link will be enabled ~15 minutes before start.
+              {t('appt.meetLink')}
             </p>
           )}
         </div>
@@ -229,7 +231,7 @@ export default function AppointmentCard({
                   className="px-3 py-1 bg-yellow-600 text-white rounded disabled:opacity-60"
                   title="Request a new time"
                 >
-                  {loading ? "Working…" : "Reschedule"}
+                  {loading ? t('appt.working') : t('appt.reschedule')}
                 </button>
               )}
 
@@ -240,7 +242,7 @@ export default function AppointmentCard({
                   className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
                   title="Cancel this session"
                 >
-                  {loading ? "Cancelling…" : "Cancel"}
+                  {loading ? t('appt.cancelling') : t('appt.cancel')}
                 </button>
               )}
             </>
@@ -256,14 +258,14 @@ export default function AppointmentCard({
                     disabled={loading}
                     className="px-3 py-1 bg-emerald-600 text-white rounded disabled:opacity-60"
                   >
-                    {loading ? "Accepting…" : "Accept"}
+                    {loading ? t('appt.accepting') : t('appt.accept')}
                   </button>
                   <button
                     onClick={() => handleClick(onDecision, appointment.id, "reject")}
                     disabled={loading}
                     className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
                   >
-                    {loading ? "Rejecting…" : "Reject"}
+                    {loading ? t('appt.rejecting') : t('appt.reject')}
                   </button>
                 </>
               )}
@@ -274,7 +276,7 @@ export default function AppointmentCard({
                   disabled={loading}
                   className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
                 >
-                  {loading ? "Cancelling…" : "Cancel"}
+                  {loading ? t('appt.cancelling') : t('appt.cancel')}
                 </button>
               )}
 
@@ -287,7 +289,7 @@ export default function AppointmentCard({
                     disabled={loading}
                     className="px-3 py-1 bg-emerald-600 text-white rounded disabled:opacity-60"
                   >
-                    {loading ? "Approving…" : "Accept Reschedule"}
+                    {loading ? t('appt.approving') : t('appt.acceptReschedule')}
                   </button>
                   <button
                     onClick={() =>
@@ -296,7 +298,7 @@ export default function AppointmentCard({
                     disabled={loading}
                     className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
                   >
-                    {loading ? "Rejecting…" : "Reject Reschedule"}
+                    {loading ? t('appt.rejecting') : t('appt.rejectReschedule')}
                   </button>
                 </>
               )}

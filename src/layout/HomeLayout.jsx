@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect,useRef } from 'react';
 import { Outlet,useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -11,7 +12,7 @@ import bgVideoNight   from '/assets/background_night.mp4';
 import { useState } from "react";
 
 export default function HomeLayout() {
-
+  const { t } = useTranslation();
   const location = useLocation();
   // detect if we're on /communities (or deeper)
   const isCommunities = location.pathname.startsWith("/communities");
@@ -38,45 +39,16 @@ useEffect(() => {
   return () => el.removeEventListener("scroll", handleScroll);
 }, []);
 
-  let tagline = "Healing begins with a single deep breath!"
+  let tagline = t('layout.taglineDefault');
 
-  if(isCommunities)
-  {
-    tagline = "We shall surf the grief waves together!"
-  }
-
-  if(isJournals)
-    {
-      tagline = "Your Inner Self, One Day at a Time"
-    }
-
-  if(isLetters)
-      {
-        tagline = "Your Words, Their Memory—A Personal Letter for Healing"
-      }
-
-      if(isHabits)
-        {
-          tagline = "And it all begins with small wins!"
-        }
-        if(isMindful)
-          {
-            tagline = "Find your peace, one breath at a time"
-          }
-          if(isPlant)
-            {
-              tagline = "A Seed of Hope, A Tree of Life"
-            }
-
-            if(isWellness)
-              {
-                tagline = "The best way out is always through!"
-              }
-
-              if(isFaith)
-                {
-                  tagline = "Finding Comfort Through Faith"
-                }
+  if(isCommunities)  tagline = t('layout.taglineCommunities');
+  if(isJournals)     tagline = t('layout.taglineJournals');
+  if(isLetters)      tagline = t('layout.taglineLetters');
+  if(isHabits)       tagline = t('layout.taglineHabits');
+  if(isMindful)      tagline = t('layout.taglineMindful');
+  if(isPlant)        tagline = t('layout.taglinePlant');
+  if(isWellness)     tagline = t('layout.taglineWellness');
+  if(isFaith)        tagline = t('layout.taglineFaith');
 
             
 
@@ -97,7 +69,7 @@ useEffect(() => {
       const next6pm = new Date(now);
       next6pm.setHours(18, 0, 0, 0);
       if (next6pm <= now) {
-        // if it’s already past 6pm today, schedule for tomorrow
+        // if it's already past 6pm today, schedule for tomorrow
         next6pm.setDate(next6pm.getDate() + 1);
       }
       const msUntil6pm = next6pm - now;
@@ -165,9 +137,9 @@ useEffect(() => {
     mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }}
   className="fixed bottom-6 right-6 z-50 bg-white/10 text-white p-3 rounded-full shadow-lg hover:bg-white/30 transition"
-  title="Scroll to Top"
+  title={t('layout.scrollUp')}
 >
-  ⬆️ Scroll up
+  ⬆️ {t('layout.scrollUp')}
 </button>
         {/* Right Sidebar */}
         <aside className="hidden lg:block w-66 p-4 relative pointer-events-auto z-30">

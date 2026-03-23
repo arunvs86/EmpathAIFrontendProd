@@ -5,8 +5,10 @@ import {
   requestReschedule,
 } from "../services/appointmentApi";
 import AppointmentCard from "../components/AppointmentCard";
+import { useTranslation } from 'react-i18next';
 
 export default function UserAppointments() {
+  const { t } = useTranslation();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,9 +50,9 @@ export default function UserAppointments() {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">My Appointments</h1>
-      {loading && <p>Loading...</p>}
-      {!loading && appointments.length === 0 && <p>No upcoming appointments.</p>}
+      <h1 className="text-2xl font-bold mb-4">{t('appt.myTitle')}</h1>
+      {loading && <p>{t('appt.loading')}</p>}
+      {!loading && appointments.length === 0 && <p>{t('appt.noUpcoming')}</p>}
       {appointments.map((appt) => (
         <AppointmentCard
           key={appt.id}

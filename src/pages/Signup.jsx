@@ -5,6 +5,7 @@ import CreatableSelect from "react-select/creatable";
 import Lottie from "lottie-react";
 // import signupAnim from "/src/signupAnim.json?url";
 import signupAnim from '/src/signupAnim.json'   // adjust path to wherever your JSON lives
+import { useTranslation } from 'react-i18next';
 
 <Lottie animationData={signupAnim} />
 
@@ -72,6 +73,7 @@ const FEELINGS = [
 export default function Signup() {
   const { type } = useParams();           // role: user | therapist | admin | bot
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // — Notification state —
   const [notification, setNotification] = useState(null);
@@ -268,18 +270,18 @@ export default function Signup() {
       
       {/* ── LEFT PANEL ── */}
       <div className="flex flex-col  bg-gray items-center justify-center px-12 text-black/90">
-        <h2 className="text-4xl font-bold mb-4">Join EmpathAI</h2>
+        <h2 className="text-4xl font-bold mb-4">{t('auth.joinTitle')}</h2>
         <p className="text-center text-2xl italic mb-8">
-          A digital home where you can share your story, find support, and heal together.
+          {t('auth.joinSubtitle')}
         </p>
         <div className="w-64 h-64 mb-8">
           <Lottie animationData={signupAnim} loop autoplay />
         </div>
         <ul className="space-y-3 text-lg">
-          <li>🍃 Connect with caring communities</li>
-          <li>✍️ Write in your personal journal</li>
-          <li>🗣️ Chat one-on-one with our AI listener</li>
-          <li>🤝 Join grief & wellness support groups</li>
+          <li>🍃 {t('auth.bullet1')}</li>
+          <li>✍️ {t('auth.bullet2')}</li>
+          <li>🗣️ {t('auth.bullet3')}</li>
+          <li>🤝 {t('auth.bullet4')}</li>
         </ul>
       </div>
 
@@ -289,7 +291,7 @@ export default function Signup() {
                   bg-white/10">
         <div className="w-full max-w-xl">
           <h1 className="text-3xl font-bold text-center mb-6">
-            Sign Up
+            {t('auth.signUpTitle')}
           </h1>
           {notification && (
             <NotificationPopup
@@ -302,7 +304,7 @@ export default function Signup() {
             {/* Username / Email / Password */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block font-semibold mb-1">Username</label>
+                <label className="block font-semibold mb-1">{t('auth.username')}</label>
                 <input
                   name="username"
                   value={formData.username}
@@ -312,7 +314,7 @@ export default function Signup() {
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-1">Email</label>
+                <label className="block font-semibold mb-1">{t('auth.email')}</label>
                 <input
                   name="email"
                   type="email"
@@ -323,7 +325,7 @@ export default function Signup() {
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-1">Password</label>
+                <label className="block font-semibold mb-1">{t('auth.password')}</label>
                 <input
                   name="password"
                   type="password"
@@ -334,14 +336,14 @@ export default function Signup() {
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-1">Gender</label>
+                <label className="block font-semibold mb-1">{t('auth.gender')}</label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
                   className="w-full border border-black rounded px-3 py-2"
                 >
-                  <option value="">Select Gender</option>
+                  <option value="">{t('auth.selectGender')}</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                   <option value="non-binary">Non-binary</option>
@@ -355,7 +357,7 @@ export default function Signup() {
             {/* Country / City */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block font-semibold mb-1">Country</label>
+                <label className="block font-semibold mb-1">{t('auth.country')}</label>
                 <select
                   name="country"
                   value={formData.country}
@@ -371,7 +373,7 @@ export default function Signup() {
                 </select>
               </div>
               <div>
-                <label className="block font-semibold mb-1">City</label>
+                <label className="block font-semibold mb-1">{t('auth.city')}</label>
                 <select
                   name="city"
                   value={formData.city}
@@ -391,7 +393,7 @@ export default function Signup() {
 
             {/* Date of Birth */}
             <div>
-              <label className="block font-semibold mb-1">Date of Birth</label>
+              <label className="block font-semibold mb-1">{t('auth.dob')}</label>
               <div className="flex gap-2">
                 <select
                   value={dobYear}
@@ -438,7 +440,7 @@ export default function Signup() {
             {/* Bio */}
             <div>
               <label className="block font-semibold mb-1">
-                Tell us about yourself
+                {t('auth.bio')}
               </label>
               <textarea
                 name="bio"
@@ -525,7 +527,7 @@ export default function Signup() {
                 className="mr-2"
               />
               <label className="font-semibold">
-                Share what you’re currently feeling?
+                {t('auth.shareFeelings')}
               </label>
             </div>
             {/* {formData.showFeelings && (
@@ -746,13 +748,13 @@ export default function Signup() {
               type="submit"
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded"
             >
-              Sign Up
+              {t('auth.signUpButton')}
             </button>
 
             <p className="text-center text-sm text-gray-500">
-              Already have an account?{" "}
+              {t('auth.haveAccount')}{" "}
               <Link to="/login" className="text-emerald-600 hover:underline">
-                Log in
+                {t('auth.loginLink')}
               </Link>
             </p>
           </form>

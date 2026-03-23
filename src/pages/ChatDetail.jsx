@@ -221,7 +221,7 @@
 //           }
 //           const botData = await botResponse.json();
 //           console.log("text length:", botData.response)          
-//           // d) persist the bot’s reply
+//           // d) persist the bot's reply
 //           const botMsg = await sendMessage({
 //             chatId,
 //             content: botData.response,
@@ -462,6 +462,7 @@ import socket from "../services/socket";
 import { getUserChats, getMessages, sendMessage } from "../services/chatApi";
 import VoiceRecorder from "../components/VoiceRecorder"
 import { useUnreadChats } from "../contexts/UnreadChatsContext";
+import { useTranslation } from 'react-i18next';
 
 /* 🔒 Constants */
 const BOT_ID = "c7291129-8ed5-40d6-a504-b96f957ceb88";
@@ -471,6 +472,7 @@ const DEFAULT_USER_AVATAR = "/assets/avatar.png";        // <- change if needed
 function ChatDetail() {
   const { chatId } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [chatDetails, setChatDetails] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newContent, setNewContent] = useState("");
@@ -672,7 +674,7 @@ function ChatDetail() {
         if (!botResponse.ok) throw new Error("Failed to fetch chatbot response");
         const botData = await botResponse.json();
 
-        // d) persist the bot’s reply
+        // d) persist the bot's reply
         const botMsg = await sendMessage({
           chatId,
           content: botData.response,
@@ -760,7 +762,7 @@ function ChatDetail() {
 
     const avatarUrl = getAvatar(senderId);
     const senderName = isCurrentUser
-      ? "You"
+      ? t('chat.you', 'You')
       : (msg?.sender?.username ||
          participantsById[senderId]?.username ||
          (senderId === BOT_ID ? "EmpathAI Bot" : "User"));
@@ -787,14 +789,14 @@ function ChatDetail() {
               <audio src={msg.content} controls preload="none" className="w-full rounded" />
               <div className="mt-1">
                 {msg.transcriptStatus === "loading" && (
-                  <span className="text-xs text-gray-500">Transcribing…</span>
+                  <span className="text-xs text-gray-500">{t('chat.transcribing')}</span>
                 )}
                 {msg.transcriptStatus === "error" && (
                   <button
                     onClick={() => fetchTranscript(msg._id, msg.content)}
                     className="text-xs text-red-600 underline"
                   >
-                    Retry transcript
+                    {t('chat.retryTranscript')}
                   </button>
                 )}
                 {msg.transcriptStatus === null && (
@@ -802,12 +804,12 @@ function ChatDetail() {
                     onClick={() => fetchTranscript(msg._id, msg.content)}
                     className="text-xs text-blue-600 underline"
                   >
-                    Show transcript
+                    {t('chat.showTranscript')}
                   </button>
                 )}
                 {msg.transcript && (
                   <p className="text-sm text-gray-700 mt-1">
-                    <strong>Transcript:</strong> {msg.transcript}
+                    <strong>{t('chat.transcript')}:</strong> {msg.transcript}
                   </p>
                 )}
               </div>
@@ -879,7 +881,7 @@ function ChatDetail() {
                 handleSend();
               }
             }}
-            placeholder="Type a message..."
+            placeholder={t('chat.placeholder')}
           />
           <div className="flex space-x-2">
             <VoiceRecorder chatId={chatId} onUpload={handleVoiceUpload} />
@@ -888,7 +890,7 @@ function ChatDetail() {
             onClick={handleSend}
             className="bg-emerald-600 text-white px-3 py-1 rounded hover:bg-emerald-700 text-sm"
           >
-            Send
+            {t('chat.send')}
           </button>
         </div>
       </div>

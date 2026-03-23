@@ -1,6 +1,7 @@
 // src/pages/ProfileWeeklyHabits.jsx
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 // import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,6 +18,7 @@ const fadeIn = {
 };
 
 export default function ProfileWeeklyHabits() {
+  const { t } = useTranslation();
   const { userId } = useParams();
   const [habits, setHabits] = useState([]);
   const [logs, setLogs] = useState([]);
@@ -189,7 +191,7 @@ export default function ProfileWeeklyHabits() {
       {/* header + new */}
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-calligraphy text-white">
-          My Weekly Practices
+          {t('habits.title')}
         </h2>
         <button
           onClick={() => {
@@ -198,7 +200,7 @@ export default function ProfileWeeklyHabits() {
           }}
           className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full"
         >
-          <Plus /> New Practice
+          <Plus /> {t('habits.newPractice')}
         </button>
       </div>
 
@@ -262,19 +264,19 @@ export default function ProfileWeeklyHabits() {
 
       {/* loading or weekly table */}
       {loading ? (
-        <p className="text-gray-600">Loading…</p>
+        <p className="text-gray-600">{t('habits.loading')}</p>
       ) : (
         <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 overflow-auto text-gray-800">
           <table className="w-full table-fixed">
             <thead>
               <tr>
-                <th className="text-left">Habit</th>
+                <th className="text-left">{t('habits.habit')}</th>
                 {headers.map((h) => (
                   <th key={h.label} className="text-center px-2">
                     {h.label}
                   </th>
                 ))}
-                <th className="text-center">🔥 Streak</th>
+                <th className="text-center">{'🔥 ' + t('habits.streak')}</th>
               </tr>
             </thead>
             <tbody>
@@ -337,6 +339,7 @@ export default function ProfileWeeklyHabits() {
 
 // ─── HabitEditor ─────────────────────────────────────
 function HabitEditor({ habit, onSave, onCancel }) {
+  const { t } = useTranslation();
   const [name, setName] = useState(habit?.name || "");
   const [description, setDescription] = useState(
     habit?.description || ""
@@ -383,7 +386,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">
-            {habit ? "Edit Habit" : "New Habit"}
+            {habit ? t('habits.editPractice') : t('habits.newPractice')}
           </h2>
           <button onClick={onCancel} className="text-gray-600 text-xl">
             ×
@@ -391,7 +394,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
         </div>
         <div className="space-y-4">
           <label className="block font-semibold  mb-2">
-          Habit Name
+          {t('habits.name')}
             <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -400,7 +403,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
           />
           </label>
           <label className="block font-semibold  mb-2">
-          Description(Optional)
+          {t('habits.description')}
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -484,13 +487,13 @@ function HabitEditor({ habit, onSave, onCancel }) {
             onClick={onCancel}
             className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700"
           >
-            Save
+            {t('common.save')}
           </button>
         </div>
       </motion.form>
@@ -500,6 +503,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
 
 // ─── HabitLogEditor ───────────────────────────────────
 function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
+  const { t } = useTranslation();
   const [state, setState] = useState({});
 
   useEffect(() => {
@@ -571,13 +575,13 @@ function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
             onClick={onCancel}
             className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700"
           >
-            Save
+            {t('common.save')}
           </button>
           </div>
         </motion.form>

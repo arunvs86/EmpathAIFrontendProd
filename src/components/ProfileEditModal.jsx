@@ -1,7 +1,9 @@
 import React, { useState,useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function ProfileEditModal({ userId, onClose, onSaved }) {
+  const { t } = useTranslation();
   const stored = JSON.parse(localStorage.getItem("user") || "{}");
   const isTherapist = stored.role === "therapist";
   console.log("stored", stored.Therapist)
@@ -181,12 +183,12 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
 return createPortal(
   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto">
     <div className="bg-white rounded-lg p-6 w-full max-w-lg space-y-4 my-8 max-h-[90vh] overflow-y-auto">
-      <h2 className="text-xl font-semibold">Edit Profile</h2>
+      <h2 className="text-xl font-semibold">{t('profile.editTitle')}</h2>
 
       {/* Upload + preview */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-700">
-          Profile Picture
+          {t('profile.profilePicture')}
         </label>
         <div className="flex items-center gap-4">
           {form.profile_picture ? (
@@ -206,7 +208,7 @@ return createPortal(
             </div>
           ) : (
             <div className="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-              No Picture
+              {t('profile.noPicture')}
             </div>
           )}
 
@@ -217,13 +219,13 @@ return createPortal(
               onChange={handleProfilePicUpload}
               className="block w-full text-sm text-gray-500"
             />
-            {uploading && <p className="text-xs text-gray-500 mt-1">Uploading...</p>}
+            {uploading && <p className="text-xs text-gray-500 mt-1">{t('profile.uploading')}</p>}
           </div>
         </div>
       </div>
 
       {/* Fields */}
-      <label className="block text-sm font-medium text-gray-700 mt-4">Username</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.username')}</label>
       <input
         name="username"
         value={form.username}
@@ -232,7 +234,7 @@ return createPortal(
         placeholder="Username"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">Bio</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.bio')}</label>
       <textarea
         name="bio"
         value={form.bio}
@@ -241,7 +243,7 @@ return createPortal(
         placeholder="Bio"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">Date of Birth</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.dob')}</label>
       <input
         type="date"
         name="dob"
@@ -250,21 +252,21 @@ return createPortal(
         className="w-full border px-3 py-2 rounded"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">Gender</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.gender')}</label>
       <select
         name="gender"
         value={form.gender}
         onChange={handleChange}
         className="w-full border px-3 py-2 rounded"
       >
-        <option value="">Select gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="non-binary">Non-binary</option>
-        <option value="prefer not to say">Prefer not to say</option>
+        <option value="">{t('profile.selectGender')}</option>
+        <option value="male">{t('profile.male')}</option>
+        <option value="female">{t('profile.female')}</option>
+        <option value="non-binary">{t('profile.nonBinary')}</option>
+        <option value="prefer not to say">{t('profile.preferNotToSay')}</option>
       </select>
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">Country</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.country')}</label>
       <input
         type="text"
         name="country"
@@ -274,7 +276,7 @@ return createPortal(
         placeholder="Country"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">City</label>
+      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.city')}</label>
       <input
         type="text"
         name="city"
@@ -291,13 +293,13 @@ return createPortal(
           checked={form.faith_support}
           onChange={handleChange}
         />
-        Include faith-based support
+        {t('profile.faithSupport')}
       </label>
 
       {/* Therapist-only */}
       {isTherapist && (
         <>
-          <label className="block text-sm font-medium text-gray-700 mt-4">Years of Experience</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.experienceYears')}</label>
           <input
             type="number"
             name="experience_years"
@@ -307,7 +309,7 @@ return createPortal(
             placeholder="Years of Experience"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">License Number</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.licenseNumber')}</label>
           <input
             name="license_number"
             value={form.license_number}
@@ -316,7 +318,7 @@ return createPortal(
             placeholder="License Number"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">link</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.link')}</label>
           <input
             name="link"
             value={form.link}
@@ -325,25 +327,25 @@ return createPortal(
             placeholder="Link"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">Languages Spoken</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.languagesSpoken')}</label>
           <input
             name="languages_spoken"
             value={form.languages_spoken}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            placeholder="Languages (comma-separated)"
+            placeholder={t('profile.languagesPlaceholder')}
           />
 
-<label className="block text-sm font-medium text-gray-700 mt-4">Specialization Tags</label>
+<label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.specializationTags')}</label>
           <input
             name="specialization_tags"
             value={form.specialization_tags}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            placeholder="Specialization Tags (comma separated)"
+            placeholder={t('profile.specializationPlaceholder')}
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">Session Duration (mins)</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.sessionDuration')}</label>
           <input
             type="number"
             name="session_duration"
@@ -353,13 +355,13 @@ return createPortal(
             placeholder="Session Duration (mins)"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">Appointment Types</label>
+          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.appointmentTypes')}</label>
           <input
             name="appointment_types"
             value={form.appointment_types}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            placeholder="Appointment Types (comma-separated)"
+            placeholder={t('profile.appointmentTypesPlaceholder')}
           />
         </>
       )}
@@ -374,7 +376,7 @@ return createPortal(
           }
           className="text-red-600 text-sm hover:underline"
         >
-          {deleteConfirm ? "Click again to confirm delete" : "Delete Account"}
+          {deleteConfirm ? t('profile.confirmDelete') : t('profile.deleteAccount')}
         </button>
 
         <div className="flex gap-3">
@@ -383,7 +385,7 @@ return createPortal(
             disabled={submitting}
             className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
           >
-            Cancel
+            {t('profile.cancel')}
           </button>
           <button
             onClick={submit}
@@ -392,7 +394,7 @@ return createPortal(
               submitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {submitting ? "Saving…" : "Save Changes"}
+            {submitting ? t('profile.saving') : t('profile.saveChanges')}
           </button>
         </div>
       </div>

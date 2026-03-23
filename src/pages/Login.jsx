@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 // Notification Popup Component
 const NotificationPopup = ({ message, type, onClose }) => {
@@ -24,6 +25,7 @@ const NotificationPopup = ({ message, type, onClose }) => {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
   const [notification, setNotification] = useState(null);
@@ -115,7 +117,7 @@ const Login = () => {
         )}
 
         <h1 className="text-3xl font-bold mb-6 text-center text-emerald-600">
-          {showForgot ? "Reset Password" : "Welcome to EmpathAI"}
+          {showForgot ? t('auth.resetTitle') : t('auth.welcomeTitle')}
         </h1>
 
         {showForgot ? (
@@ -128,7 +130,7 @@ const Login = () => {
                 type="email"
                 id="forgotEmail"
                 name="forgotEmail"
-                placeholder="Email address"
+                placeholder={t('auth.emailLabel')}
                 value={forgotEmail}
                 onChange={(e) => setForgotEmail(e.target.value)}
                 required
@@ -141,14 +143,14 @@ const Login = () => {
                 className="text-sm text-gray-600 hover:underline"
                 onClick={() => setShowForgot(false)}
               >
-                ← Back to Login
+                ← {t('auth.backToLogin')}
               </button>
               <button
                 type="submit"
                 disabled={forgotLoading}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
               >
-                {forgotLoading ? "Sending..." : "Send Reset Link"}
+                {forgotLoading ? "Sending..." : t('auth.sendResetLink')}
               </button>
             </div>
           </form>
@@ -156,7 +158,7 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
-                Email
+                {t('auth.emailLabel')}
               </label>
               <input
                 type="email"
@@ -171,7 +173,7 @@ const Login = () => {
             </div>
             <div className="mb-4">
               <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
-                Password
+                {t('auth.passwordLabel')}
               </label>
               <input
                 type="password"
@@ -199,7 +201,7 @@ const Login = () => {
                 className="text-sm text-emerald-600 hover:underline"
                 onClick={() => setShowForgot(true)}
               >
-                Forgot Password?
+                {t('auth.forgotPassword')}
               </button>
             </div>
             <div className="flex items-center justify-center">
@@ -207,7 +209,7 @@ const Login = () => {
                 type="submit"
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
               >
-                Login
+                {t('auth.loginButton')}
               </button>
             </div>
           </form>
@@ -216,13 +218,13 @@ const Login = () => {
         {!showForgot && (
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Don't have an account yet?{' '}
+              {t('auth.noAccount')}{' '}
               <button
                 type="button"
                 onClick={() => navigate("/signup/user")}
                 className="text-emerald-600 hover:underline"
               >
-                Sign Up
+                {t('auth.signUpLink')}
               </button>
             </p>
           </div>

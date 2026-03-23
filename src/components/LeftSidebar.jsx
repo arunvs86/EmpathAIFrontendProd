@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star, Clock, FileText, MessageSquare, Users, Notebook, ListChecks } from "lucide-react";
 import { createChat } from "../services/chatApi";
+import { useTranslation } from 'react-i18next';
 
 export default function LeftSidebar() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
@@ -95,7 +97,7 @@ const cardClass =
             className={cardClass}
           >
             <Star className={iconClass} />
-            <span className={labelClass}>Favourite Communities</span>
+            <span className={labelClass}>{t('sidebar.favourites')}</span>
           </button>
           {activeSection === "favourites" && favorites.length > 0 && (
             renderSectionList(favorites)
@@ -109,7 +111,7 @@ const cardClass =
             className={cardClass}
           >
             <Clock className={iconClass} />
-            <span className={labelClass}>Recently Viewed Communities</span>
+            <span className={labelClass}>{t('sidebar.recentlyViewed')}</span>
           </button>
           {activeSection === "recentlyViewed" && recentlyViewed.length > 0 && (
             renderSectionList(recentlyViewed)
@@ -119,15 +121,15 @@ const cardClass =
         <div className="flex flex-col gap-3">
         <button onClick={goCommunities} className={cardClass}>
             <Users className={iconClass} />
-            <span className={labelClass}>Communities</span>
+            <span className={labelClass}>{t('sidebar.communities')}</span>
           </button>
           <button onClick={goMyJournals} className={cardClass}>
             <Notebook className={iconClass} />
-            <span className={labelClass}>My Journals</span>
+            <span className={labelClass}>{t('sidebar.journals')}</span>
           </button>
           <button onClick={goMyHabits} className={cardClass}>
             <ListChecks className={iconClass} />
-            <span className={labelClass}>My Habits</span>
+            <span className={labelClass}>{t('sidebar.habits')}</span>
           </button>
           
        </div>
@@ -135,13 +137,13 @@ const cardClass =
         {/* My Letters */}
         <button onClick={handleLetters} className={cardClass}>
           <FileText className={iconClass} />
-          <span className={labelClass}>My Letters</span>
+          <span className={labelClass}>{t('sidebar.letters')}</span>
         </button>
 
         {/* EmpathAI Bot */}
         <button onClick={handleBotChat} className={cardClass}>
           <MessageSquare className={iconClass} />
-          <span className={labelClass}>EmpathAI Bot</span>
+          <span className={labelClass}>{t('sidebar.bot')}</span>
         </button>
       </div>
 
@@ -153,7 +155,7 @@ const cardClass =
         rel="noopener noreferrer"
         className="text-xs text-gray-300 text-md ml-5 mt-5 hover:text-amber-400 transition underline"
       >
-        Privacy Policy
+        {t('sidebar.privacy')}
       </a>
     </div>
     </aside>

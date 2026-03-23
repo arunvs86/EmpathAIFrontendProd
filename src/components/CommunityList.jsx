@@ -62,7 +62,7 @@
 //       <div className="flex flex-wrap items-center gap-4 mb-6">
 //         <input
 //           type="text"
-//           placeholder="Search communities…"
+//           placeholder={t('community.searchPlaceholder')}
 //           className="flex-1 min-w-[200px] bg-white/20 placeholder-white/70 text-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/50"
 //           value={search}
 //           onChange={e => setSearch(e.target.value)}
@@ -90,7 +90,7 @@
 //       {visible.length === 0 ? (
 //         <p className="text-center text-gray-300">
 //           {isOwnProfile && location.pathname.includes('/communities')
-//             ? "You’re not a member of any communities yet."
+//             ? "You're not a member of any communities yet."
 //             : "No communities found."}
 //         </p>
 //       ) : (
@@ -112,8 +112,10 @@
 import React, { useState, useEffect } from "react";
 import CommunityCard from "./CommunityCard";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function CommunityList({ onCreateCommunity, onSelectCommunity }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   // If we're under the profile outlet, parent passed [userId, isOwnProfile] via Outlet context
@@ -184,7 +186,7 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
   const ordered = [...pinned, ...others];
   // -----------------------------------------
 
-  if (loading) return <p className="text-center text-gray-300">Loading communities…</p>;
+  if (loading) return <p className="text-center text-gray-300">{t('community.loading')}</p>;
   if (error)   return <p className="text-center text-red-400">{error}</p>;
 
   return (
@@ -193,7 +195,7 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
       <div className="flex flex-wrap items-center gap-4 mb-6">
         <input
           type="text"
-          placeholder="Search communities…"
+          placeholder={t('community.searchPlaceholder')}
           className="flex-1 min-w-[200px] bg-white/20 placeholder-white/70 text-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/50"
           value={search}
           onChange={e => setSearch(e.target.value)}
@@ -204,16 +206,16 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
           value={filter}
           onChange={e => setFilter(e.target.value)}
         >
-          <option value="all">All types</option>
-          <option value="public">Public only</option>
-          <option value="private">Private only</option>
+          <option value="all">{t('community.allTypes')}</option>
+          <option value="public">{t('community.publicOnly')}</option>
+          <option value="private">{t('community.privateOnly')}</option>
         </select>
 
         <button
           onClick={() => navigate('/communities/create')}
           className="bg-white/20 hover:bg-emerald-600 text-white font-semibold px-5 py-2 rounded-full transition"
         >
-          + New Community
+          {t('community.newCommunity')}
         </button>
       </div>
 
@@ -221,8 +223,8 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
       {ordered.length === 0 ? (
         <p className="text-center text-gray-300">
           {isOwnProfile && location.pathname.includes('/communities')
-            ? "You’re not a member of any communities yet."
-            : "No communities found."}
+            ? t('community.notMember')
+            : t('community.noneFound')}
         </p>
       ) : (
         <div className="space-y-6">

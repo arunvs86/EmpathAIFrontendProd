@@ -5,7 +5,7 @@ import PostCard from "./PostCard";
 import { dedupe } from "../utils/localStorageUtils";
 import { createGroupChat } from "../services/chatApi";
 import PostComposer from "./PostComposer";
-import { createChat } from "../services/chatApi"; // if it’s not already imported
+import { createChat } from "../services/chatApi"; // if it's not already imported
 
 export default function CommunityDetail({ communityId, onBack }) {
   const navigate      = useNavigate();
@@ -45,7 +45,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         if (!res.ok) throw new Error((await res.json()).error);
         const communityData = await res.json();
 
-        // 2) Posts (always fetch, but we’ll conditionally render)
+        // 2) Posts (always fetch, but we'll conditionally render)
         res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/community/${id}`);
         if (!res.ok) throw new Error((await res.json()).error);
         const postData = await res.json();

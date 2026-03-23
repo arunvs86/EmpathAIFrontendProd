@@ -78,6 +78,7 @@
 import React, { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function PostList({ posts: initialPosts }) {
   const POSTS_PER_PAGE = 10;
