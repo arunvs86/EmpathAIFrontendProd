@@ -4,12 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 // Notification Popup Component
 const NotificationPopup = ({ message, type, onClose }) => {
-  const bgColor = type === "success" ? "bg-green-100" : "bg-red-100";
-  const borderColor = type === "success" ? "border-green-400" : "border-red-400";
-  const textColor = type === "success" ? "text-green-700" : "text-red-700";
+  const bgColor = type === "success" ? "bg-green-500/20 border-green-400/50 text-green-300" : "bg-red-500/20 border-red-400/50 text-red-300";
   return (
     <div
-      className={`${bgColor} ${borderColor} ${textColor} border px-4 py-3 rounded relative mb-4`}
+      className={`${bgColor} border px-4 py-3 rounded-lg relative mb-4`}
       role="alert"
     >
       <span className="block sm:inline">{message}</span>
@@ -25,7 +23,8 @@ const NotificationPopup = ({ message, type, onClose }) => {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const toggleLang = () => i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en');
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
   const [notification, setNotification] = useState(null);
@@ -106,8 +105,14 @@ const Login = () => {
   }, [notification]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white shadow-md rounded-md px-8 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-8 shadow-2xl relative">
+        <button
+          onClick={toggleLang}
+          className="absolute top-4 right-4 text-xs px-2.5 py-1 rounded-full border border-white/20 text-white/70 hover:text-amber-300 hover:border-amber-300/50 transition"
+        >
+          {i18n.language === 'en' ? 'ES' : 'EN'}
+        </button>
         {notification && (
           <NotificationPopup
             message={notification.message}
@@ -116,14 +121,14 @@ const Login = () => {
           />
         )}
 
-        <h1 className="text-3xl font-bold mb-6 text-center text-emerald-600">
+        <h1 className="text-3xl font-calligraphy font-bold mb-6 text-center text-amber-300">
           {showForgot ? t('auth.resetTitle') : t('auth.welcomeTitle')}
         </h1>
 
         {showForgot ? (
           <form onSubmit={handleForgotSubmit}>
             <div className="mb-4">
-              <label htmlFor="forgotEmail" className="block text-gray-700 font-semibold mb-2">
+              <label htmlFor="forgotEmail" className="block text-white/80 font-semibold mb-2">
                 Enter your email to reset password
               </label>
               <input
@@ -134,13 +139,13 @@ const Login = () => {
                 value={forgotEmail}
                 onChange={(e) => setForgotEmail(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
               />
             </div>
             <div className="flex justify-between items-center mb-6">
               <button
                 type="button"
-                className="text-sm text-gray-600 hover:underline"
+                className="text-sm text-white/70 hover:text-amber-300 transition"
                 onClick={() => setShowForgot(false)}
               >
                 ← {t('auth.backToLogin')}
@@ -148,7 +153,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={forgotLoading}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 transition disabled:opacity-60"
               >
                 {forgotLoading ? "Sending..." : t('auth.sendResetLink')}
               </button>
@@ -157,7 +162,7 @@ const Login = () => {
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+              <label htmlFor="email" className="block text-white/80 font-semibold mb-2">
                 {t('auth.emailLabel')}
               </label>
               <input
@@ -168,11 +173,11 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
+              <label htmlFor="password" className="block text-white/80 font-semibold mb-2">
                 {t('auth.passwordLabel')}
               </label>
               <input
@@ -183,22 +188,13 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
               />
             </div>
             <div className="flex items-center justify-between mb-6">
-              {/* <label className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={handleRememberMe}
-                  className="mr-2"
-                />
-                Remember me
-              </label> */}
               <button
                 type="button"
-                className="text-sm text-emerald-600 hover:underline"
+                className="text-sm text-amber-300 hover:text-amber-200 transition"
                 onClick={() => setShowForgot(true)}
               >
                 {t('auth.forgotPassword')}
@@ -207,7 +203,7 @@ const Login = () => {
             <div className="flex items-center justify-center">
               <button
                 type="submit"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold py-2 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
               >
                 {t('auth.loginButton')}
               </button>
@@ -217,12 +213,12 @@ const Login = () => {
 
         {!showForgot && (
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-white/70">
               {t('auth.noAccount')}{' '}
               <button
                 type="button"
                 onClick={() => navigate("/signup/user")}
-                className="text-emerald-600 hover:underline"
+                className="text-amber-300 hover:text-amber-200 transition"
               >
                 {t('auth.signUpLink')}
               </button>

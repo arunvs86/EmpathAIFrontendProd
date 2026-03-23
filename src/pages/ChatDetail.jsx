@@ -757,7 +757,7 @@ function ChatDetail() {
     const isCurrentUser = senderId === currentUserId;
 
     const bubbleAlign = isCurrentUser ? "justify-end" : "justify-start";
-    const bubbleBg = isCurrentUser ? "bg-emerald-100" : "bg-gray-100";
+    const bubbleBg = isCurrentUser ? "bg-amber-400/25 border border-amber-400/30" : "bg-white/15 border border-white/20";
     const textAlign = isCurrentUser ? "text-right" : "text-left";
 
     const avatarUrl = getAvatar(senderId);
@@ -777,9 +777,9 @@ function ChatDetail() {
           />
         )}
 
-        <div className={`max-w-[65%] p-2 rounded-lg ${bubbleBg} ${textAlign} shadow-sm`}>
+        <div className={`max-w-[65%] px-3 py-2 rounded-2xl ${bubbleBg} ${textAlign} shadow-sm`}>
           {senderName && (
-            <p className="text-xs font-semibold text-gray-600 mb-1">
+            <p className="text-xs font-semibold text-white/60 mb-1">
               {senderName}
             </p>
           )}
@@ -789,12 +789,12 @@ function ChatDetail() {
               <audio src={msg.content} controls preload="none" className="w-full rounded" />
               <div className="mt-1">
                 {msg.transcriptStatus === "loading" && (
-                  <span className="text-xs text-gray-500">{t('chat.transcribing')}</span>
+                  <span className="text-xs text-white/50">{t('chat.transcribing')}</span>
                 )}
                 {msg.transcriptStatus === "error" && (
                   <button
                     onClick={() => fetchTranscript(msg._id, msg.content)}
-                    className="text-xs text-red-600 underline"
+                    className="text-xs text-red-400 underline"
                   >
                     {t('chat.retryTranscript')}
                   </button>
@@ -802,25 +802,25 @@ function ChatDetail() {
                 {msg.transcriptStatus === null && (
                   <button
                     onClick={() => fetchTranscript(msg._id, msg.content)}
-                    className="text-xs text-blue-600 underline"
+                    className="text-xs text-amber-300 underline"
                   >
                     {t('chat.showTranscript')}
                   </button>
                 )}
                 {msg.transcript && (
-                  <p className="text-sm text-gray-700 mt-1">
+                  <p className="text-sm text-white/80 mt-1">
                     <strong>{t('chat.transcript')}:</strong> {msg.transcript}
                   </p>
                 )}
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-white/40 mt-1">
                 {new Date(msg.createdAt).toLocaleString()}
               </p>
             </>
           ) : (
             <>
-              <p className="text-sm text-gray-800">{msg.content}</p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-sm text-white">{msg.content}</p>
+              <p className="text-xs text-white/40 mt-1">
                 {new Date(msg.createdAt).toLocaleString()}
               </p>
             </>
@@ -839,9 +839,9 @@ function ChatDetail() {
   };
 
   return (
-    <div className="bg-white/10 shadow-md rounded border border-gray-200 flex flex-col h-[60vh]">
+    <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-md flex flex-col h-[60vh]">
       {/* Header */}
-      <div className="px-3 py-2 border-b border-gray-300 flex items-center gap-2">
+      <div className="px-4 py-3 border-b border-white/20 flex items-center gap-2">
         {/* Optional: show header avatar for DM */}
         {!chatDetails?.isGroup && otherParticipant && (
           <img
@@ -850,16 +850,16 @@ function ChatDetail() {
             className="w-6 h-6 rounded-full object-cover"
           />
         )}
-        <h2 className="text-sm font-bold">{headerTitle}</h2>
+        <h2 className="text-sm font-bold text-white">{headerTitle}</h2>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-auto p-3">
-        {error && <p className="text-red-600 mb-2">{error}</p>}
+      <div className="flex-1 overflow-auto p-4">
+        {error && <p className="text-red-400 mb-2">{error}</p>}
         {messages.map((msg, idx) => renderMessageBubble(msg, idx))}
         {botTyping && (
           <div className="flex justify-start w-full mb-2">
-            <div className="bg-gray-200 text-gray-600 text-sm rounded-full px-3 py-1 animate-pulse shadow-sm">
+            <div className="bg-white/15 text-white/70 text-sm rounded-full px-4 py-1.5 animate-pulse shadow-sm border border-white/20">
               ...
             </div>
           </div>
@@ -868,11 +868,11 @@ function ChatDetail() {
       </div>
 
       {/* Input bar */}
-      <div className="px-3 py-2 border-t border-gray-300">
-        <div className="flex space-x-2">
+      <div className="px-4 py-3 border-t border-white/20">
+        <div className="flex space-x-2 items-center">
           <textarea
             rows={1}
-            className="flex-grow resize-none border placeholder-white placeholder-bold rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="flex-grow resize-none bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
             value={newContent}
             onChange={(e) => setNewContent(e.target.value)}
             onKeyDown={(e) => {
@@ -888,7 +888,7 @@ function ChatDetail() {
           </div>
           <button
             onClick={handleSend}
-            className="bg-emerald-600 text-white px-3 py-1 rounded hover:bg-emerald-700 text-sm"
+            className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-lg text-sm transition"
           >
             {t('chat.send')}
           </button>

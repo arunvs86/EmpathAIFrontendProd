@@ -233,9 +233,9 @@ const scheduledAtISO = DateTime.fromFormat(
   };
 
   // ----- Render -----
-  if (loading) return <p className="p-4">Loading therapist details...</p>;
-  if (error) return <p className="p-4 text-red-600">{error}</p>;
-  if (!therapist) return <p className="p-4">Therapist not found.</p>;
+  if (loading) return <p className="p-4 text-white/70">Loading therapist details...</p>;
+  if (error) return <p className="p-4 text-red-300">{error}</p>;
+  if (!therapist) return <p className="p-4 text-white/70">Therapist not found.</p>;
 
   return (
     <div className="max-w-4xl mx-auto mt-6 px-4 relative">
@@ -290,7 +290,7 @@ const scheduledAtISO = DateTime.fromFormat(
       </div> */}
 
 {console.log("therapist info", therapist)}
-<div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-emerald-700/30 via-slate-800/40 to-black/40 border border-white/10 shadow-xl mb-6">
+<div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-700/20 via-slate-800/40 to-black/40 border border-white/10 shadow-xl mb-6">
   {/* top right actions */}
   <div className="absolute right-4 top-4 flex items-center gap-2">
     {therapist.link && (
@@ -298,7 +298,7 @@ const scheduledAtISO = DateTime.fromFormat(
         href={therapist.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="px-3 py-1 rounded-lg text-sm border border-emerald-300/70 bg-white/10 text-white hover:bg-white/20 transition"
+        className="px-3 py-1 rounded-lg text-sm border border-amber-300/70 bg-white/10 text-white hover:bg-white/20 transition"
         title="Private practising links"
       >
         Private practising links
@@ -316,7 +316,7 @@ const scheduledAtISO = DateTime.fromFormat(
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
       {/* avatar */}
       <div className="relative">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-emerald-400/70 ring-offset-2 ring-offset-slate-900 overflow-hidden shadow-lg bg-slate-700/40">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-amber-400/70 ring-offset-2 ring-offset-slate-900 overflow-hidden shadow-lg bg-slate-700/40">
           {therapist.User?.profile_picture ? (
             <img
               src={therapist.User?.profile_picture}
@@ -386,22 +386,20 @@ const scheduledAtISO = DateTime.fromFormat(
 
 
       {/* Availability */}
-      <div className="bg-gray/50 shadow-md rounded-md p-6">
-        <h3 className="text-xl font-semibold mb-4">Available Slots</h3>
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 mt-2">
+        <h3 className="text-xl font-semibold mb-4 text-white">Available Slots</h3>
 
         {dates.length === 0 && (
-          <p className="text-white/90">No available dates at the moment.</p>
+          <p className="text-white/70">No available dates at the moment.</p>
         )}
 
         {dates.map((date) => (
           <div key={date} className="mb-6">
-            <div className="bg-gray p-2 rounded-md mb-2">
-            <div className="bg-gray p-2 rounded-md mb-2">
-  {(() => {
-    const d = DateTime.fromISO(date, { zone: 'Europe/London' });
-    return <h4 className="bg-gray font-medium">{d.toFormat('dd-LL-yyyy')}</h4>;
-  })()}
-</div>
+            <div className="mb-2">
+              {(() => {
+                const d = DateTime.fromISO(date, { zone: 'Europe/London' });
+                return <h4 className="text-amber-300 font-semibold text-sm mb-2">{d.toFormat('dd-LL-yyyy')}</h4>;
+              })()}
             </div>
 
             {(slotsMap[date] || []).length > 0 ? (
@@ -418,18 +416,18 @@ const scheduledAtISO = DateTime.fromFormat(
                 return (
                   <div
                     key={`${date}-${time}-${idx}`}
-                    className="flex items-center justify-between bg-gray border border-gray-200 rounded p-3 mb-2"
+                    className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-3 mb-2"
                   >
-                    <span>{time}</span>
+                    <span className="text-white/90">{time}</span>
                     <button
                       onClick={() => openQuestionnaire(date, time)}
                       disabled={disabled}
-                      className={`px-4 py-1 rounded text-white ${
+                      className={`px-4 py-1 rounded-lg text-sm font-medium transition ${
                         status === "confirmed"
-                          ? "bg-red-600 cursor-not-allowed"
+                          ? "bg-red-500/40 text-red-200 cursor-not-allowed"
                           : status === "pending" || status === "reschedule_pending"
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-emerald-600 hover:bg-emerald-700"
+                          ? "bg-white/20 text-white/50 cursor-not-allowed"
+                          : "bg-amber-400 hover:bg-amber-500 text-slate-900"
                       }`}
                     >
                       {label}
@@ -438,7 +436,7 @@ const scheduledAtISO = DateTime.fromFormat(
                 );
               })
             ) : (
-              <p className="text-sm text-gray-500">No time slots for this date.</p>
+              <p className="text-sm text-white/50">No time slots for this date.</p>
             )}
           </div>
         ))}
@@ -446,60 +444,64 @@ const scheduledAtISO = DateTime.fromFormat(
 
       {/* Questionnaire Modal */}
       {bookingCtx && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-20">
-          <div className="bg-gray-500 rounded-lg p-6 w-11/12 max-w-lg shadow-xl">
-            <h3 className="text-xl font-semibold mb-4">Before We Book…</h3>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-20">
+          <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-11/12 max-w-lg shadow-2xl">
+            <h3 className="text-xl font-semibold mb-4 text-white">Before We Book…</h3>
 
             {/* Q1 */}
             <div className="mb-4">
-              <p className="font-medium mb-2">1. Primary concern:</p>
+              <p className="font-medium mb-2 text-white/90">1. Primary concern:</p>
+              <div className="flex flex-wrap gap-2">
               {["Anxiety", "Depression", "Stress", "Relationship", "Other"].map(
                 (opt) => (
-                  <label key={opt} className="inline-flex items-center mr-4">
+                  <label key={opt} className="inline-flex items-center text-white/80 cursor-pointer">
                     <input
                       type="radio"
                       name="primaryConcern"
                       value={opt}
                       checked={primaryConcern === opt}
                       onChange={() => setPrimaryConcern(opt)}
-                      className="mr-1"
+                      className="mr-1 accent-amber-400"
                     />
                     {opt}
                   </label>
                 )
               )}
+              </div>
             </div>
 
             {/* Q2 */}
             <div className="mb-4">
-              <p className="font-medium mb-2">2. Have you attended therapy before?</p>
+              <p className="font-medium mb-2 text-white/90">2. Have you attended therapy before?</p>
+              <div className="flex gap-4">
               {["yes", "no"].map((opt) => (
-                <label key={opt} className="inline-flex items-center mr-4">
+                <label key={opt} className="inline-flex items-center text-white/80 cursor-pointer">
                   <input
                     type="radio"
                     name="attendedBefore"
                     value={opt}
                     checked={attendedBefore === opt}
                     onChange={() => setAttendedBefore(opt)}
-                    className="mr-1"
+                    className="mr-1 accent-amber-400"
                   />
                   {opt.charAt(0).toUpperCase() + opt.slice(1)}
                 </label>
               ))}
+              </div>
             </div>
 
             {/* Q3 */}
             <div className="mb-4">
-              <p className="font-medium mb-2">3. What are your session goals? (check all that apply)</p>
+              <p className="font-medium mb-2 text-white/90">3. What are your session goals? (check all that apply)</p>
               {["Coping strategies", "Improve sleep", "Stress management", "Self-esteem"].map(
                 (goal) => (
-                  <label key={goal} className="block">
+                  <label key={goal} className="flex items-center text-white/80 cursor-pointer mb-1">
                     <input
                       type="checkbox"
                       value={goal}
                       checked={sessionGoals.includes(goal)}
                       onChange={() => toggleGoal(goal)}
-                      className="mr-2"
+                      className="mr-2 accent-amber-400"
                     />
                     {goal}
                   </label>
@@ -509,12 +511,12 @@ const scheduledAtISO = DateTime.fromFormat(
 
             {/* Q4 */}
             <div className="mb-4">
-              <p className="font-medium mb-2">4. Additional details (optional):</p>
+              <p className="font-medium mb-2 text-white/90">4. Additional details (optional):</p>
               <textarea
                 rows={3}
                 value={additionalDetails}
                 onChange={(e) => setAdditionalDetails(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
                 placeholder="Any other context you'd like the therapist to know?"
               />
             </div>
@@ -523,15 +525,15 @@ const scheduledAtISO = DateTime.fromFormat(
             <div className="flex justify-end space-x-3 mt-6">
               <button
                 onClick={closeQuestionnaire}
-                className="px-4 py-2 rounded border border-gray-300 hover:bg-white/20"
+                className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
               >
                 Cancel
               </button>
               <button
                 onClick={submitBooking}
                 disabled={loading}
-                className={`px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
+                className={`px-4 py-2 rounded-lg font-semibold transition ${
+                  loading ? "bg-white/20 text-white/50 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500 text-slate-900"
                 }`}
               >
                 {loading ? "Booking…" : "Submit & Book"}

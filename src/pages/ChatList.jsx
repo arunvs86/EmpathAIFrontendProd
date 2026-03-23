@@ -29,7 +29,7 @@ function ChatList() {
   }, []);
 
   if (loading) return <p className="p-4">{t('chat.loading')}</p>;
-  if (error) return <p className="p-4 text-red-600">{error}</p>;
+  if (error) return <p className="p-4 text-red-300">{error}</p>;
   {console.log("chats", chats)}
   const visibleChats = chats.filter(chat => chat.lastMessage?.trim() !== '');
 
@@ -38,7 +38,7 @@ function ChatList() {
   }
 
   return (
-    <div className="min-h-screen bg-white/10 py-8">
+    <div className="min-h-screen py-8">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl font-extrabold text-white/90 mb-8">
           {t('chat.title')}

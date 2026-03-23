@@ -261,14 +261,14 @@ export default function CommunityDetail({ communityId, onBack }) {
       <div className="flex justify-between items-center py-2">
         <div className="flex items-center space-x-3">
           <img src={member.profile_picture} alt="" className="w-8 h-8 rounded-full" />
-          <a href={`/profile/${member.id}`} className="text-emerald-700 hover:underline">
+          <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
             {member.username}
           </a>
         </div>
         <div className="flex space-x-2">
           {!isSelf && (
             <button
-              className="text-xs bg-emerald-600 text-white px-3 py-1 rounded-full"
+              className="text-xs bg-amber-400/20 border border-amber-400/50 text-amber-300 px-3 py-1 rounded-full hover:bg-amber-400/30 transition"
               onClick={handleMessageClick}
             >
               Message
@@ -344,7 +344,7 @@ export default function CommunityDetail({ communityId, onBack }) {
 
       <button
         onClick={() => setShowMembers(true)}
-        className="bg-emerald-400 text-white px-4 py-2 rounded-full hover:bg-emerald-500"
+        className="bg-amber-400/20 border border-amber-400/50 text-amber-300 px-4 py-2 rounded-full hover:bg-amber-400/30 transition"
       >
         Show Members
       </button>
@@ -375,7 +375,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       <div className="flex space-x-4">
         {!community.members.includes(currentUser.id) ? (
           community.type === "public" ? (
-            <button onClick={handleJoin} className="bg-white/20 hover:bg-emerald-600 text-white px-4 py-2 rounded-full">
+            <button onClick={handleJoin} className="bg-white/20 hover:bg-amber-500/40 text-white px-4 py-2 rounded-full transition">
               Join Community
             </button>
           ) : (
@@ -450,23 +450,23 @@ export default function CommunityDetail({ communityId, onBack }) {
       )}
 
 {showMembers && (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white w-full max-w-md max-h-[80vh] rounded-2xl p-6 overflow-y-auto space-y-4 relative">
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
+      <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 w-full max-w-md max-h-[80vh] rounded-2xl p-6 overflow-y-auto space-y-4 relative shadow-2xl">
         <button
-          className="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-lg"
+          className="absolute top-2 right-4 text-white/60 hover:text-white text-lg transition"
           onClick={() => setShowMembers(false)}
         >
           ✕
         </button>
-  
-        <h2 className="text-lg font-semibold text-gray-900">Moderators</h2>
+
+        <h2 className="text-lg font-semibold text-white">Moderators</h2>
         {members.filter(m => community.moderators.includes(m.id)).map(m => (
           <MemberRow key={m.id} member={m} />
         ))}
-  
-        <hr className="my-2 border-gray-300" />
-  
-        <h2 className="text-lg font-semibold text-gray-900">Members</h2>
+
+        <hr className="my-2 border-white/10" />
+
+        <h2 className="text-lg font-semibold text-white">Members</h2>
         {members
           .filter(m => !community.moderators.includes(m.id))
           .map(m => (
@@ -477,33 +477,33 @@ export default function CommunityDetail({ communityId, onBack }) {
   )}
 
 {showEditModal && (
-  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-    <div className="bg-gray-500 w-full max-w-lg rounded-2xl p-6 relative">
+  <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
+    <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 w-full max-w-lg rounded-2xl p-6 relative shadow-2xl">
       <button
-        className="absolute top-2 right-4 text-gray-600 hover:text-black"
+        className="absolute top-2 right-4 text-white/60 hover:text-white text-lg transition"
         onClick={() => setShowEditModal(false)}
       >
         ✕
       </button>
 
-      <h2 className="text-xl font-semibold mb-4">Edit Community</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white">Edit Community</h2>
 
       <div className="space-y-4">
         <input
-          className="w-full border px-3 py-2 rounded"
+          className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           value={editForm.name}
           onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))}
           placeholder="Community Name"
         />
         <textarea
-          className="w-full border px-3 py-2 rounded"
+          className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
           rows={3}
           value={editForm.description}
           onChange={e => setEditForm(f => ({ ...f, description: e.target.value }))}
           placeholder="Description"
         />
         <select
-          className="w-full border px-3 py-2 rounded"
+          className="w-full bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           value={editForm.type}
           onChange={e => setEditForm(f => ({ ...f, type: e.target.value }))}
         >
@@ -514,6 +514,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         <input
           type="file"
           accept="image/*"
+          className="block w-full text-sm text-white/60 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-white/10 file:text-white/80 hover:file:bg-white/20 transition"
           onChange={async (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -529,7 +530,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         />
 
         {editForm.banner_image && (
-          <img src={editForm.banner_image} alt="Preview" className="h-32 rounded w-full object-cover" />
+          <img src={editForm.banner_image} alt="Preview" className="h-32 rounded-xl w-full object-cover" />
         )}
 
         <button
@@ -554,7 +555,7 @@ export default function CommunityDetail({ communityId, onBack }) {
               console.error(err);
             }
           }}
-          className="w-full bg-emerald-500 text-white px-4 py-2 rounded"
+          className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-lg transition"
         >
           Save Changes
         </button>

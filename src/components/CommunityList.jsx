@@ -80,7 +80,7 @@
 
 //         <button
 //           onClick={() => navigate('/communities/create')}
-//           className="bg-white/20 hover:bg-emerald-600 text-white font-semibold px-5 py-2 rounded-full transition"
+//           className="bg-white/20 hover:bg-amber-500/40 text-white font-semibold px-5 py-2 rounded-full transition"
 //         >
 //           + New Community
 //         </button>
@@ -213,7 +213,7 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
 
         <button
           onClick={() => navigate('/communities/create')}
-          className="bg-white/20 hover:bg-emerald-600 text-white font-semibold px-5 py-2 rounded-full transition"
+          className="bg-white/20 hover:bg-amber-500/40 text-white font-semibold px-5 py-2 rounded-full transition"
         >
           {t('community.newCommunity')}
         </button>

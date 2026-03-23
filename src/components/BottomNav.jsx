@@ -10,8 +10,8 @@ function BottomNav() {
   // Determine active state based on the current URL path
   const getButtonClass = (path) => {
     return location.pathname === path
-      ? "text-emerald-600"
-      : "text-gray-700 hover:text-emerald-600";
+      ? "text-amber-300 font-semibold"
+      : "text-white/60 hover:text-amber-300 transition";
   };
 
   // Function to handle navigating to the bot chat
@@ -39,7 +39,7 @@ function BottomNav() {
   };
 
   return (
-    <nav className="h-16 bg-white border-t border-gray-200 flex items-center justify-around shadow-md">
+    <nav className="h-16 bg-white/10 backdrop-blur-md border-t border-white/20 flex items-center justify-around shadow-md">
       <button
         onClick={() => navigate("/")}
         className={`flex flex-col items-center text-sm ${getButtonClass("/")}`}

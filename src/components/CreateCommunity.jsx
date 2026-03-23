@@ -58,17 +58,17 @@ export default function CreateCommunity({ onCommunityCreated }) {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white/50 backdrop-blur-md rounded-2xl p-8 space-y-6">
-      <h2 className="text-3xl font-calligraphy text-gray-900">
+    <div className="max-w-lg mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 space-y-6">
+      <h2 className="text-3xl font-calligraphy text-white">
         Create a New Community
       </h2>
 
-      {error && <p className="text-red-600">{error}</p>}
+      {error && <p className="text-red-300">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
         <div>
-          <label className="block mb-1 text-gray-800 font-medium">
+          <label className="block mb-1 text-white/80 font-medium">
             Community Name
           </label>
           <input
@@ -78,13 +78,13 @@ export default function CreateCommunity({ onCommunityCreated }) {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full bg-white/20 text-gray-800 font-bold placeholder-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/70"
+            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="block mb-1 text-gray-800 font-medium">
+          <label className="block mb-1 text-white/80 font-medium">
             Description
           </label>
           <textarea
@@ -93,20 +93,20 @@ export default function CreateCommunity({ onCommunityCreated }) {
             placeholder="Short description…"
             value={formData.description}
             onChange={handleChange}
-            className="w-full bg-white/20 text-gray-800 placeholder-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/70 resize-none"
+            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
           />
         </div>
 
         {/* Type */}
         <div>
-          <label className="block mb-1 text-gray-800 font-medium">
+          <label className="block mb-1 text-white/80 font-medium">
             Type
           </label>
           <select
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="w-full bg-white/20 text-gray-800 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/70"
+            className="w-full bg-slate-800 border border-white/20 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           >
             <option value="public">Public</option>
             <option value="private">Private</option>
@@ -114,7 +114,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
         </div>
 
         <div>
-  <label className="block mb-1 text-gray-800 font-medium">
+  <label className="block mb-1 text-white/80 font-medium">
     Banner Image (optional)
   </label>
   <input
@@ -138,7 +138,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
         alert("Failed to upload banner image.");
       }
     }}
-    className="bg-white/20 rounded-full px-4 py-2 text-gray-800"
+    className="block w-full text-sm text-white/60 file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-white/10 file:text-white/80 hover:file:bg-white/20 transition"
   />
   {formData.banner_image && (
     <img
@@ -155,7 +155,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-full px-6 py-2 transition disabled:opacity-50"
+            className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded-lg px-6 py-2 transition disabled:opacity-50"
           >
             {loading ? "Creating…" : "Create Community"}
           </button>

@@ -180,14 +180,18 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
   };
 
 
+const inputCls = "w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition";
+const selectCls = "w-full bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition";
+const labelCls = "block text-sm font-medium text-white/80 mt-4 mb-1";
+
 return createPortal(
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto">
-    <div className="bg-white rounded-lg p-6 w-full max-w-lg space-y-4 my-8 max-h-[90vh] overflow-y-auto">
-      <h2 className="text-xl font-semibold">{t('profile.editTitle')}</h2>
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 overflow-auto">
+    <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-lg space-y-2 my-8 max-h-[90vh] overflow-y-auto shadow-2xl">
+      <h2 className="text-xl font-semibold text-white">{t('profile.editTitle')}</h2>
 
       {/* Upload + preview */}
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+      <div className="space-y-2 mt-2">
+        <label className={labelCls}>
           {t('profile.profilePicture')}
         </label>
         <div className="flex items-center gap-4">
@@ -196,18 +200,18 @@ return createPortal(
               <img
                 src={form.profile_picture}
                 alt="Preview"
-                className="h-24 w-24 rounded-full object-cover border-2 border-emerald-400 shadow"
+                className="h-24 w-24 rounded-full object-cover border-2 border-amber-400 shadow"
               />
               <button
                 type="button"
                 onClick={() => setForm(f => ({ ...f, profile_picture: "" }))}
-                className="absolute top-0 right-0 bg-white border rounded-full text-xs px-2 py-0.5 hover:bg-red-100 text-red-600 shadow-sm"
+                className="absolute top-0 right-0 bg-slate-800 border border-white/20 rounded-full text-xs px-2 py-0.5 hover:bg-red-500/20 text-red-300 shadow-sm"
               >
                 ✕
               </button>
             </div>
           ) : (
-            <div className="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+            <div className="h-24 w-24 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-sm text-white/50">
               {t('profile.noPicture')}
             </div>
           )}
@@ -217,47 +221,47 @@ return createPortal(
               type="file"
               accept="image/*"
               onChange={handleProfilePicUpload}
-              className="block w-full text-sm text-gray-500"
+              className="block w-full text-sm text-white/60"
             />
-            {uploading && <p className="text-xs text-gray-500 mt-1">{t('profile.uploading')}</p>}
+            {uploading && <p className="text-xs text-white/50 mt-1">{t('profile.uploading')}</p>}
           </div>
         </div>
       </div>
 
       {/* Fields */}
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.username')}</label>
+      <label className={labelCls}>{t('profile.username')}</label>
       <input
         name="username"
         value={form.username}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={inputCls}
         placeholder="Username"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.bio')}</label>
+      <label className={labelCls}>{t('profile.bio')}</label>
       <textarea
         name="bio"
         value={form.bio}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={inputCls}
         placeholder="Bio"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.dob')}</label>
+      <label className={labelCls}>{t('profile.dob')}</label>
       <input
         type="date"
         name="dob"
         value={form.dob}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={inputCls}
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.gender')}</label>
+      <label className={labelCls}>{t('profile.gender')}</label>
       <select
         name="gender"
         value={form.gender}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={selectCls}
       >
         <option value="">{t('profile.selectGender')}</option>
         <option value="male">{t('profile.male')}</option>
@@ -266,32 +270,33 @@ return createPortal(
         <option value="prefer not to say">{t('profile.preferNotToSay')}</option>
       </select>
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.country')}</label>
+      <label className={labelCls}>{t('profile.country')}</label>
       <input
         type="text"
         name="country"
         value={form.country}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={inputCls}
         placeholder="Country"
       />
 
-      <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.city')}</label>
+      <label className={labelCls}>{t('profile.city')}</label>
       <input
         type="text"
         name="city"
         value={form.city}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded"
+        className={inputCls}
         placeholder="City"
       />
 
-      <label className="flex items-center gap-2 mt-4">
+      <label className="flex items-center gap-2 mt-4 text-white/80 cursor-pointer">
         <input
           type="checkbox"
           name="faith_support"
           checked={form.faith_support}
           onChange={handleChange}
+          className="accent-amber-400"
         />
         {t('profile.faithSupport')}
       </label>
@@ -299,82 +304,82 @@ return createPortal(
       {/* Therapist-only */}
       {isTherapist && (
         <>
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.experienceYears')}</label>
+          <label className={labelCls}>{t('profile.experienceYears')}</label>
           <input
             type="number"
             name="experience_years"
             value={form.experience_years}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder="Years of Experience"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.licenseNumber')}</label>
+          <label className={labelCls}>{t('profile.licenseNumber')}</label>
           <input
             name="license_number"
             value={form.license_number}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder="License Number"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.link')}</label>
+          <label className={labelCls}>{t('profile.link')}</label>
           <input
             name="link"
             value={form.link}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder="Link"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.languagesSpoken')}</label>
+          <label className={labelCls}>{t('profile.languagesSpoken')}</label>
           <input
             name="languages_spoken"
             value={form.languages_spoken}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder={t('profile.languagesPlaceholder')}
           />
 
-<label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.specializationTags')}</label>
+          <label className={labelCls}>{t('profile.specializationTags')}</label>
           <input
             name="specialization_tags"
             value={form.specialization_tags}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder={t('profile.specializationPlaceholder')}
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.sessionDuration')}</label>
+          <label className={labelCls}>{t('profile.sessionDuration')}</label>
           <input
             type="number"
             name="session_duration"
             value={form.session_duration}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder="Session Duration (mins)"
           />
 
-          <label className="block text-sm font-medium text-gray-700 mt-4">{t('profile.appointmentTypes')}</label>
+          <label className={labelCls}>{t('profile.appointmentTypes')}</label>
           <input
             name="appointment_types"
             value={form.appointment_types}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={inputCls}
             placeholder={t('profile.appointmentTypesPlaceholder')}
           />
         </>
       )}
 
       {/* Actions */}
-      <div className="flex justify-between items-center mt-6">
+      <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/10">
         <button
           onClick={() =>
             deleteConfirm
               ? handleDeleteAccount()
               : setDeleteConfirm(true)
           }
-          className="text-red-600 text-sm hover:underline"
+          className="text-red-300 text-sm hover:text-red-200 hover:underline transition"
         >
           {deleteConfirm ? t('profile.confirmDelete') : t('profile.deleteAccount')}
         </button>
@@ -383,15 +388,15 @@ return createPortal(
           <button
             onClick={onClose}
             disabled={submitting}
-            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+            className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
           >
             {t('profile.cancel')}
           </button>
           <button
             onClick={submit}
             disabled={submitting}
-            className={`px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700 ${
-              submitting ? "opacity-50 cursor-not-allowed" : ""
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              submitting ? "bg-white/20 text-white/50 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500 text-slate-900"
             }`}
           >
             {submitting ? t('profile.saving') : t('profile.saveChanges')}

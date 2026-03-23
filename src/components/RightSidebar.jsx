@@ -58,7 +58,7 @@ export default function RightSidebar() {
 
   // Card styles
   const cardClass =
-    "flex items-center flex-shrink-0 gap-2 px-3 py-2 bg-white/20 hover:border border-amber-300 bg-white/40 rounded-2xl shadow-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200";
+    "flex items-center flex-shrink-0 gap-2 px-3 py-2 bg-white/15 hover:bg-white/25 hover:border border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200";
   const iconClass = "w-5 h-5 text-white flex-shrink-0";
   const labelClass = "text-white font-semibold text-sm whitespace-nowrap";
 
@@ -250,7 +250,7 @@ export default function RightSidebar() {
         isTherapist && (
           <button
             onClick={() => navigate("/therapist/availability")}
-            className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition"
+            className="flex items-center gap-2 bg-amber-400/20 border border-amber-400/50 text-amber-300 px-4 py-2 rounded-lg hover:bg-amber-400/30 transition"
           >
             <Calendar className="w-4 h-4" />
             <span className="text-sm font-medium">{t('sidebar.addAvailability')}</span>
@@ -274,24 +274,24 @@ export default function RightSidebar() {
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/60" onClick={() => setOpenContact(false)} />
           {/* Dialog */}
-          <div className="relative w-full max-w-md mx-4 rounded-2xl bg-white/95 backdrop-blur p-5 shadow-2xl">
+          <div className="relative w-full max-w-md mx-4 rounded-2xl bg-slate-900/95 backdrop-blur-md border border-white/20 p-5 shadow-2xl">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">{t('sidebar.contactUs')}</h3>
+              <h3 className="text-lg font-semibold text-white">{t('sidebar.contactUs')}</h3>
               <button
                 onClick={() => setOpenContact(false)}
-                className="p-1 rounded hover:bg-gray-200"
+                className="p-1 rounded hover:bg-white/10"
                 aria-label="Close"
               >
-                <X className="w-5 h-5 text-gray-700" />
+                <X className="w-5 h-5 text-white/70" />
               </button>
             </div>
 
             <form onSubmit={submitContact} className="space-y-3">
               <div>
-                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactName')}</label>
+                <label className="block text-sm text-white/80 mb-1">{t('sidebar.contactName')}</label>
                 <input
                   type="text"
-                  className="w-full text-gray-800 rounded-lg border px-3 py-2"
+                  className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   value={contactForm.name}
                   onChange={(e) => setContactForm((s) => ({ ...s, name: e.target.value }))}
                   placeholder={user?.username ? `${user.username} (editable)` : "Jane Doe"}
@@ -299,10 +299,10 @@ export default function RightSidebar() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactEmail')}</label>
+                <label className="block text-sm text-white/80 mb-1">{t('sidebar.contactEmail')}</label>
                 <input
                   type="email"
-                  className="w-full text-gray-800 rounded-lg border px-3 py-2"
+                  className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   value={contactForm.email}
                   onChange={(e) => setContactForm((s) => ({ ...s, email: e.target.value }))}
                   placeholder={user?.email ? `${user.email} (editable)` : "you@example.com"}
@@ -310,10 +310,10 @@ export default function RightSidebar() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700 mb-1">{t('sidebar.contactMessage')}</label>
+                <label className="block text-sm text-white/80 mb-1">{t('sidebar.contactMessage')}</label>
                 <textarea
                   rows={4}
-                  className="w-full text-gray-800 rounded-lg border px-3 py-2"
+                  className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
                   value={contactForm.message}
                   onChange={(e) => setContactForm((s) => ({ ...s, message: e.target.value }))}
                   placeholder={t('sidebar.contactPlaceholder')}
@@ -323,7 +323,7 @@ export default function RightSidebar() {
               {contactMsg.text && (
                 <div
                   className={`text-sm ${
-                    contactMsg.type === "error" ? "text-red-600" : "text-green-700"
+                    contactMsg.type === "error" ? "text-red-300" : "text-green-300"
                   }`}
                 >
                   {contactMsg.text}
@@ -333,7 +333,7 @@ export default function RightSidebar() {
               <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-lg border"
+                  className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
                   onClick={() => setOpenContact(false)}
                 >
                   {t('sidebar.cancel')}
@@ -341,8 +341,8 @@ export default function RightSidebar() {
                 <button
                   type="submit"
                   disabled={contactSubmitting}
-                  className={`px-4 py-2 rounded-lg text-white ${
-                    contactSubmitting ? "bg-gray-400" : "bg-emerald-600 hover:bg-emerald-700"
+                  className={`px-4 py-2 rounded-lg font-semibold transition ${
+                    contactSubmitting ? "bg-white/20 text-white/50 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500 text-slate-900"
                   }`}
                 >
                   {contactSubmitting ? t('sidebar.sending') : t('sidebar.send')}

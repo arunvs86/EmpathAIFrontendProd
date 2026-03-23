@@ -1,150 +1,3 @@
-// import React, { useState } from "react";
-// import { formatUk } from "../utils/datetime";
-// import StatusBadge from "./StatusBadge";// import { formatDateTime } from "../services/appointmentApi";
-// const formatDateTime = (iso) => new Date(iso).toLocaleString();
-
-// export default function AppointmentCard({
-//   appointment,
-//   role, // "user" or "therapist"
-//   onCancel,
-//   onReschedule,
-//   onDecision,
-//   onRescheduleDecision,
-// }) {
-//   const [loading, setLoading] = useState(false);
-
-//   const handleClick = async (action, ...args) => {
-//     setLoading(true);
-//     try {
-//       await action(...args);
-//     } catch (err) {
-//       console.error(err);
-//       alert(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const otherPartyName =
-//     role === "user"
-//       ? appointment.therapist?.username
-//       : appointment.user?.username;
-
-//   return (
-//     <div className="border rounded-lg p-4 shadow-md bg-white mb-4">
-//       <div className="flex justify-between items-center">
-//         <div>
-//           <h3 className="font-semibold text-lg">{otherPartyName}</h3>
-//             <p className="text-gray-600">{formatUk(appointment.scheduled_at)}</p>
-//              <div className="mt-1">
-//                 <StatusBadge status={appointment.status} />
-//               </div>
-//         </div>
-//         <div className="space-x-2">
-//           {/* USER ACTIONS */}
-//           {role === "user" && appointment.status !== "cancelled" && (
-//             <>
-//               <button
-//                 onClick={() => handleClick(onCancel, appointment.id)}
-//                 disabled={loading}
-//                 className="px-3 py-1 bg-red-500 text-white rounded"
-//               >
-//                 Cancel
-//               </button>
-//               {appointment.status === "confirmed" && (
-//                 <button
-//                   onClick={() => {
-//                     const newDate = prompt(
-//                       "Enter new date/time in ISO format (e.g., 2025-08-15T14:00)"
-//                     );
-//                     if (newDate) {
-//                       handleClick(onReschedule, appointment.id, newDate);
-//                     }
-//                   }}
-//                   disabled={loading}
-//                   className="px-3 py-1 bg-yellow-500 text-white rounded"
-//                 >
-//                   Reschedule
-//                 </button>
-//               )}
-//             </>
-//           )}
-
-//           {/* THERAPIST ACTIONS */}
-//           {role === "therapist" && (
-//             <>
-//               {appointment.status === "pending" && (
-//                 <>
-//                   <button
-//                     onClick={() =>
-//                       handleClick(onDecision, appointment.id, "accept")
-//                     }
-//                     disabled={loading}
-//                     className="px-3 py-1 bg-green-500 text-white rounded"
-//                   >
-//                     Accept
-//                   </button>
-//                   <button
-//                     onClick={() =>
-//                       handleClick(onDecision, appointment.id, "reject")
-//                     }
-//                     disabled={loading}
-//                     className="px-3 py-1 bg-red-500 text-white rounded"
-//                   >
-//                     Reject
-//                   </button>
-//                 </>
-//               )}
-
-//               {appointment.status === "confirmed" && (
-//                 <button
-//                   onClick={() => handleClick(onCancel, appointment.id)}
-//                   disabled={loading}
-//                   className="px-3 py-1 bg-red-500 text-white rounded"
-//                 >
-//                   Cancel
-//                 </button>
-//               )}
-
-//               {appointment.status === "reschedule_pending" && (
-//                 <>
-//                   <button
-//                     onClick={() =>
-//                       handleClick(
-//                         onRescheduleDecision,
-//                         appointment.id,
-//                         "accept"
-//                       )
-//                     }
-//                     disabled={loading}
-//                     className="px-3 py-1 bg-green-500 text-white rounded"
-//                   >
-//                     Accept Reschedule
-//                   </button>
-//                   <button
-//                     onClick={() =>
-//                       handleClick(
-//                         onRescheduleDecision,
-//                         appointment.id,
-//                         "reject"
-//                       )
-//                     }
-//                     disabled={loading}
-//                     className="px-3 py-1 bg-red-500 text-white rounded"
-//                   >
-//                     Reject Reschedule
-//                   </button>
-//                 </>
-//               )}
-//             </>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
 import React, { useState } from "react";
 import { formatUk } from "../utils/datetime";
 import StatusBadge from "./StatusBadge";
@@ -154,9 +7,9 @@ export default function AppointmentCard({
   appointment,
   role, // "user" or "therapist"
   onCancel,
-  onReschedule,            // user → (id) => void (opens your reschedule flow/modal)
-  onDecision,              // therapist → (id, "accept"|"reject")
-  onRescheduleDecision,    // therapist → (id, "accept"|"reject")
+  onReschedule,
+  onDecision,
+  onRescheduleDecision,
 }) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -174,7 +27,6 @@ export default function AppointmentCard({
     }
   };
 
-  // Prefer server-provided counterpart; fall back to nested objects
   const otherPartyName =
     appointment.counterpart ||
     (role === "user"
@@ -182,7 +34,6 @@ export default function AppointmentCard({
       : appointment.user?.username) ||
     "Unknown";
 
-  // Status gates (mirror backend)
   const status = appointment.status;
   const canUserReschedule = status === "confirmed";
   const canUserCancel = ["pending", "confirmed", "reschedule_pending"].includes(status);
@@ -192,55 +43,44 @@ export default function AppointmentCard({
   const showTherapistRescheduleDecision = role === "therapist" && status === "reschedule_pending";
 
   return (
-    <div className="border rounded-lg p-4 shadow-md bg-white mb-4">
+    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 shadow-md mb-4">
       <div className="flex justify-between items-start gap-4">
         <div>
-          <h3 className="font-semibold text-lg">{otherPartyName}</h3>
+          <h3 className="font-semibold text-lg text-white">{otherPartyName}</h3>
+          <p className="text-white/70 text-sm mt-0.5">{formatUk(appointment.scheduled_at)}</p>
 
-          {/* Current time (UK) */}
-          <p className="text-gray-700">{formatUk(appointment.scheduled_at)}</p>
-
-          {/* Proposed time (if reschedule pending) */}
           {status === "reschedule_pending" && appointment.proposed_scheduled_at && (
-            <p className="text-sm text-blue-700 mt-1">
+            <p className="text-sm text-amber-300 mt-1">
               {t('appt.proposed')}: {formatUk(appointment.proposed_scheduled_at)}
             </p>
           )}
 
-          {/* Status badge */}
-          <div className="mt-1">
+          <div className="mt-2">
             <StatusBadge status={status} />
           </div>
 
-          {/* Meet link hint (if present) */}
           {appointment.meet_url && status === "confirmed" && (
-            <p className="text-xs text-gray-500 mt-1">
-              {t('appt.meetLink')}
-            </p>
+            <p className="text-xs text-white/50 mt-1">{t('appt.meetLink')}</p>
           )}
         </div>
 
         <div className="flex flex-wrap gap-2 justify-end">
-          {/* USER ACTIONS */}
           {role === "user" && status !== "cancelled" && status !== "rejected" && (
             <>
               {canUserReschedule && !!onReschedule && (
                 <button
                   onClick={() => handleClick(onReschedule, appointment.id)}
                   disabled={loading}
-                  className="px-3 py-1 bg-yellow-600 text-white rounded disabled:opacity-60"
-                  title="Request a new time"
+                  className="px-3 py-1.5 bg-amber-500/80 hover:bg-amber-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                 >
                   {loading ? t('appt.working') : t('appt.reschedule')}
                 </button>
               )}
-
               {canUserCancel && !!onCancel && (
                 <button
                   onClick={() => handleClick(onCancel, appointment.id)}
                   disabled={loading}
-                  className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
-                  title="Cancel this session"
+                  className="px-3 py-1.5 bg-red-500/80 hover:bg-red-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                 >
                   {loading ? t('appt.cancelling') : t('appt.cancel')}
                 </button>
@@ -248,7 +88,6 @@ export default function AppointmentCard({
             </>
           )}
 
-          {/* THERAPIST ACTIONS */}
           {role === "therapist" && (
             <>
               {showTherapistAcceptReject && !!onDecision && (
@@ -256,14 +95,14 @@ export default function AppointmentCard({
                   <button
                     onClick={() => handleClick(onDecision, appointment.id, "accept")}
                     disabled={loading}
-                    className="px-3 py-1 bg-emerald-600 text-white rounded disabled:opacity-60"
+                    className="px-3 py-1.5 bg-green-500/80 hover:bg-green-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                   >
                     {loading ? t('appt.accepting') : t('appt.accept')}
                   </button>
                   <button
                     onClick={() => handleClick(onDecision, appointment.id, "reject")}
                     disabled={loading}
-                    className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
+                    className="px-3 py-1.5 bg-red-500/80 hover:bg-red-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                   >
                     {loading ? t('appt.rejecting') : t('appt.reject')}
                   </button>
@@ -274,7 +113,7 @@ export default function AppointmentCard({
                 <button
                   onClick={() => handleClick(onCancel, appointment.id)}
                   disabled={loading}
-                  className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
+                  className="px-3 py-1.5 bg-red-500/80 hover:bg-red-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                 >
                   {loading ? t('appt.cancelling') : t('appt.cancel')}
                 </button>
@@ -283,20 +122,16 @@ export default function AppointmentCard({
               {showTherapistRescheduleDecision && !!onRescheduleDecision && (
                 <>
                   <button
-                    onClick={() =>
-                      handleClick(onRescheduleDecision, appointment.id, "accept")
-                    }
+                    onClick={() => handleClick(onRescheduleDecision, appointment.id, "accept")}
                     disabled={loading}
-                    className="px-3 py-1 bg-emerald-600 text-white rounded disabled:opacity-60"
+                    className="px-3 py-1.5 bg-green-500/80 hover:bg-green-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                   >
                     {loading ? t('appt.approving') : t('appt.acceptReschedule')}
                   </button>
                   <button
-                    onClick={() =>
-                      handleClick(onRescheduleDecision, appointment.id, "reject")
-                    }
+                    onClick={() => handleClick(onRescheduleDecision, appointment.id, "reject")}
                     disabled={loading}
-                    className="px-3 py-1 bg-red-600 text-white rounded disabled:opacity-60"
+                    className="px-3 py-1.5 bg-red-500/80 hover:bg-red-500 text-white text-sm rounded-lg disabled:opacity-60 transition"
                   >
                     {loading ? t('appt.rejecting') : t('appt.rejectReschedule')}
                   </button>

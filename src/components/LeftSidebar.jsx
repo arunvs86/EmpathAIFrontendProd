@@ -52,7 +52,7 @@ export default function LeftSidebar() {
   };
 
 const cardClass =
-     "flex items-center gap-2 whitespace-nowrap px-3 py-2 bg-white/20 hover:border border-amber-300 bg-white/30 rounded-2xl   transform hover:-translate-y-0.5 transition-all duration-200 transition";
+    "flex items-center gap-2 whitespace-nowrap px-3 py-2 bg-white/15 hover:bg-white/25 hover:border border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200";
   
   const iconClass = "w-5 h-5 text-white";
   const labelClass = "text-white font-medium text-sm";

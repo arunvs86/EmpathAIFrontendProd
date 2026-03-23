@@ -185,24 +185,21 @@ export default function Header() {
               <ChevronDown className="w-4 h-4 ml-1" />
             </button>
             {openUser && (
-              <div className="absolute right-0 mt-2 w-40 bg-white/90 backdrop-blur-sm rounded-md shadow-lg py-1 z-60">
+              <div className="absolute right-0 mt-2 w-44 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg py-2 z-60">
                 <Link
                   to="/chats"
-                  className="flex items-center px-4 py-2 text-gray-800 hover:text-amber-500 transition"
+                  className="flex items-center px-4 py-2 text-white hover:text-amber-300 transition"
                   onClick={() => setOpenUser(false)}
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
-                  Messages
+                  {t('header.messages')}
                 </Link>
-
-                
-                
                 <button
                   onClick={logout}
-                  className="flex items-center w-full px-4 py-2 text-gray-800 hover:text-amber-500 transition"
+                  className="flex items-center w-full px-4 py-2 text-white hover:text-amber-300 transition"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  Logout
+                  {t('header.logout')}
                 </button>
               </div>
             )}
