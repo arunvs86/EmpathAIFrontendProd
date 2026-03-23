@@ -350,15 +350,15 @@ function TherapistAvailabilityForm() {
   return (
     <div className="max-w-3xl mx-auto mt-8 p-4">
       {/* Tabs */}
-      <div className="flex border-b mb-6">
+      <div className="flex border-b border-white/20 mb-6">
         {["availability", "appointments"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-2 text-center ${
+            className={`flex-1 py-2 text-center transition ${
               activeTab === tab
-                ? "border-b-2 border-emerald-600 font-semibold text-white"
-                : "text-gray-400"
+                ? "border-b-2 border-amber-400 font-semibold text-amber-300"
+                : "text-white/50 hover:text-white/80"
             }`}
           >
             {tab === "availability" ? "Availability" : "Appointments"}
@@ -368,8 +368,8 @@ function TherapistAvailabilityForm() {
 
       {activeTab === "availability" ? (
         <form onSubmit={handleSave}>
-          {error && <p className="text-red-500 mb-2">{error}</p>}
-          {success && <p className="text-green-600 mb-2">{success}</p>}
+          {error && <p className="text-red-300 mb-2">{error}</p>}
+          {success && <p className="text-green-300 mb-2">{success}</p>}
 
           {/* Date picker */}
           <div className="mb-6">
@@ -381,7 +381,7 @@ function TherapistAvailabilityForm() {
               min={today}
               value={dateInput}
               onChange={handleDateChange}
-              className="border px-3 py-2 rounded focus:ring-emerald-400 bg-transparent text-white"
+              className="bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
             />
           </div>
 
@@ -390,7 +390,7 @@ function TherapistAvailabilityForm() {
             const slots = timeSlotsMap[date] || [];
             const dayLoading = loadingKey === `${date}|delete-day`;
             return (
-              <div key={date} className="border p-4 rounded mb-4 space-y-3">
+              <div key={date} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 mb-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="font-medium text-white">{date}</div>
                   <button
@@ -455,7 +455,7 @@ function TherapistAvailabilityForm() {
                               onChange={(e) =>
                                 setEditValue(normalizeSlot(e.target.value))
                               }
-                              className="border px-2 py-1 rounded bg-transparent text-white"
+                              className="bg-slate-800 border border-white/20 text-white rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-400 transition"
                             >
                               {slotOptions.map((s) => (
                                 <option key={s} value={s}>
@@ -466,7 +466,7 @@ function TherapistAvailabilityForm() {
                             <button
                               type="button"
                               onClick={saveEdit}
-                              className="text-xs px-2 py-0.5 rounded bg-emerald-600 text-white hover:bg-emerald-700"
+                              className="text-xs px-2 py-0.5 rounded-md bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold transition"
                               disabled={editBusy}
                             >
                               {editBusy ? "Saving…" : "Save"}
@@ -496,7 +496,7 @@ function TherapistAvailabilityForm() {
                         [date]: e.target.value,
                       }))
                     }
-                    className="border px-3 py-2 rounded-l bg-transparent text-white"
+                    className="bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   >
                     <option value="" disabled>
                       Select slot…
@@ -510,7 +510,7 @@ function TherapistAvailabilityForm() {
                   <button
                     type="button"
                     onClick={() => addTimeSlot(date)}
-                    className="bg-emerald-600 ml-2 text-white px-4 py-2 rounded-r hover:bg-emerald-700"
+                    className="ml-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-lg transition"
                   >
                     Add
                   </button>
@@ -521,7 +521,7 @@ function TherapistAvailabilityForm() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700"
+            className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold py-2 rounded-lg transition"
           >
             Save Availability
           </button>
@@ -530,14 +530,14 @@ function TherapistAvailabilityForm() {
         // ===== Appointments tab =====
         <div>
           {loadingApps && <p className="text-white">Loading appointments…</p>}
-          {appsError && <p className="text-red-500">{appsError}</p>}
+          {appsError && <p className="text-red-300">{appsError}</p>}
           {!loadingApps && appointments.length === 0 && (
-            <p className="text-gray-400">No pending requests.</p>
+            <p className="text-white/60">No pending requests.</p>
           )}
           {appointments.map((appt) => (
             <div
               key={appt.id}
-              className="border p-4 rounded mb-4 flex justify-between"
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 mb-4 flex justify-between"
             >
               <div>
                 <p className="text-white">
@@ -556,10 +556,10 @@ function TherapistAvailabilityForm() {
               <button
   onClick={() => onDecision(appt.id, "accept")}
   disabled={loadingId === appt.id}
-  className={`px-3 py-1 rounded transition ${
+  className={`px-3 py-1 rounded-lg transition ${
     loadingId === appt.id && loadingAction === "accept"
-      ? "bg-emerald-400 cursor-not-allowed opacity-70"
-      : "bg-emerald-600 hover:bg-emerald-700 text-white"
+      ? "bg-green-500/40 text-white/50 cursor-not-allowed"
+      : "bg-green-500/80 hover:bg-green-500 text-white"
   }`}
 >
   {loadingId === appt.id && loadingAction === "accept"

@@ -3,10 +3,12 @@ import React, { useEffect, useState,useMemo } from 'react';
 import { Outlet, NavLink, useNavigate, useParams } from 'react-router-dom';
 import ProfileHeader from '../components/ProfileHeader';
 import ProfileEditModal from '../components/ProfileEditModal';
+import { useTranslation } from 'react-i18next';
 
 export default function MyProfile() {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Logged-in user
   const currentUser = React.useMemo(() => {
@@ -95,12 +97,12 @@ export default function MyProfile() {
   }, [userId, isOwnProfile]);
 
   // Build tabs dynamically
-  const tabs = [{ label: 'Posts', to: 'posts' }];
+  const tabs = [{ label: t('profile.tabPosts'), to: 'posts' }];
   if (isOwnProfile) {
     tabs.push(
-      { label: 'Journals', to: 'journals' },
-      { label: 'Communities', to: 'communities' },
-      { label: 'Habits', to: 'habits' }
+      { label: t('profile.tabJournals'), to: 'journals' },
+      { label: t('profile.tabCommunities'), to: 'communities' },
+      { label: t('profile.tabHabits'), to: 'habits' }
     );
   }
 
@@ -115,16 +117,16 @@ export default function MyProfile() {
         onEdit={() => setShowEdit(true)}
       />
 
-      <nav className="mb-8 flex space-x-6 border-b border-gray-200 pb-2">
+      <nav className="mb-8 flex space-x-6 border-b border-white/20 pb-2">
         {tabs.map(({ label, to }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
-              `font-medium pb-1 ${
+              `font-medium pb-1 transition ${
                 isActive
-                  ? 'border-b-2 border-emerald-600 text-emerald-600'
-                  : 'border-b-2 border-transparent text-white/80 hover:text-emerald-600 hover:border-emerald-600'
+                  ? 'border-b-2 border-amber-400 text-amber-300'
+                  : 'border-b-2 border-transparent text-white/60 hover:text-amber-300 hover:border-amber-300'
               }`
             }
           >

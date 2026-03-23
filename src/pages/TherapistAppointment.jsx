@@ -77,44 +77,44 @@ function TherapistAppointments() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Manage Appointments</h2>
-      {error && <p className="text-red-600">{error}</p>}
+    <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-3xl font-bold text-white mb-6">Manage Appointments</h2>
+      {error && <p className="text-red-300">{error}</p>}
       {appointments.length === 0 ? (
-        <p className="text-gray-600">No appointments found.</p>
+        <p className="text-white/70">No appointments found.</p>
       ) : (
         <div className="space-y-4">
           {appointments.map((appt) => (
             <div
               key={appt.id}
-              className="bg-white p-4 rounded shadow hover:shadow-lg transition-shadow"
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-md"
             >
-              <p className="font-bold text-gray-800">
+              <p className="font-bold text-white">
                 Patient: {appt.patientName || "Unknown"}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white/70">
                 Scheduled at: {new Date(appt.scheduled_at).toLocaleString()}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white/70">
                 Session Type: {appt.session_type}
               </p>
-              <p className="text-sm text-gray-600">Status: {appt.status}</p>
+              <p className="text-sm text-white/70">Status: {appt.status}</p>
               {appt.notes && (
-                <p className="mt-2 text-sm text-gray-700">Notes: {appt.notes}</p>
+                <p className="mt-2 text-sm text-white/80">Notes: {appt.notes}</p>
               )}
               {/* Action Buttons */}
-              <div className="mt-3 flex space-x-2">
+              <div className="mt-3 flex flex-wrap gap-2">
                 {appt.status === "pending" && (
                   <>
                     <button
                       onClick={() => onDecision(appt.id, "accept")}
-                      className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                      className="bg-green-500/80 hover:bg-green-500 text-white px-3 py-1 rounded-lg text-sm transition"
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => onDecision(appt.id, "reject")}
-                      className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+                      className="bg-red-500/80 hover:bg-red-500 text-white px-3 py-1 rounded-lg text-sm transition"
                     >
                       Reject
                     </button>
@@ -123,7 +123,7 @@ function TherapistAppointments() {
                 {(appt.status === "pending" || appt.status === "confirmed") && (
                   <button
                     onClick={() => onCancel(appt.id)}
-                    className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700"
+                    className="bg-white/15 hover:bg-white/25 border border-white/20 text-white px-3 py-1 rounded-lg text-sm transition"
                   >
                     Cancel
                   </button>
@@ -132,13 +132,13 @@ function TherapistAppointments() {
                   <>
                     <button
                       onClick={() => onRescheduleDecision(appt.id, "accept")}
-                      className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                      className="bg-green-500/80 hover:bg-green-500 text-white px-3 py-1 rounded-lg text-sm transition"
                     >
                       Accept Reschedule
                     </button>
                     <button
                       onClick={() => onRescheduleDecision(appt.id, "reject")}
-                      className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+                      className="bg-red-500/80 hover:bg-red-500 text-white px-3 py-1 rounded-lg text-sm transition"
                     >
                       Reject Reschedule
                     </button>

@@ -216,7 +216,11 @@
     "confirmDelete": "Haz clic de nuevo para confirmar la eliminación",
     "cancel": "Cancelar",
     "saveChanges": "Guardar cambios",
-    "saving": "Guardando…"
+    "saving": "Guardando…",
+    "tabPosts": "Publicaciones",
+    "tabJournals": "Diarios",
+    "tabCommunities": "Comunidades",
+    "tabHabits": "Hábitos"
   },
   "habits": {
     "title": "Mis prácticas semanales",

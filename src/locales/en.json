@@ -216,7 +216,11 @@
     "confirmDelete": "Click again to confirm delete",
     "cancel": "Cancel",
     "saveChanges": "Save Changes",
-    "saving": "Saving…"
+    "saving": "Saving…",
+    "tabPosts": "Posts",
+    "tabJournals": "Journals",
+    "tabCommunities": "Communities",
+    "tabHabits": "Habits"
   },
   "habits": {
     "title": "My Weekly Practices",

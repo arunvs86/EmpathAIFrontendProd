@@ -198,7 +198,7 @@ export default function ProfileWeeklyHabits() {
             setEditingHabit(null);
             setShowHabitEditor(true);
           }}
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full"
+          className="flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-full transition"
         >
           <Plus /> {t('habits.newPractice')}
         </button>
@@ -248,8 +248,8 @@ export default function ProfileWeeklyHabits() {
               setShowLogEditor(true);
             }
           }}
-          prevLabel={<ChevronLeft className="text-emerald-600" />}
-          nextLabel={<ChevronRight className="text-emerald-600" />}
+          prevLabel={<ChevronLeft className="text-amber-400" />}
+          nextLabel={<ChevronRight className="text-amber-400" />}
           tileClassName={({ date, view }) =>
             view === "month" && dateSet.has(date.toDateString())
               ? "bg-emerald-100 text-black"
@@ -264,9 +264,9 @@ export default function ProfileWeeklyHabits() {
 
       {/* loading or weekly table */}
       {loading ? (
-        <p className="text-gray-600">{t('habits.loading')}</p>
+        <p className="text-white/60">{t('habits.loading')}</p>
       ) : (
-        <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 overflow-auto text-gray-800">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 overflow-auto text-white">
           <table className="w-full table-fixed">
             <thead>
               <tr>
@@ -316,8 +316,8 @@ export default function ProfileWeeklyHabits() {
                           }}
                           className={`inline-block w-6 h-6 rounded-full border ${
                             done
-                              ? "bg-emerald-600 border-emerald-600"
-                              : "border-gray-400"
+                              ? "bg-amber-400 border-amber-400"
+                              : "border-white/40"
                           } ${isFuture ? "opacity-50 cursor-not-allowed" : ""}`}
                         />
                       </td>
@@ -382,43 +382,43 @@ function HabitEditor({ habit, onSave, onCancel }) {
       <motion.form
         onSubmit={handleSubmit}
         variants={fadeInUp}
-        className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 w-full max-w-lg mx-4 text-gray-800"
+        className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-lg mx-4 text-white shadow-2xl"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold text-white">
             {habit ? t('habits.editPractice') : t('habits.newPractice')}
           </h2>
-          <button onClick={onCancel} className="text-gray-600 text-xl">
+          <button onClick={onCancel} className="text-white/60 hover:text-white text-xl transition">
             ×
           </button>
         </div>
         <div className="space-y-4">
-          <label className="block font-semibold  mb-2">
+          <label className="block text-white/80 font-medium mb-2">
           {t('habits.name')}
             <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full border rounded px-3 py-2"
+            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           />
           </label>
-          <label className="block font-semibold  mb-2">
+          <label className="block text-white/80 font-medium mb-2">
           {t('habits.description')}
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full border rounded px-3 py-2"
+            className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
           />
           </label>
           <div>
-            <label className="block font-semibold mb-1">
+            <label className="block text-white/80 font-medium mb-1">
               Frequency
             </label>
             <select
               value={frequency}
               onChange={(e) => setFrequency(e.target.value)}
-              className="w-full border rounded px-3 py-2"
+              className="w-full bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
             >
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
@@ -427,7 +427,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
           </div>
           {frequency === "weekly" && (
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block text-white/80 font-medium mb-1">
                 Weekdays
               </label>
               <div className="flex flex-wrap gap-2">
@@ -444,10 +444,10 @@ function HabitEditor({ habit, onSave, onCancel }) {
                     type="button"
                     key={d}
                     onClick={() => toggleWeekday(i)}
-                    className={`px-3 py-1 rounded ${
+                    className={`px-3 py-1 rounded-lg text-sm transition ${
                       weekdays.includes(i)
-                        ? "bg-emerald-600 text-white"
-                        : "bg-gray-200 text-gray-800"
+                        ? "bg-amber-400 text-slate-900 font-semibold"
+                        : "bg-white/10 border border-white/20 text-white/80 hover:bg-white/20"
                     }`}
                   >
                     {d}
@@ -458,24 +458,24 @@ function HabitEditor({ habit, onSave, onCancel }) {
           )}
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="block font-semibold mb-1">
+              <label className="block text-white/80 font-medium mb-1">
                 Color
               </label>
               <input
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="w-full h-10 p-0 border-none"
+                className="w-full h-10 p-0 border-none rounded-lg"
               />
             </div>
             <div className="flex-1">
-              <label className="block font-semibold mb-1">
+              <label className="block text-white/80 font-medium mb-1">
                 Icon
               </label>
               <input
                 value={icon}
                 onChange={(e) => setIcon(e.target.value)}
-                className="w-full border rounded px-3 py-2 text-xl text-center"
+                className="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-xl text-center focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
                 maxLength={2}
               />
             </div>
@@ -485,13 +485,13 @@ function HabitEditor({ habit, onSave, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+            className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
           >
             {t('common.cancel')}
           </button>
           <button
             type="submit"
-            className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700"
+            className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold transition"
           >
             {t('common.save')}
           </button>
@@ -544,24 +544,24 @@ function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
       <motion.form
         onSubmit={handleSubmit}
         variants={fadeInUp}
-        className="bg-white/60 backdrop-blur-lg p-6 rounded-2xl w-full max-w-md text-gray-800"
+        className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-md text-white shadow-2xl"
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">
+          <h3 className="text-xl font-semibold text-white">
             Log Habits on {label}
           </h3>
-          <button onClick={onCancel} className="text-gray-600 text-xl">
+          <button onClick={onCancel} className="text-white/60 hover:text-white text-xl transition">
             ×
           </button>
         </div>
         <div className="space-y-3">
           {habits.map((h) => (
-            <label key={h._id} className="flex items-center gap-3">
+            <label key={h._id} className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={!!state[h._id]}
                 onChange={() => toggle(h._id)}
-                className="h-5 w-5 text-emerald-600"
+                className="h-5 w-5 accent-amber-400"
               />
               <span style={{ color: h.color }} className="font-semibold">
                 {h.icon} {h.name}
@@ -573,13 +573,13 @@ function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+            className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
           >
             {t('common.cancel')}
           </button>
           <button
             type="submit"
-            className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700"
+            className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold transition"
           >
             {t('common.save')}
           </button>
