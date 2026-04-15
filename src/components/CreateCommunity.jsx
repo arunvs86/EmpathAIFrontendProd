@@ -1,8 +1,11 @@
 // src/components/CreateCommunity.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function CreateCommunity({ onCommunityCreated }) {
+    const { t } = useTranslation();
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -60,7 +63,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
   return (
     <div className="max-w-lg mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 space-y-6">
       <h2 className="text-3xl font-calligraphy text-white">
-        Create a New Community
+      {t('community.createCommunity')} 
       </h2>
 
       {error && <p className="text-red-300">{error}</p>}

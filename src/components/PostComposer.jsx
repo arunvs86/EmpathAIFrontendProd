@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { ImageIcon, VideoIcon, Music, FileText } from 'lucide-react';
+import { useTranslation } from "react-i18next";
 
 const CATEGORY_OPTIONS = [
   { value: 'Self-Care', label: 'Self-Care' },
@@ -11,6 +12,8 @@ const CATEGORY_OPTIONS = [
 const MAX_WORDS = 500;
 
 export default function PostComposer({communityId, onPostCreated }) {
+  const { t } = useTranslation();
+  
   const [content, setContent] = useState('');
   const [categories, setCategories] = useState([]);
   const [mediaFiles, setMediaFiles] = useState([]);

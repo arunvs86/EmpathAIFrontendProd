@@ -60,7 +60,7 @@ export default function RightSidebar() {
   const cardClass =
     "flex items-center flex-shrink-0 gap-2 px-3 py-2 bg-white/15 hover:bg-white/25 hover:border border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200";
   const iconClass = "w-5 h-5 text-white flex-shrink-0";
-  const labelClass = "text-white font-semibold text-sm whitespace-nowrap";
+  const labelClass = "text-white font-semibold text-sm";
 
   function getTimeRemaining(scheduledAt, scheduledAtUkIso) {
        // Normalize to a UK DateTime first
@@ -145,6 +145,8 @@ export default function RightSidebar() {
           {activeSection === "helpful" && (
             <ul className="ml-8 space-y-1 text-white/90 text-sm">
               {[
+                ["El Arte De Buen Vivir","https://www.elartedelbuenvivir.es"],
+                ["Fundacion Metta Hospice", "https://fundacionmetta.org/index.php"]
                 ["Mind UK", "https://www.mind.org.uk"],
                 ["Cruse", "https://www.cruse.org.uk"],
                 ["Samaritans", "https://www.samaritans.org"],

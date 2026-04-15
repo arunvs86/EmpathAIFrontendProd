@@ -32,7 +32,7 @@
     "feature6Desc": "A gentle guide to planting a memorial tree or sapling in honor of a loved one. Create a living tribute and ritual that nurtures remembrance and growth.",
     "feature7Title": "Wellness Tips",
     "feature7Desc": "Small, science-backed suggestions to support mental and emotional health—whether you're just surviving the day or looking to rebuild slowly.",
-    "researchTitle": "Research Leadership",
+    "researchTitle": "",
     "researchP1": "EmpathAI is a project led by Professor Elvira Pérez Vallejos, Professor of Mental Health and Digital Technology — jointly appointed by the School of Computer Science and the School of Medicine at the University of Nottingham.",
     "researchP2": "Professor Pérez Vallejos is internationally recognised for her work on AI Ethics, and was recently named among the 100 Brilliant Women in AI Ethics (2025). Her work ensures EmpathAI reflects the highest standards in privacy, ethical AI, co-production, and digital mental health innovation.",
     "privacyTitle": "Privacy & Data Protection",
@@ -183,7 +183,9 @@
     "privateOnly": "Private only",
     "newCommunity": "+ New Community",
     "notMember": "You're not a member of any communities yet.",
-    "noneFound": "No communities found."
+    "noneFound": "No communities found.",
+    "createCommunity" : "Create a New Community",
+    "shareIn" : "Share in "
   },
   "profile": {
     "editTitle": "Edit Profile",
@@ -236,7 +238,12 @@
   "posts": {
     "showMore": "Show More",
     "loading": "Loading…",
-    "noneAvailable": "No posts available."
+    "noneAvailable": "No posts available.",
+    "selectOrAddCategories":"Select or add categories",
+    "share":"Share ",
+    "addMedia" : " Add Media ",
+    "500WordsLeft" : "500 words left ",
+    "TypeHere": "Type here and share your thoughts. Someone is listening "
   },
   "common": {
     "cancel": "Cancel",

@@ -111,7 +111,7 @@ export default function Header() {
   </h1>
 </div>
 
-        <nav className="flex-1 flex justify-center space-x-8">
+        <nav className="flex-1 flex justify-center gap-4 lg:gap-6 flex-wrap">
           {PRIMARY_TABS.map((tab) => (
             <NavLink
               key={tab.to}
