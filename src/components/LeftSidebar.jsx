@@ -1,43 +1,18 @@
 // src/components/LeftSidebar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star, Clock, FileText, MessageSquare, Users, Notebook, ListChecks } from "lucide-react";
+import { MessageSquare, Users, Heart, ChevronDown, ChevronUp, BookOpen, ListChecks, FileText, Shield, Leaf, Sparkles, Brain } from "lucide-react";
 import { createChat } from "../services/chatApi";
 import { useTranslation } from 'react-i18next';
 
 export default function LeftSidebar() {
   const { t } = useTranslation();
-  const [activeSection, setActiveSection] = useState(null);
-  const [favorites, setFavorites] = useState([]);
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [wellbeingOpen, setWellbeingOpen] = useState(false);
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-  useEffect(() => {
-    setFavorites(
-      JSON.parse(localStorage.getItem("myFavorites") || "[]").slice(0, 4)
-    );
-    setRecentlyViewed(
-      JSON.parse(
-        localStorage.getItem("recentlyViewedCommunities") || "[]"
-      ).slice(0, 4)
-    );
-  }, []);
-
   const goCommunities = () => navigate("/communities");
-  const goMyJournals = () => {
-  if (!currentUser?.id) return navigate("/login");
-    navigate(`/profile/${currentUser.id}/journals`);
-  };
-  const goMyHabits = () => {
-    if (!currentUser?.id) return navigate("/login");
-    navigate(`/profile/${currentUser.id}/habits`);
-  };
 
-  const toggleSection = (section) =>
-    setActiveSection(activeSection === section ? null : section);
-
-  const handleLetters = () => navigate("/letters");
   const handleBotChat = async () => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const botId = "c7291129-8ed5-40d6-a504-b96f957ceb88";
@@ -51,113 +26,81 @@ export default function LeftSidebar() {
     }
   };
 
-const cardClass =
-    "flex items-center gap-2 px-3 py-2 bg-white/15 hover:bg-white/25 hover:border border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200";
-  
-  const iconClass = "w-5 h-5 text-white";
-  const labelClass = "text-white font-medium text-sm";
+  const wellbeingTools = [
+    { label: t('sidebar.journals'),          icon: BookOpen,  action: () => { if (!currentUser?.id) return navigate("/login"); navigate(`/profile/${currentUser.id}/journals`); } },
+    { label: t('sidebar.habits'),            icon: ListChecks, action: () => { if (!currentUser?.id) return navigate("/login"); navigate(`/profile/${currentUser.id}/habits`); } },
+    { label: t('sidebar.letters'),           icon: FileText,  action: () => navigate("/letters") },
+    { label: t('nav.spiritual'),             icon: Shield,    action: () => navigate("/spiritual") },
+    { label: t('nav.plantSapling'),          icon: Leaf,      action: () => navigate("/plant") },
+    { label: t('nav.wellnessTips'),          icon: Sparkles,  action: () => navigate("/wellness") },
+    { label: t('nav.mindfulMeditation'),     icon: Brain,     action: () => navigate("/mindful") },
+  ];
 
-  const renderSectionList = (items) => (
-    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-2 mt-2">
-      <ul className="flex flex-wrap gap-2 text-bold">
-        {items.map((it) => (
-          <li key={it.id}>
-            <button
-              onClick={() => navigate(it.link)}
-              title={it.name}
-              className="
-                inline-block
-                bg-white/20 hover:bg-white/30
-                text-white
-                font-semibold
-                text-xs
-                truncate
-                max-w-[8rem]
-                px-2 py-1
-                rounded-full
-                transition
-              "
-            >
-              {it.name}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  const btnClass =
+    "w-full flex items-center gap-3 px-4 py-3.5 bg-white/15 hover:bg-white/25 border border-transparent hover:border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200 text-left";
+  const iconClass = "w-6 h-6 text-white flex-shrink-0";
+  const labelClass = "text-white font-semibold text-base";
 
   return (
     <aside className="w-full h-full p-4">
       <div className="flex flex-col gap-4">
-              
-        {/* Favourites */}
-        <div>
-          <button
-            onClick={() => toggleSection("favourites")}
-            className={cardClass}
-          >
-            <Star className={iconClass} />
-            <span className={labelClass}>{t('sidebar.favourites')}</span>
-          </button>
-          {activeSection === "favourites" && favorites.length > 0 && (
-            renderSectionList(favorites)
-          )}
-        </div>
-
-        {/* Recently Viewed */}
-        <div>
-          <button
-            onClick={() => toggleSection("recentlyViewed")}
-            className={cardClass}
-          >
-            <Clock className={iconClass} />
-            <span className={labelClass}>{t('sidebar.recentlyViewed')}</span>
-          </button>
-          {activeSection === "recentlyViewed" && recentlyViewed.length > 0 && (
-            renderSectionList(recentlyViewed)
-          )}
-        </div>
-
-        <div className="flex flex-col gap-3">
-        <button onClick={goCommunities} className={cardClass}>
-            <Users className={iconClass} />
-            <span className={labelClass}>{t('sidebar.communities')}</span>
-          </button>
-          <button onClick={goMyJournals} className={cardClass}>
-            <Notebook className={iconClass} />
-            <span className={labelClass}>{t('sidebar.journals')}</span>
-          </button>
-          <button onClick={goMyHabits} className={cardClass}>
-            <ListChecks className={iconClass} />
-            <span className={labelClass}>{t('sidebar.habits')}</span>
-          </button>
-          
-       </div>
-
-        {/* My Letters */}
-        <button onClick={handleLetters} className={cardClass}>
-          <FileText className={iconClass} />
-          <span className={labelClass}>{t('sidebar.letters')}</span>
-        </button>
 
         {/* EmpathAI Bot */}
-        <button onClick={handleBotChat} className={cardClass}>
+        <button onClick={handleBotChat} className={btnClass}>
           <MessageSquare className={iconClass} />
           <span className={labelClass}>{t('sidebar.bot')}</span>
         </button>
+
+        {/* Communities */}
+        <button onClick={goCommunities} className={btnClass}>
+          <Users className={iconClass} />
+          <span className={labelClass}>{t('sidebar.communities')}</span>
+        </button>
+
+        {/* Well Being Tools */}
+        <div>
+          <button
+            onClick={() => setWellbeingOpen(o => !o)}
+            className={btnClass}
+          >
+            <Heart className={iconClass} />
+            <span className={labelClass}>{t('sidebar.wellbeing')}</span>
+            <span className="ml-auto">
+              {wellbeingOpen
+                ? <ChevronUp className="w-5 h-5 text-white/70" />
+                : <ChevronDown className="w-5 h-5 text-white/70" />}
+            </span>
+          </button>
+
+          {wellbeingOpen && (
+            <div className="mt-2 flex flex-col gap-2 pl-2">
+              {wellbeingTools.map(({ label, icon: Icon, action }) => (
+                <button
+                  key={label}
+                  onClick={action}
+                  className="flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 border border-transparent hover:border-amber-300/50 rounded-xl transition-all duration-150 text-left"
+                >
+                  <Icon className="w-5 h-5 text-amber-300 flex-shrink-0" />
+                  <span className="text-white font-medium text-sm">{label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
       </div>
 
       {/* Privacy Policy link at bottom */}
       <div className="absolute bottom-4 left-4">
-      <a
-        href="https://www.nottingham.ac.uk/utilities/privacy/privacy.aspx"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs text-gray-300 text-md ml-5 mt-5 hover:text-amber-400 transition underline"
-      >
-        {t('sidebar.privacy')}
-      </a>
-    </div>
+        <a
+          href="https://www.nottingham.ac.uk/utilities/privacy/privacy.aspx"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-gray-300 ml-2 mt-5 hover:text-amber-400 transition underline"
+        >
+          {t('sidebar.privacy')}
+        </a>
+      </div>
     </aside>
   );
 }

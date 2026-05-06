@@ -200,7 +200,7 @@ return createPortal(
               <img
                 src={form.profile_picture}
                 alt="Preview"
-                className="h-24 w-24 rounded-full object-cover border-2 border-amber-400 shadow"
+                className="h-24 w-24 rounded-full object-contain bg-white/10 border-2 border-amber-400 shadow"
               />
               <button
                 type="button"

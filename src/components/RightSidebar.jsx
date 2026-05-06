@@ -20,6 +20,16 @@ export default function RightSidebar() {
   // NEW: contact modal state
   const [openContact, setOpenContact] = useState(false);
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+
+  const openContactModal = () => {
+    setContactForm({
+      name: user?.username || "",
+      email: user?.email || "",
+      message: "",
+    });
+    setContactMsg({ type: null, text: "" });
+    setOpenContact(true);
+  };
   const [contactSubmitting, setContactSubmitting] = useState(false);
   const [contactMsg, setContactMsg] = useState({ type: null, text: "" });
 
@@ -146,7 +156,7 @@ export default function RightSidebar() {
             <ul className="ml-8 space-y-1 text-white/90 text-sm">
               {[
                 ["El Arte De Buen Vivir","https://www.elartedelbuenvivir.es"],
-                ["Fundacion Metta Hospice", "https://fundacionmetta.org/index.php"]
+                ["Fundacion Metta Hospice", "https://fundacionmetta.org/index.php"],
                 ["Mind UK", "https://www.mind.org.uk"],
                 ["Cruse", "https://www.cruse.org.uk"],
                 ["Samaritans", "https://www.samaritans.org"],
@@ -260,7 +270,7 @@ export default function RightSidebar() {
         )}
 
         {/* Contact Us (opens modal) */}
-        <button onClick={() => setOpenContact(true)} className={cardClass}>
+        <button onClick={openContactModal} className={cardClass}>
           <Mail className={iconClass} />
           <span className={labelClass}>{t('sidebar.contactUs')}</span>
         </button>
@@ -296,7 +306,7 @@ export default function RightSidebar() {
                   className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   value={contactForm.name}
                   onChange={(e) => setContactForm((s) => ({ ...s, name: e.target.value }))}
-                  placeholder={user?.username ? `${user.username} (editable)` : "Jane Doe"}
+                  placeholder="Your name"
                 />
               </div>
 
@@ -307,7 +317,7 @@ export default function RightSidebar() {
                   className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   value={contactForm.email}
                   onChange={(e) => setContactForm((s) => ({ ...s, email: e.target.value }))}
-                  placeholder={user?.email ? `${user.email} (editable)` : "you@example.com"}
+                  placeholder="your@email.com"
                 />
               </div>
 

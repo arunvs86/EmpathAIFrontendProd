@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createChat } from "../services/chatApi";
 import { createPortal } from "react-dom";
+import { useTranslation } from 'react-i18next';
 
 function Modal({ children, onClose }) {
   return createPortal(
@@ -16,7 +17,7 @@ function Modal({ children, onClose }) {
 }
 
 function PostCard({ post, onPostUpdated, onPostDeleted }) {
-  console.log("postInPH", post)
+  const { t } = useTranslation();
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   const isOwner = currentUser && currentUser.id === post.userId;
 
@@ -308,8 +309,8 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       {/* Community & Edited */}
       {(communityName || lastEdited) && (
         <div className="px-4 pb-2 flex justify-between text-xs text-white/80">
-          {communityName && <span>Community: {communityName}</span>}
-          {lastEdited && <span>Edited: {lastEdited}</span>}
+          {communityName && <span>{t('posts.community')}: {communityName}</span>}
+          {lastEdited && <span>{t('posts.edited')}: {lastEdited}</span>}
         </div>
       )}
 
@@ -329,14 +330,14 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
                 type="button"
                 className="text-white/80 hover:underline text-sm"
               >
-                Cancel
+                {t('posts.cancel')}
               </button>
               <button
                 type="submit"
                 disabled={loading}
                 className="bg-white/30 hover:bg-white/40 text-white font-semibold py-2 px-4 rounded-lg text-sm"
               >
-                {loading ? "Saving..." : "Save"}
+                {loading ? t('posts.saving') : t('common.save')}
               </button>
             </div>
           </form>
@@ -448,13 +449,13 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
               onClick={() => setIsEditing(true)}
               className="text-white/90 hover:underline text-sm"
             >
-              Edit
+              {t('posts.edit')}
             </button>
             <button
               onClick={handleDelete}
               className="text-red-300 hover:underline text-sm"
             >
-              Delete
+              {t('posts.delete')}
             </button>
           </div>
         )}
@@ -467,7 +468,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
          onClick={handleToggleComments}
          className="text-white/90 hover:underline text-sm"
        >
-         {showComments ? "Hide Comments" : 'Comments'}
+         {showComments ? t('posts.hideComments') : t('posts.comments')}
        </button>
        {/* Report + Message grouped on the right */}
        <div className="flex items-center gap-4">
@@ -475,14 +476,14 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
            onClick={() => setShowReportModal(true)}
            className="text-yellow-300 hover:underline text-sm"
          >
-           Report
+           {t('posts.report')}
          </button>
          {!isOwner && (
            <button
              onClick={handleMessageClick}
              className="bg-white/10 text-white py-1 px-3 rounded-lg text-sm hover:border border-amber-300"
            >
-             Message
+             {t('posts.message')}
            </button>
          )}
        </div>
@@ -496,7 +497,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
             <textarea
               value={newComment}
               onChange={e => setNewComment(e.target.value)}
-              placeholder="Write a comment..."
+              placeholder={t('posts.writeComment')}
               className="w-full bg-white/10 placeholder-white/90 rounded-lg p-2 text-white focus:outline-none focus:ring-1 focus:ring-amber-300"
               rows="2"
             />
@@ -504,7 +505,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
               type="submit"
               className="bg-white/10 font-bold hover:border border-amber-300 text-white py-1 px-4 rounded-lg text-sm"
             >
-              Add Comment
+              {t('posts.addComment')}
             </button>
           </form>
           {loadingComments && <p className="text-white/80 text-sm">Loading…</p>}
@@ -530,32 +531,32 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
 {showReportModal && (
         <Modal onClose={() => setShowReportModal(false)}>
           <div className="bg-white rounded-lg p-6 w-11/12 max-w-md text-black">
-            <h2 className="text-xl font-semibold mb-4">Report Post</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('posts.reportPost')}</h2>
 
             <label className="block mb-2">
-              Reason:
+              {t('posts.reportReason')}:
               <select
                 className="mt-1 w-full p-2 border rounded"
                 value={reportReason}
                 onChange={e => setReportReason(e.target.value)}
               >
-                <option value="">-- Select reason --</option>
-                <option value="spam">Spam</option>
-                <option value="abuse">Abuse</option>
-                <option value="misinformation">Misinformation</option>
-                <option value="harmful content">Harmful Content</option>
-                <option value="other">Other</option>
+                <option value="">{t('posts.selectReason')}</option>
+                <option value="spam">{t('posts.spam')}</option>
+                <option value="abuse">{t('posts.abuse')}</option>
+                <option value="misinformation">{t('posts.misinformation')}</option>
+                <option value="harmful content">{t('posts.harmfulContent')}</option>
+                <option value="other">{t('posts.other')}</option>
               </select>
             </label>
 
             <label className="block mb-4">
-              Details (optional):
+              {t('posts.reportDetails')}:
               <textarea
                 className="mt-1 w-full p-2 border rounded"
                 rows="3"
                 value={reportDesc}
                 onChange={e => setReportDesc(e.target.value)}
-                placeholder="Additional context..."
+                placeholder={t('posts.reportPlaceholder')}
               />
             </label>
 
@@ -569,14 +570,14 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
                 disabled={reportLoading}
               >
-                Cancel
+                {t('posts.cancel')}
               </button>
               <button
                 onClick={handleReport}
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 disabled={reportLoading}
               >
-                {reportLoading ? "Reporting…" : "Report"}
+                {reportLoading ? t('posts.reporting') : t('posts.report')}
               </button>
             </div>
           </div>

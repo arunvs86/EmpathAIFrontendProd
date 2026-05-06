@@ -258,9 +258,9 @@ export default function Signup() {
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative">
       <button
         onClick={toggleLang}
-        className="absolute top-4 right-4 z-10 text-xs px-2.5 py-1 rounded-full border border-white/20 text-white/70 hover:text-amber-300 hover:border-amber-300/50 transition"
+        className="absolute top-4 right-4 z-10 text-sm px-4 py-2 rounded-full bg-amber-400/20 border border-amber-400/60 text-amber-300 hover:bg-amber-400/40 transition font-semibold"
       >
-        {i18n.language === 'en' ? 'ES' : 'EN'}
+        {i18n.language === 'en' ? '🌐 Switch to Spanish' : '🌐 Switch to English'}
       </button>
 
       {/* ── LEFT PANEL ── */}
@@ -364,7 +364,7 @@ export default function Signup() {
             <div>
               <label className={labelCls}>{t('auth.profilePicture')}</label>
               {formData.profile_picture && (
-                <img src={formData.profile_picture} alt="Preview" className="h-20 w-20 rounded-full object-cover mb-2 border-2 border-white/20" />
+                <img src={formData.profile_picture} alt="Preview" className="h-20 w-20 rounded-full object-contain bg-white/10 mb-2 border-2 border-white/20" />
               )}
               <input
                 type="file"
@@ -397,46 +397,7 @@ export default function Signup() {
               </div>
             </div>
 
-            {/* Faith & Feelings */}
-            <div className="flex items-center gap-3">
-              <input name="faith_support" type="checkbox" checked={formData.faith_support} onChange={handleChange} className="accent-amber-400 w-4 h-4" />
-              <label className="text-white/80 font-medium cursor-pointer">{t('auth.faithSupport')}</label>
-            </div>
-            <div className="flex items-center gap-3">
-              <input name="showFeelings" type="checkbox" checked={formData.showFeelings} onChange={handleChange} className="accent-amber-400 w-4 h-4" />
-              <label className="text-white/80 font-medium cursor-pointer">{t('auth.shareFeelings')}</label>
-            </div>
-
-            {formData.showFeelings && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-2 bg-white/5 border border-white/15 rounded-xl p-4">
-                  {FEELINGS.map(f => (
-                    <label key={f} className="flex items-center gap-2 cursor-pointer text-white/80 text-sm">
-                      <input type="checkbox" checked={formData.current_feelings.includes(f)}
-                        onChange={() => toggleList("current_feelings", f)}
-                        className="accent-amber-400 w-4 h-4"
-                      />
-                      {f}
-                    </label>
-                  ))}
-                </div>
-                <input
-                  type="text"
-                  placeholder={t('auth.customFeelingPlaceholder')}
-                  onKeyDown={e => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      const val = e.target.value.trim();
-                      if (val && !formData.current_feelings.includes(val)) {
-                        setFormData(p => ({ ...p, current_feelings: [...p.current_feelings, val] }));
-                        e.target.value = "";
-                      }
-                    }
-                  }}
-                  className={inputCls}
-                />
-              </div>
-            )}
+            {/* Faith & Feelings — hidden for now, defaults to false/[] */}
 
             {/* Therapist-only section */}
             {type === "therapist" && (

@@ -1,6 +1,7 @@
 // src/components/CommunityDetail.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import PostCard from "./PostCard";
 import { dedupe } from "../utils/localStorageUtils";
 import { createGroupChat } from "../services/chatApi";
@@ -8,6 +9,7 @@ import PostComposer from "./PostComposer";
 import { createChat } from "../services/chatApi"; // if it's not already imported
 
 export default function CommunityDetail({ communityId, onBack }) {
+  const { t } = useTranslation();
   const navigate      = useNavigate();
   const params        = useParams();
   const id            = communityId || params.id;
@@ -207,7 +209,7 @@ export default function CommunityDetail({ communityId, onBack }) {
     }
   };
 
-  if (loading) return <p className="text-gray-200">Loading community…</p>;
+  if (loading) return <p className="text-gray-200">{t('community.loadingCommunity')}</p>;
   if (error)   return <p className="text-red-400">{error}</p>;
   if (!community) return <p className="text-gray-200">Community not found.</p>;
 
@@ -260,7 +262,7 @@ export default function CommunityDetail({ communityId, onBack }) {
     return (
       <div className="flex justify-between items-center py-2">
         <div className="flex items-center space-x-3">
-          <img src={member.profile_picture} alt="" className="w-8 h-8 rounded-full" />
+          <img src={member.profile_picture || "/assets/avatar.png"} alt="" className="w-8 h-8 rounded-full object-contain bg-white/10" />
           <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
             {member.username}
           </a>
@@ -271,7 +273,7 @@ export default function CommunityDetail({ communityId, onBack }) {
               className="text-xs bg-amber-400/20 border border-amber-400/50 text-amber-300 px-3 py-1 rounded-full hover:bg-amber-400/30 transition"
               onClick={handleMessageClick}
             >
-              Message
+              {t('community.message')}
             </button>
           )}
           {isMod && !isSelf && (
@@ -279,7 +281,7 @@ export default function CommunityDetail({ communityId, onBack }) {
               className="text-xs bg-red-500 text-white px-3 py-1 rounded-full"
               onClick={handleRemove}
             >
-              Remove
+              {t('community.remove')}
             </button>
           )}
         </div>
@@ -339,14 +341,14 @@ export default function CommunityDetail({ communityId, onBack }) {
         }}
         className="bg-white/80 text-gray-800 px-4 py-2 rounded-full hover:bg-white"
       >
-        Community Chat
+        {t('community.communityChat')}
       </button>
 
       <button
         onClick={() => setShowMembers(true)}
         className="bg-amber-400/20 border border-amber-400/50 text-amber-300 px-4 py-2 rounded-full hover:bg-amber-400/30 transition"
       >
-        Show Members
+        {t('community.showMembers')}
       </button>
     </>
   )}
@@ -357,13 +359,13 @@ export default function CommunityDetail({ communityId, onBack }) {
       onClick={() => setShowEditModal(true)}
       className="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600"
     >
-      Edit
+      {t('community.edit')}
     </button>
     <button
       onClick={handleDeleteCommunity}
       className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
     >
-      Delete
+      {t('community.delete')}
     </button>
   </>
 )}
@@ -376,16 +378,16 @@ export default function CommunityDetail({ communityId, onBack }) {
         {!community.members.includes(currentUser.id) ? (
           community.type === "public" ? (
             <button onClick={handleJoin} className="bg-white/20 hover:bg-amber-500/40 text-white px-4 py-2 rounded-full transition">
-              Join Community
+              {t('community.joinCommunity')}
             </button>
           ) : (
             <button onClick={handleRequestToJoin} className="bg-blue-400 text-white px-4 py-2 rounded-full">
-              Request to Join
+              {t('community.requestToJoin')}
             </button>
           )
         ) : (
           <button onClick={handleLeave} className="bg-red-400 text-white px-4 py-2 rounded-full">
-            Leave Community
+            {t('community.leaveCommunity')}
           </button>
         )}
       </div>
@@ -393,7 +395,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       {/* Pending Join Requests */}
       {pendingRequests.length > 0 && (
         <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Join Requests</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">{t('community.joinRequests')}</h2>
           <ul className="space-y-2">
             {pendingRequests.map(u => (
               <li key={u.id} className="flex justify-between items-center">
@@ -403,13 +405,13 @@ export default function CommunityDetail({ communityId, onBack }) {
                     onClick={() => handleRequest(u.id, "approve")}
                     className="px-3 py-1 bg-green-300 rounded-full text-green-800"
                   >
-                    Approve
+                    {t('community.approve')}
                   </button>
                   <button
                     onClick={() => handleRequest(u.id, "reject")}
                     className="px-3 py-1 bg-red-300 rounded-full text-red-800"
                   >
-                    Reject
+                    {t('community.reject')}
                   </button>
                 </div>
               </li>
@@ -422,7 +424,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       {community.members.includes(currentUser.id) ? (
       <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6">
         <h2 className="font-calligraphy text-3xl text-white mb-4">
-          Share in {community.name}
+          {t('community.shareIn')}{community.name}
         </h2>
         <PostComposer
           onPostCreated={newPost => setPosts(posts => [newPost, ...posts])}
@@ -430,7 +432,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         />
       </div>) : (
         <p className="text-gray-200">
-          You must join this community to create a new post.
+          {t('community.mustJoinToPost')}
         </p>
       )}
 
@@ -438,14 +440,14 @@ export default function CommunityDetail({ communityId, onBack }) {
       {community.members.includes(currentUser.id) ? (
         <div className="space-y-6">
           {posts.length === 0 ? (
-            <p className="text-gray-200">No posts in this community yet.</p>
+            <p className="text-gray-200">{t('community.noPosts')}</p>
           ) : (
             posts.map(post => <PostCard key={post._id} post={post} />)
           )}
         </div>
       ) : (
         <p className="text-gray-200">
-          You must join this community to see the posts.
+          {t('community.mustJoinToSee')}
         </p>
       )}
 
@@ -459,14 +461,14 @@ export default function CommunityDetail({ communityId, onBack }) {
           ✕
         </button>
 
-        <h2 className="text-lg font-semibold text-white">Moderators</h2>
+        <h2 className="text-lg font-semibold text-white">{t('community.moderators')}</h2>
         {members.filter(m => community.moderators.includes(m.id)).map(m => (
           <MemberRow key={m.id} member={m} />
         ))}
 
         <hr className="my-2 border-white/10" />
 
-        <h2 className="text-lg font-semibold text-white">Members</h2>
+        <h2 className="text-lg font-semibold text-white">{t('community.members')}</h2>
         {members
           .filter(m => !community.moderators.includes(m.id))
           .map(m => (
@@ -486,7 +488,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         ✕
       </button>
 
-      <h2 className="text-xl font-semibold mb-4 text-white">Edit Community</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white">{t('community.editCommunity')}</h2>
 
       <div className="space-y-4">
         <input
@@ -557,7 +559,7 @@ export default function CommunityDetail({ communityId, onBack }) {
           }}
           className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-lg transition"
         >
-          Save Changes
+          {t('community.saveChanges')}
         </button>
       </div>
     </div>

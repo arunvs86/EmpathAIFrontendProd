@@ -44,7 +44,7 @@ export default function ProfileHeader({
         <img
           src={profile_picture || '/assets/avatar.png'}
           alt={`${username}'s avatar`}
-          className="w-28 h-28 rounded-full object-cover border-4 border-amber-400/60 shadow-md cursor-pointer"
+          className="w-28 h-28 rounded-full object-contain bg-white/10 border-4 border-amber-400/60 shadow-md cursor-pointer"
         />
       </div>
 

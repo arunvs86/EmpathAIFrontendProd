@@ -109,9 +109,9 @@ const Login = () => {
       <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-8 shadow-2xl relative">
         <button
           onClick={toggleLang}
-          className="absolute top-4 right-4 text-xs px-2.5 py-1 rounded-full border border-white/20 text-white/70 hover:text-amber-300 hover:border-amber-300/50 transition"
+          className="absolute top-4 right-4 text-sm px-4 py-2 rounded-full bg-amber-400/20 border border-amber-400/60 text-amber-300 hover:bg-amber-400/40 transition font-semibold"
         >
-          {i18n.language === 'en' ? 'ES' : 'EN'}
+          {i18n.language === 'en' ? '🌐 Switch to Spanish' : '🌐 Switch to English'}
         </button>
         {notification && (
           <NotificationPopup
