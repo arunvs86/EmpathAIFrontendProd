@@ -210,7 +210,13 @@
     "areYouSureDelete": "¿Estás seguro de que quieres eliminar esta comunidad?",
     "communityUpdated": "Comunidad actualizada.",
     "failedUpdate": "Error al actualizar la comunidad.",
-    "failedDelete": "Error al eliminar la comunidad."
+    "failedDelete": "Error al eliminar la comunidad.",
+    "public": "Pública",
+    "private": "Privada",
+    "membersCount": "Miembros",
+    "moderatorsCount": "Moderadores",
+    "created": "Creada",
+    "view": "Ver"
   },
   "profile": {
     "editTitle": "Editar perfil",

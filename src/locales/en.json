@@ -210,7 +210,13 @@
     "areYouSureDelete": "Are you sure you want to delete this community?",
     "communityUpdated": "Community updated.",
     "failedUpdate": "Failed to update community.",
-    "failedDelete": "Failed to delete community."
+    "failedDelete": "Failed to delete community.",
+    "public": "Public",
+    "private": "Private",
+    "membersCount": "Members",
+    "moderatorsCount": "Moderators",
+    "created": "Created",
+    "view": "View"
   },
   "profile": {
     "editTitle": "Edit Profile",
