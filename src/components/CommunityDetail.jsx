@@ -262,7 +262,12 @@ export default function CommunityDetail({ communityId, onBack }) {
     return (
       <div className="flex justify-between items-center py-2">
         <div className="flex items-center space-x-3">
-          <img src={member.profile_picture || "/assets/avatar.png"} alt="" className="w-8 h-8 rounded-full object-contain bg-white/10" />
+          <img
+            src={member.profile_picture || "/assets/avatar.png"}
+            alt=""
+            className="w-8 h-8 rounded-full object-cover bg-white/10"
+            onError={e => { e.currentTarget.src = "/assets/avatar.png"; }}
+          />
           <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
             {member.username}
           </a>

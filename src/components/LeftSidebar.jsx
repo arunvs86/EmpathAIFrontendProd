@@ -31,9 +31,9 @@ export default function LeftSidebar() {
     { label: t('sidebar.habits'),            icon: ListChecks, action: () => { if (!currentUser?.id) return navigate("/login"); navigate(`/profile/${currentUser.id}/habits`); } },
     { label: t('sidebar.letters'),           icon: FileText,  action: () => navigate("/letters") },
     { label: t('nav.spiritual'),             icon: Shield,    action: () => navigate("/spiritual") },
-    { label: t('nav.plantSapling'),          icon: Leaf,      action: () => navigate("/plant") },
-    { label: t('nav.wellnessTips'),          icon: Sparkles,  action: () => navigate("/wellness") },
-    { label: t('nav.mindfulMeditation'),     icon: Brain,     action: () => navigate("/mindful") },
+    { label: t('nav.plantSapling'),          icon: Leaf,      action: () => navigate("/plant-sapling") },
+    { label: t('nav.wellnessTips'),          icon: Sparkles,  action: () => navigate("/wellness-tips") },
+    { label: t('nav.mindfulMeditation'),     icon: Brain,     action: () => navigate("/mindful-meditation") },
   ];
 
   const btnClass =
@@ -42,7 +42,8 @@ export default function LeftSidebar() {
   const labelClass = "text-white font-semibold text-base";
 
   return (
-    <aside className="w-full h-full p-4">
+    <aside className="w-full h-full flex flex-col">
+      <div className="flex-1 overflow-y-auto p-4 pb-10">
       <div className="flex flex-col gap-4">
 
         {/* EmpathAI Bot */}
@@ -89,14 +90,15 @@ export default function LeftSidebar() {
         </div>
 
       </div>
+      </div>
 
       {/* Privacy Policy link at bottom */}
-      <div className="absolute bottom-4 left-4">
+      <div className="p-4 pt-0">
         <a
           href="https://www.nottingham.ac.uk/utilities/privacy/privacy.aspx"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-gray-300 ml-2 mt-5 hover:text-amber-400 transition underline"
+          className="text-xs text-gray-300 hover:text-amber-400 transition underline"
         >
           {t('sidebar.privacy')}
         </a>

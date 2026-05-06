@@ -77,7 +77,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
         throw new Error(data.error || "Failed to update post");
       }
       const updatedPost = await response.json();
-      onPostUpdated(updatedPost);
+      if (typeof onPostUpdated === 'function') onPostUpdated(updatedPost);
       setIsEditing(false);
     } catch (err) {
       setError(err.message);
@@ -105,7 +105,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
         const data = await response.json();
         throw new Error(data.error || "Failed to delete post");
       }
-      onPostDeleted(post._id);
+      if (typeof onPostDeleted === 'function') onPostDeleted(post._id);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -225,11 +225,13 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Report failed");
       // locally flag the post
-      onPostUpdated({
-        ...post,
-        status:      "flagged",
-        reported_by: [...(post.reported_by||[]), currentUser.id]
-      });
+      if (typeof onPostUpdated === 'function') {
+        onPostUpdated({
+          ...post,
+          status:      "flagged",
+          reported_by: [...(post.reported_by||[]), currentUser.id]
+        });
+      }
       setShowReportModal(false);
     } catch (err) {
       setReportError(err.message);
