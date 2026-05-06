@@ -130,8 +130,9 @@ export default function RightSidebar() {
         headers: { "Content-Type": "application/json" }, // public endpoint; no auth needed
         body: JSON.stringify(payload),
       });
+      console.log("contact form", res)
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || "Failed to send message");
+      if (!res.ok) throw new Error(data?.detail || data?.error || "Failed to send message");
       setContactMsg({ type: "success", text: t('sidebar.contactSuccess') });
       setContactForm({ name: "", email: "", message: "" });
       // auto-close after a moment

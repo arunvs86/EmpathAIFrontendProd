@@ -63,21 +63,21 @@ export default function CommunityDetail({ communityId, onBack }) {
   }, [id]);
 
   useEffect(() => {
-    if (!community) return;
+    if (!community?.members?.length) return;
     const fetchMembers = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/communities/${community._id}/members`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const ids = community.members.join(",");
+        const res = await fetch(
+          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users?ids=${ids}`
+        );
         if (!res.ok) throw new Error("Failed to fetch members");
         setMembers(await res.json());
       } catch (err) {
-        console.error(err);
+        console.error("fetchMembers error:", err);
       }
     };
     fetchMembers();
-  }, [community]);
+  }, [community?._id]);
 
   useEffect(() => {
     if (community && showEditModal) {
