@@ -258,15 +258,20 @@ export default function CommunityDetail({ communityId, onBack }) {
     return (
       <div className="flex justify-between items-center py-2">
         <div className="flex items-center space-x-3">
-          <img
-            src={member.profile_picture || "/assets/avatar.png"}
-            alt={member.username}
-            className="w-10 h-10 rounded-full object-cover bg-white/20 border border-white/30"
-            onError={e => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23d97706'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='16' font-family='sans-serif'%3E${encodeURIComponent((member.username || "?")[0].toUpperCase())}%3C/text%3E%3C/svg%3E`;
-            }}
-          />
+          {member.profile_picture ? (
+            <div
+              className="w-10 h-10 rounded-full flex-shrink-0 border border-white/30"
+              style={{
+                backgroundImage: `url(${member.profile_picture})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full flex-shrink-0 bg-amber-500 border border-white/30 flex items-center justify-center text-white font-bold text-sm">
+              {(member.username || "?")[0].toUpperCase()}
+            </div>
+          )}
           <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
             {member.username}
           </a>
