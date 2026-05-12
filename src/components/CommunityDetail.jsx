@@ -47,10 +47,23 @@ export default function CommunityDetail({ communityId, onBack }) {
         if (!res.ok) throw new Error((await res.json()).error);
         const communityData = await res.json();
 
-        // 2) Posts (always fetch, but we'll conditionally render)
+        // 2) Posts
         res = await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/posts/community/${id}`);
         if (!res.ok) throw new Error((await res.json()).error);
         const postData = await res.json();
+
+        // 3) Members — fetch right here so there is no race condition
+        if (communityData.members?.length) {
+          const ids = communityData.members.join(",");
+          const mRes = await fetch(
+            `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users?ids=${ids}`
+          );
+          if (mRes.ok) {
+            const memberData = await mRes.json();
+            console.log("community members", memberData);
+            setMembers(memberData);
+          }
+        }
 
         setCommunity(communityData);
         setPosts(postData);
@@ -61,23 +74,6 @@ export default function CommunityDetail({ communityId, onBack }) {
       }
     })();
   }, [id]);
-
-  useEffect(() => {
-    if (!community?.members?.length) return;
-    const fetchMembers = async () => {
-      try {
-        const ids = community.members.join(",");
-        const res = await fetch(
-          `https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/users?ids=${ids}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch members");
-        setMembers(await res.json());
-      } catch (err) {
-        console.error("fetchMembers error:", err);
-      }
-    };
-    fetchMembers();
-  }, [community?._id]);
 
   useEffect(() => {
     if (community && showEditModal) {
@@ -264,9 +260,12 @@ export default function CommunityDetail({ communityId, onBack }) {
         <div className="flex items-center space-x-3">
           <img
             src={member.profile_picture || "/assets/avatar.png"}
-            alt=""
-            className="w-8 h-8 rounded-full object-cover bg-white/10"
-            onError={e => { e.currentTarget.src = "/assets/avatar.png"; }}
+            alt={member.username}
+            className="w-10 h-10 rounded-full object-cover bg-white/20 border border-white/30"
+            onError={e => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23d97706'/%3E%3Ctext x='20' y='25' text-anchor='middle' fill='white' font-size='16' font-family='sans-serif'%3E${encodeURIComponent((member.username || "?")[0].toUpperCase())}%3C/text%3E%3C/svg%3E`;
+            }}
           />
           <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
             {member.username}
