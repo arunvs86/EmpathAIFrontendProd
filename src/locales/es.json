@@ -320,6 +320,9 @@
     "scrollUp": "Subir"
   },
   "faith": {
+    "pageTitle": "Apoyo Espiritual",
+    "pageSubtitle": "Elige tu tradición religiosa para explorar prácticas, oraciones y orientación.",
+    "backToAll": "Todas las tradiciones",
     "hero": "Explora rituales y creencias de diversas religiones para apoyarte en el duelo.",
     "labels": {
       "Christianity": "Cristianismo",

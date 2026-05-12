@@ -109,9 +109,10 @@ const Login = () => {
       <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-8 shadow-2xl relative">
         <button
           onClick={toggleLang}
-          className="absolute top-4 right-4 text-sm px-4 py-2 rounded-full bg-amber-400/20 border border-amber-400/60 text-amber-300 hover:bg-amber-400/40 transition font-semibold"
+          className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-bold text-base transition-all duration-200"
         >
-          {i18n.language === 'en' ? '🌐 Switch to Spanish' : '🌐 Switch to English'}
+          <span className="text-xl leading-none">{i18n.language === 'en' ? '🇪🇸' : '🇬🇧'}</span>
+          <span>{i18n.language === 'en' ? 'Español' : 'English'}</span>
         </button>
         {notification && (
           <NotificationPopup
@@ -121,7 +122,7 @@ const Login = () => {
           />
         )}
 
-        <h1 className="text-3xl font-calligraphy font-bold mb-6 text-center text-amber-300">
+        <h1 className="text-3xl mt-8 font-calligraphy font-bold mb-6 text-center text-amber-300">
           {showForgot ? t('auth.resetTitle') : t('auth.welcomeTitle')}
         </h1>
 

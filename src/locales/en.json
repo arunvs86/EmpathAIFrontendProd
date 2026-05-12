@@ -115,7 +115,7 @@
     "habits": "My Habits",
     "letters": "My Letters",
     "bot": "EmpathAI Bot",
-    "wellbeing": "Well Being Tools",
+    "wellbeing": "Wellbeing Tools",
     "privacy": "Privacy Policy",
     "helpfulLinks": "Helpful Links",
     "bookAppt": "Book Appointments",
@@ -179,7 +179,7 @@
   "community": {
     "loading": "Loading communities…",
     "loadingCommunity": "Loading community…",
-    "searchPlaceholder": "Search communities…",
+    "searchPlaceholder": "Search ",
     "allTypes": "All types",
     "publicOnly": "Public only",
     "privateOnly": "Private only",
@@ -320,6 +320,9 @@
     "scrollUp": "Scroll up"
   },
   "faith": {
+    "pageTitle": "Spiritual Support",
+    "pageSubtitle": "Choose your faith tradition to explore practices, prayers, and guidance.",
+    "backToAll": "All Traditions",
     "hero": "Explore rituals and beliefs across religions to support you in grief.",
     "labels": {
       "Christianity": "Christianity",

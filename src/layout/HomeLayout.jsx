@@ -24,7 +24,14 @@ export default function HomeLayout() {
   const isFaith = location.pathname.startsWith("/spiritual");
 
   const mainRef = useRef(null);
-const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.3;
+    }
+  }, []);
 
 useEffect(() => {
   const el = mainRef.current;
@@ -58,14 +65,15 @@ useEffect(() => {
     <div className="relative w-full h-screen overflow-hidden font-sans text-white">
       {/* Morning video background — lighter and warmer than the night sky */}
       <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 object-cover w-full h-full -z-40 pointer-events-none"
-      >
-        <source src={bgVideoMorning} type="video/mp4" />
-      </video>
+  ref={videoRef}
+  autoPlay
+  loop
+  muted
+  playsInline
+  className="absolute inset-0 object-cover w-full h-full -z-40 pointer-events-none"
+>
+  <source src={bgVideoMorning} type="video/mp4" />
+</video>
       {/* Very light overlay so text remains readable */}
       <div className="absolute inset-0 bg-black/10 -z-40 pointer-events-none" />
 
@@ -77,7 +85,7 @@ useEffect(() => {
       {/* Main layout */}
       <div className="relative z-20 flex pt-20 h-[calc(100%-4rem)]">
         {/* Left Sidebar */}
-        <aside className="hidden md:block w-52 p-4 relative pointer-events-auto z-30">
+        <aside className="hidden md:block w-60 p-4 relative pointer-events-auto z-30">
           <LeftSidebar />
         </aside>
 

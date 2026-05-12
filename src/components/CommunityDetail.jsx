@@ -52,6 +52,8 @@ export default function CommunityDetail({ communityId, onBack }) {
         if (!res.ok) throw new Error((await res.json()).error);
         const postData = await res.json();
 
+        console.log("posts", postData)
+
         // 3) Members — fetch right here so there is no race condition
         if (communityData.members?.length) {
           const ids = communityData.members.join(",");
@@ -273,7 +275,7 @@ export default function CommunityDetail({ communityId, onBack }) {
             </div>
           )}
           <a href={`/profile/${member.id}`} className="text-amber-300 hover:text-amber-200 hover:underline">
-            {member.username}
+            {member.username} {member.profile_picture}
           </a>
         </div>
         <div className="flex space-x-2">

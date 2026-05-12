@@ -68,9 +68,9 @@ export default function RightSidebar() {
 
   // Card styles
   const cardClass =
-    "flex items-center flex-shrink-0 gap-2 px-3 py-2 bg-white/15 hover:bg-white/25 hover:border border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200";
+    "w-full flex items-center gap-3 px-4 py-4 bg-white/15 hover:bg-white/25 border-2 border-white/40 hover:border-amber-400 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200 text-left";
   const iconClass = "w-5 h-5 text-white flex-shrink-0";
-  const labelClass = "text-white font-semibold text-sm";
+  const labelClass = "text-white font-bold text-base leading-snug flex-1 min-w-0";
 
   function getTimeRemaining(scheduledAt, scheduledAtUkIso) {
        // Normalize to a UK DateTime first
@@ -154,7 +154,7 @@ export default function RightSidebar() {
             <span className={labelClass}>{t('sidebar.helpfulLinks')}</span>
           </button>
           {activeSection === "helpful" && (
-            <ul className="ml-8 space-y-1 text-white/90 text-sm">
+            <ul className="mt-2 ml-2 space-y-1 text-white/90 text-base">
               {[
                 ["El Arte De Buen Vivir","https://www.elartedelbuenvivir.es"],
                 ["Fundacion Metta Hospice", "https://fundacionmetta.org/index.php"],
@@ -200,7 +200,7 @@ export default function RightSidebar() {
           </button>
 
           {activeSection === "upcoming" && (
-            <ul className="ml-8 space-y-2 text-white/90 text-sm mt-2">
+            <ul className="ml-2 space-y-2 text-white/90 text-base mt-2">
               {loading && <li>{t('sidebar.loading')}</li>}
               {err && <li className="text-red-300">{err}</li>}
               {!loading && !err && upcoming.length === 0 && <li>{t('sidebar.noUpcoming')}</li>}

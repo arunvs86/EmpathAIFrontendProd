@@ -37,9 +37,9 @@ export default function LeftSidebar() {
   ];
 
   const btnClass =
-    "w-full flex items-center gap-3 px-4 py-3.5 bg-white/15 hover:bg-white/25 border border-transparent hover:border-amber-300/60 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200 text-left";
+    "w-full flex items-center gap-3 px-4 py-4 bg-white/15 hover:bg-white/25 border-2 border-white/40 hover:border-amber-400 rounded-2xl transform hover:-translate-y-0.5 transition-all duration-200 text-left";
   const iconClass = "w-6 h-6 text-white flex-shrink-0";
-  const labelClass = "text-white font-semibold text-sm leading-snug flex-1 min-w-0";
+  const labelClass = "text-white font-bold text-base leading-snug flex-1 min-w-0";
 
   return (
     <aside className="w-full h-full flex flex-col">
@@ -79,10 +79,10 @@ export default function LeftSidebar() {
                 <button
                   key={label}
                   onClick={action}
-                  className="flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 border border-transparent hover:border-amber-300/50 rounded-xl transition-all duration-150 text-left"
+                  className="flex items-center gap-3 px-4 py-3.5 bg-white/10 hover:bg-white/20 border-2 border-white/30 hover:border-amber-400 rounded-xl transition-all duration-150 text-left"
                 >
                   <Icon className="w-5 h-5 text-amber-300 flex-shrink-0" />
-                  <span className="text-white font-medium text-sm leading-snug flex-1 min-w-0">{label}</span>
+                  <span className="text-white font-semibold text-base leading-snug flex-1 min-w-0">{label}</span>
                 </button>
               ))}
             </div>

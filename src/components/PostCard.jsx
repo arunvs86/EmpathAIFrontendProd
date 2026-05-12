@@ -363,7 +363,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
               <video
                 src={url}
                 controls
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full max-h-[600px] rounded-lg bg-black"
               />
             );
           } else if (isAudio) {
@@ -379,7 +379,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
               <img
                 src={url}
                 alt=""
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full max-h-[600px] object-contain rounded-lg bg-black/10"
               />
             );
           }
@@ -404,7 +404,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
                 key={i}
                 src={url}
                 controls
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full max-h-[400px] rounded-lg bg-black"
               />
             );
           } else if (isAudio) {
@@ -422,7 +422,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
                 key={i}
                 src={url}
                 alt=""
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full max-h-[400px] object-contain rounded-lg bg-black/10"
               />
             );
           }

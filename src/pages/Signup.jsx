@@ -258,9 +258,10 @@ export default function Signup() {
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative">
       <button
         onClick={toggleLang}
-        className="absolute top-4 right-4 z-10 text-sm px-4 py-2 rounded-full bg-amber-400/20 border border-amber-400/60 text-amber-300 hover:bg-amber-400/40 transition font-semibold"
+        className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-bold text-base transition-all duration-200"
       >
-        {i18n.language === 'en' ? '🌐 Switch to Spanish' : '🌐 Switch to English'}
+        <span className="text-xl leading-none">{i18n.language === 'en' ? '🇪🇸' : '🇬🇧'}</span>
+        <span>{i18n.language === 'en' ? 'Español' : 'English'}</span>
       </button>
 
       {/* ── LEFT PANEL ── */}
@@ -499,7 +500,7 @@ export default function Signup() {
               {t('auth.signUpButton')}
             </button>
 
-            <p className="text-center text-sm text-white/60">
+            <p className="text-center text-md font-bold text-white">
               {t('auth.haveAccount')}{" "}
               <Link to="/login" className="text-amber-300 hover:text-amber-200 transition">
                 {t('auth.loginLink')}
