@@ -453,7 +453,14 @@ export default function CommunityDetail({ communityId, onBack }) {
           {posts.length === 0 ? (
             <p className="text-gray-200">{t('community.noPosts')}</p>
           ) : (
-            posts.map(post => <PostCard key={post._id} post={post} />)
+            posts.map(post => (
+              <PostCard
+                key={post._id}
+                post={post}
+                onPostDeleted={id => setPosts(prev => prev.filter(p => p._id !== id))}
+                onPostUpdated={updated => setPosts(prev => prev.map(p => p._id === updated._id ? updated : p))}
+              />
+            ))
           )}
         </div>
       ) : (
