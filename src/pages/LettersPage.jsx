@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LetterComposer from '../components/LetterComposer';
+import { useTranslation } from 'react-i18next';
 
 export default function LettersPage() {
+  const { t } = useTranslation();
   const [letters, setLetters] = useState([]);
   const [loading, setLoading] = useState(true);
   const api = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/";
@@ -37,11 +39,11 @@ export default function LettersPage() {
 
       {/* 2) the list of letters */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Your Letters</h2>
+        <h2 className="text-2xl font-semibold mb-4">{t('letters.yourLetters')}</h2>
         {loading ? (
           <p>Loading…</p>
         ) : letters.length === 0 ? (
-          <p className="text-white/60">You haven't written any letters yet.</p>
+          <p className="text-white/60">{t('letters.noLetters')}</p>
         ) : (
           <ul className="space-y-4">
             {letters.map(ltr => (

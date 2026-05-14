@@ -1,8 +1,10 @@
 // src/components/LetterComposer.jsx
 import React, { useState, useRef } from 'react';
 import { ImageIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function LetterComposer({ onLetterCreated }) {
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [mediaFiles, setMediaFiles] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -91,7 +93,7 @@ export default function LetterComposer({ onLetterCreated }) {
 </h2>      <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           rows={8}
-          placeholder="Dear …"
+          placeholder={t('letters.dear')}
           value={text}
           onChange={(e) => setText(e.target.value)}
           className="w-full border border-gray-300 rounded-lg p-4 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-amber-300"
@@ -106,10 +108,10 @@ export default function LetterComposer({ onLetterCreated }) {
             className="flex items-center space-x-1 text-gray-600 hover:text-gray-900"
           >
             <ImageIcon className="w-5 h-5 text-white" />
-            <span className="text-sm text-white ">Add Image</span>
+            <span className="text-sm text-white">{t('letters.addImage')}</span>
           </button>
           <span className="text-sm text-white">
-            {mediaFiles.length}/3 images
+            {mediaFiles.length}/3 {t('letters.images')}
           </span>
         </div>
         <input
@@ -152,7 +154,7 @@ export default function LetterComposer({ onLetterCreated }) {
             disabled={submitting || !text.trim()}
             className="bg-amber-600 font-bold hover:bg-amber-400 text-white/90 disabled:opacity-50  font-semibold py-2 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
           >
-            {submitting ? 'Saving…' : 'Save Letter'}
+            {submitting ? t('letters.saving') : t('letters.saveLetter')}
           </button>
         </div>
       </form>

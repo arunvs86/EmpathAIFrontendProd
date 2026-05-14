@@ -80,18 +80,19 @@ export default function AboutAppPage() {
         </div>
       </section>
 
-      <hr className="border-t border-white/30 my-12" />
+      {/* <hr className="border-t border-white/30 my-12" /> */}
 
       {/* Research Leadership */}
-      <section className="max-w-4xl mx-auto bg-white/15 backdrop-blur-md rounded-2xl p-10">
-        <h3 className="text-2xl md:text-3xl mb-4 font-calligraphy text-white"> {t('about.researchTitle')}   </h3>
+      
+      {/* <section className="max-w-4xl mx-auto bg-white/15 backdrop-blur-md rounded-2xl p-10"> */}
+        {/* <h3 className="text-2xl md:text-3xl mb-4 font-calligraphy text-white"> {t('about.researchTitle')}   </h3> */}
         {/* <p className="text-white text-lg leading-relaxed">
         {t('about.researchP1')}        </p> */}
         {/* <p className="text-white text-lg leading-relaxed mt-4">
         {t('about.researchP2')}         </p> */}
-      </section>
+      {/* </section> */}
 
-      <hr className="border-t border-white/30 my-12" />
+      {/* <hr className="border-t border-white/30 my-12" /> */}
 
       {/* Privacy & Data */}
       <section className="max-w-4xl mx-auto bg-white/15 backdrop-blur-md rounded-2xl p-10">

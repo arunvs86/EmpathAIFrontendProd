@@ -72,26 +72,31 @@ export default function Header() {
       <div className="h-18 flex items-center justify-between px-6 max-w-7xl mx-auto py-3">
 
         {/* Logo + Title */}
-        <a
-          href="http://www.elartedelbuenvivir.es/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3"
-        >
+        <div className="flex items-center gap-3">
           <img
             src="/assets/images/Nottingham_Blue_white_text_logo_SCREEN.png"
             alt="University of Nottingham"
-            className="h-10 w-auto"
+            className="h-10 w-auto cursor-pointer"
+            onClick={() => navigate("/about")}
           />
-          <img
-            src="/assets/images/LogoNewVectorized.png"
-            alt="EmpathAI Logo"
-            className="h-10 w-auto"
-          />
-          <h1 className="hover:text-amber-300 font-bold font-calligraphy text-2xl text-white leading-none">
+          <a
+            href="http://www.elartedelbuenvivir.es/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/assets/images/LogoNewVectorized.png"
+              alt="EmpathAI Logo"
+              className="h-10 w-auto hover:opacity-80 transition"
+            />
+          </a>
+          <h1
+            className="hover:text-amber-300 font-bold font-calligraphy text-2xl text-white leading-none cursor-pointer"
+            onClick={() => navigate("/about")}
+          >
             EmpathAI
           </h1>
-        </a>
+        </div>
 
         {/* Right controls */}
         <div className="flex items-center gap-3">

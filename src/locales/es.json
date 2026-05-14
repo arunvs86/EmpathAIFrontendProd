@@ -319,6 +319,15 @@
     "taglineFaith": "Encontrando consuelo a traves de la fe",
     "scrollUp": "Subir"
   },
+  "letters": {
+    "dear": "Querido/Querida …",
+    "addImage": "Añadir imagen",
+    "images": "imágenes",
+    "saveLetter": "Guardar Carta",
+    "saving": "Guardando…",
+    "yourLetters": "Tus Cartas",
+    "noLetters": "Aún no has escrito ninguna carta."
+  },
   "faith": {
     "pageTitle": "Apoyo Espiritual",
     "pageSubtitle": "Elige tu tradición religiosa para explorar prácticas, oraciones y orientación.",

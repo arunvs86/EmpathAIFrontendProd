@@ -319,6 +319,15 @@
     "taglineFaith": "Finding Comfort Through Faith",
     "scrollUp": "Scroll up"
   },
+  "letters": {
+    "dear": "Dear …",
+    "addImage": "Add Image",
+    "images": "images",
+    "saveLetter": "Save Letter",
+    "saving": "Saving…",
+    "yourLetters": "Your Letters",
+    "noLetters": "You haven't written any letters yet."
+  },
   "faith": {
     "pageTitle": "Spiritual Support",
     "pageSubtitle": "Choose your faith tradition to explore practices, prayers, and guidance.",
