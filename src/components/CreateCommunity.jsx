@@ -160,7 +160,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
             disabled={loading}
             className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold rounded-lg px-6 py-2 transition disabled:opacity-50"
           >
-            {loading ? "Creating…" : "Create Community"}
+            {loading ? t('community.creating') : t('community.createCommunity')}
           </button>
         </div>
       </form>

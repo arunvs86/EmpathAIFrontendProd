@@ -71,15 +71,15 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
     <div className="space-y-8">
 
       {/* ── Controls bar ── */}
-      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+      <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
 
         {/* Search */}
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
           <input
             type="text"
             placeholder={t('community.searchPlaceholder')}
-            className="w-full bg-white/20 placeholder-white/60 text-white text-base font-medium rounded-xl pl-11 pr-4 py-3.5 border-2 border-white/30 focus:border-amber-400 focus:outline-none transition"
+            className="w-full bg-white/20 placeholder-white/60 text-white text-base font-medium rounded-xl pl-10 pr-4 py-3.5 border-2 border-white/30 focus:border-amber-400 focus:outline-none transition"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
