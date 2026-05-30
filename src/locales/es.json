@@ -154,7 +154,10 @@
     "experience": "Experiencia",
     "yrs": "años",
     "languages": "Idiomas",
-    "viewDetails": "Ver detalles"
+    "viewDetails": "Ver detalles",
+    "loading": "Cargando terapeutas…",
+    "availableTherapists": "Terapeutas disponibles",
+    "noneInLanguage": "No hay terapeutas disponibles en español."
   },
   "appt": {
     "manageTitle": "Citas del terapeuta",

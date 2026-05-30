@@ -154,7 +154,10 @@
     "experience": "Experience",
     "yrs": "yrs",
     "languages": "Languages",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "loading": "Loading therapists...",
+    "availableTherapists": "Available Therapists",
+    "noneInLanguage": "No therapists available for the selected language."
   },
   "appt": {
     "manageTitle": "Therapist Appointments",
