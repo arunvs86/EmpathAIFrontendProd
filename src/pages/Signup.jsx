@@ -30,24 +30,8 @@ const NotificationPopup = ({ message, type, onClose }) => {
   );
 };
 
-// — Dropdown/checkbox options —
-const SPECIALIZATIONS = [
-  { value: "Anxiety", label: "Anxiety" },
-  { value: "Depression", label: "Depression" },
-  { value: "Grief", label: "Grief" },
-  { value: "Stress", label: "Stress" },
-  { value: "Trauma", label: "Trauma" },
-  { value: "Relationship", label: "Relationship" },
-  { value: "Addiction", label: "Addiction" },
-];
-const LANGUAGES = [
-  { value: "English", label: "English" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "French", label: "French" },
-  { value: "German", label: "German" },
-  { value: "Mandarin", label: "Mandarin" },
-  { value: "Hindi", label: "Hindi" },
-];
+// — Static (non-translated) constants —
+// Values are kept in English because they are stored in the DB.
 const PERMISSIONS = ["ban_users", "remove_posts", "approve_therapists"];
 const BOT_TYPES = [
   { value: "chatbot", label: "Chatbot" },
@@ -123,10 +107,39 @@ export default function Signup() {
     for (let y = now; y >= min; y--) arr.push(y);
     return arr;
   }, []);
-  const months = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
-  ];
+  // Months localised via Intl — no translation keys needed
+  const months = useMemo(() => {
+    const locale = i18n.language === 'es' ? 'es' : 'en';
+    return Array.from({ length: 12 }, (_, i) =>
+      new Date(2000, i, 1).toLocaleString(locale, { month: 'long' })
+    );
+  }, [i18n.language]);
+
+  // Translated react-select options (value stays English for backend; label is localised)
+  const specializationOptions = useMemo(() => [
+    { value: "Anxiety",      label: t('auth.spec_Anxiety') },
+    { value: "Depression",   label: t('auth.spec_Depression') },
+    { value: "Grief",        label: t('auth.spec_Grief') },
+    { value: "Stress",       label: t('auth.spec_Stress') },
+    { value: "Trauma",       label: t('auth.spec_Trauma') },
+    { value: "Relationship", label: t('auth.spec_Relationship') },
+    { value: "Addiction",    label: t('auth.spec_Addiction') },
+  ], [t]);
+
+  const languageOptions = useMemo(() => [
+    { value: "English",  label: t('auth.lang_English') },
+    { value: "Spanish",  label: t('auth.lang_Spanish') },
+    { value: "French",   label: t('auth.lang_French') },
+    { value: "German",   label: t('auth.lang_German') },
+    { value: "Mandarin", label: t('auth.lang_Mandarin') },
+    { value: "Hindi",    label: t('auth.lang_Hindi') },
+  ], [t]);
+
+  const appointmentTypeOptions = useMemo(() => [
+    { value: "text",  label: t('auth.apptType_text') },
+    { value: "voice", label: t('auth.apptType_voice') },
+    { value: "video", label: t('auth.apptType_video') },
+  ], [t]);
   const days = useMemo(() => {
     if (!dobYear || !dobMonth) return Array.from({ length: 31 }, (_, i) => i + 1);
     return Array.from(
@@ -194,7 +207,7 @@ export default function Signup() {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file.type.startsWith("image/")) {
-      setNotification({ message: "Only image files allowed", type: "error" });
+      setNotification({ message: t('auth.onlyImageAllowed'), type: "error" });
       return;
     }
     if (!file) return;
@@ -216,7 +229,7 @@ export default function Signup() {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!formData.dob) {
-      setNotification({ message: "Please select your DOB", type: "error" });
+      setNotification({ message: t('auth.dobRequired'), type: "error" });
       return;
     }
     const userData = { ...formData, role: type, profile_picture: formData.profile_picture || "" };
@@ -247,7 +260,7 @@ export default function Signup() {
         const err = await res.json();
         throw new Error(err.message);
       }
-      setNotification({ message: "Signup successful! Please check your email and verify your account. Please check your junk folder in case you couldn't find the email.", type: "success" });
+      setNotification({ message: t('auth.signupSuccess'), type: "success" });
       setTimeout(() => navigate("/login"), 10000);
     } catch (err) {
       setNotification({ message: err.message, type: "error" });
@@ -377,7 +390,7 @@ export default function Signup() {
 
             {/* Sue Ryder */}
             <div>
-              <label className={labelCls}>Were you referred by Sue Ryder or Treetops?</label>
+              <label className={labelCls}>{t('auth.sueRyderQuestion')}</label>
               <div className="flex gap-6 mt-1">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="isSueRyderReference" value="true"
@@ -406,51 +419,43 @@ export default function Signup() {
                 <h2 className="text-lg font-semibold text-amber-300 border-b border-white/15 pb-2">{t('auth.therapistDetails')}</h2>
                 <div>
                   <label className={labelCls}>{t('auth.specializationTags')}</label>
-                  <CreatableSelect isMulti options={SPECIALIZATIONS} styles={selectStyles}
+                  <CreatableSelect isMulti options={specializationOptions} styles={selectStyles}
                     onChange={sel => handleCreatable("specialization_tags", sel)}
-                    value={SPECIALIZATIONS.filter(o => formData.specialization_tags.includes(o.value))}
+                    value={specializationOptions.filter(o => formData.specialization_tags.includes(o.value))}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelCls}>{t('auth.experienceYears')}</label>
-                    <input name="experience_years" type="number" min="0" value={formData.experience_years} onChange={handleChange} className={inputCls} />
+                    <input name="experience_years" type="number" min="0" value={formData.experience_years} onChange={handleChange} placeholder={t('auth.expPlaceholder')} className={inputCls} />
                   </div>
                   <div>
                     <label className={labelCls}>{t('auth.licenseNumber')}</label>
-                    <input name="license_number" value={formData.license_number} onChange={handleChange} className={inputCls} />
+                    <input name="license_number" value={formData.license_number} onChange={handleChange} placeholder={t('auth.licensePlaceholder')} className={inputCls} />
                   </div>
                   <div>
                     <label className={labelCls}>{t('auth.link')}</label>
-                    <input name="link" value={formData.link} onChange={handleChange} className={inputCls} />
+                    <input name="link" value={formData.link} onChange={handleChange} placeholder={t('auth.linkPlaceholder')} className={inputCls} />
                   </div>
                 </div>
                 <div>
                   <label className={labelCls}>{t('auth.languagesSpoken')}</label>
-                  <CreatableSelect isMulti options={LANGUAGES} styles={selectStyles}
+                  <CreatableSelect isMulti options={languageOptions} styles={selectStyles}
                     onChange={sel => handleCreatable("languages_spoken", sel)}
-                    value={LANGUAGES.filter(o => formData.languages_spoken.includes(o.value))}
+                    value={languageOptions.filter(o => formData.languages_spoken.includes(o.value))}
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelCls}>{t('auth.sessionDuration')}</label>
-                    <input name="session_duration" type="number" min="15" value={formData.session_duration} onChange={handleChange} className={inputCls} />
+                    <input name="session_duration" type="number" min="15" value={formData.session_duration} onChange={handleChange} placeholder={t('auth.sessionPlaceholder')} className={inputCls} />
                   </div>
                   <div>
                     <label className={labelCls}>{t('auth.appointmentTypes')}</label>
                     <CreatableSelect isMulti styles={selectStyles}
-                      options={[
-                        { value: "text", label: "text" },
-                        { value: "voice", label: "voice" },
-                        { value: "video", label: "video" }
-                      ]}
+                      options={appointmentTypeOptions}
                       onChange={sel => handleCreatable("appointment_types", sel)}
-                      value={[
-                        { value: "text", label: "text" },
-                        { value: "voice", label: "voice" },
-                        { value: "video", label: "video" }
-                      ].filter(o => formData.appointment_types.includes(o.value))}
+                      value={appointmentTypeOptions.filter(o => formData.appointment_types.includes(o.value))}
                     />
                   </div>
                 </div>
