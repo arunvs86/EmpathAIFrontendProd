@@ -293,7 +293,7 @@
 //       }
 //     } catch (err) {
 //       console.error("Error sending message:", err);
-//       setError("Failed to send message");
+//       setError(t('chat.failedSend'));
 //     } finally {
 //       setBotTyping(false);
 //     }
@@ -619,13 +619,13 @@ function ChatDetail() {
     ? null
     : (chatDetails?.participants || []).find((p) => p.id !== currentUserId);
 
-  let headerTitle = "Chat";
+  let headerTitle = t('chat.headerDefault');
   if (chatDetails?.isGroup) {
-    headerTitle = `Chat with ${chatDetails.groupName}`;
+    headerTitle = t('chat.headerWith', { name: chatDetails.groupName });
   } else if (otherParticipant?.id === BOT_ID) {
-    headerTitle = "Chat with EmpathAI Bot";
+    headerTitle = t('chat.headerBot');
   } else if (otherParticipant) {
-    headerTitle = `Chat with ${otherParticipant.username}`;
+    headerTitle = t('chat.headerWith', { name: otherParticipant.username });
   }
 
   const handleVoiceUpload = async (message) => {
@@ -745,7 +745,7 @@ function ChatDetail() {
       }
     } catch (err) {
       console.error("Error sending message:", err);
-      setError("Failed to send message");
+      setError(t('chat.failedSend'));
     } finally {
       setBotTyping(false);
     }
@@ -765,7 +765,7 @@ function ChatDetail() {
       ? t('chat.you', 'You')
       : (msg?.sender?.username ||
          participantsById[senderId]?.username ||
-         (senderId === BOT_ID ? "EmpathAI Bot" : "User"));
+         (senderId === BOT_ID ? t('chat.botName') : "User"));
 
     return (
       <div key={idx} className={`flex w-full mb-2 ${bubbleAlign}`}>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // NotificationPopup component (reuse from Login)
 const NotificationPopup = ({ message, type, onClose }) => {
@@ -23,6 +24,7 @@ const NotificationPopup = ({ message, type, onClose }) => {
 };
 
 export default function ResetPassword() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -36,18 +38,18 @@ export default function ResetPassword() {
 
   useEffect(() => {
     if (!token) {
-      setNotification({ message: "Missing reset token.", type: "error" });
+      setNotification({ message: t('reset.missingToken'), type: "error" });
     }
-  }, [token]);
+  }, [token, t]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password.length < 8) {
-      setNotification({ message: "Password must be at least 8 characters.", type: "error" });
+      setNotification({ message: t('reset.minLength'), type: "error" });
       return;
     }
     if (password !== confirm) {
-      setNotification({ message: "Passwords do not match.", type: "error" });
+      setNotification({ message: t('reset.noMatch'), type: "error" });
       return;
     }
     setLoading(true);
@@ -59,7 +61,7 @@ export default function ResetPassword() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || "Failed to reset password.");
+        throw new Error(err.error || t('reset.failed'));
       }
       const result = await res.json();
       setNotification({ message: result.message, type: "success" });
@@ -88,12 +90,12 @@ export default function ResetPassword() {
           />
         )}
         <h1 className="text-2xl font-bold mb-6 text-center text-emerald-600">
-          Reset Password
+          {t('reset.title')}
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
-              New Password
+              {t('reset.newPassword')}
             </label>
             <input
               type="password"
@@ -107,7 +109,7 @@ export default function ResetPassword() {
           </div>
           <div className="mb-6">
             <label htmlFor="confirm" className="block text-gray-700 font-semibold mb-2">
-              Confirm New Password
+              {t('reset.confirmPassword')}
             </label>
             <input
               type="password"
@@ -123,7 +125,7 @@ export default function ResetPassword() {
             disabled={loading}
             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           >
-            {loading ? "Resetting..." : "Reset Password"}
+            {loading ? t('reset.resetting') : t('reset.submit')}
           </button>
         </form>
       </div>

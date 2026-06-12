@@ -142,7 +142,7 @@ export default function ProfileWeeklyHabits() {
 
   // ─── delete a habit ────────────────────────────
   const handleHabitDelete = async (id) => {
-    if (!confirm("Delete this habit?")) return;
+    if (!confirm(t('habits.deleteConfirm'))) return;
     const token = localStorage.getItem("token");
     await fetch(`https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net/habits/${id}`, {
       method: "DELETE",
@@ -413,32 +413,32 @@ function HabitEditor({ habit, onSave, onCancel }) {
           </label>
           <div>
             <label className="block text-white/80 font-medium mb-1">
-              Frequency
+              {t('habits.frequency')}
             </label>
             <select
               value={frequency}
               onChange={(e) => setFrequency(e.target.value)}
               className="w-full bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
             >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="custom">Custom</option>
+              <option value="daily">{t('habits.freqDaily')}</option>
+              <option value="weekly">{t('habits.freqWeekly')}</option>
+              <option value="custom">{t('habits.freqCustom')}</option>
             </select>
           </div>
           {frequency === "weekly" && (
             <div>
               <label className="block text-white/80 font-medium mb-1">
-                Weekdays
+                {t('habits.weekdays')}
               </label>
               <div className="flex flex-wrap gap-2">
                 {[
-                  "Sun",
-                  "Mon",
-                  "Tue",
-                  "Wed",
-                  "Thu",
-                  "Fri",
-                  "Sat",
+                  t('habits.sun'),
+                  t('habits.mon'),
+                  t('habits.tue'),
+                  t('habits.wed'),
+                  t('habits.thu'),
+                  t('habits.fri'),
+                  t('habits.sat'),
                 ].map((d, i) => (
                   <button
                     type="button"
@@ -459,7 +459,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
           <div className="flex gap-4">
             <div className="flex-1">
               <label className="block text-white/80 font-medium mb-1">
-                Color
+                {t('habits.color')}
               </label>
               <input
                 type="color"
@@ -470,7 +470,7 @@ function HabitEditor({ habit, onSave, onCancel }) {
             </div>
             <div className="flex-1">
               <label className="block text-white/80 font-medium mb-1">
-                Icon
+                {t('habits.icon')}
               </label>
               <input
                 value={icon}
@@ -548,7 +548,7 @@ function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
       >
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-white">
-            Log Habits on {label}
+            {t('habits.logTitle', { label })}
           </h3>
           <button onClick={onCancel} className="text-white/60 hover:text-white text-xl transition">
             ×

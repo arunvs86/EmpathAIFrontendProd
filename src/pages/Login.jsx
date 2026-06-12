@@ -65,7 +65,7 @@ const Login = () => {
       if (result.accessToken) localStorage.setItem("token", result.accessToken);
       if (result.user) localStorage.setItem("user", JSON.stringify(result.user));
 
-      setNotification({ message: result.message || "Login successful!", type: "success" });
+      setNotification({ message: result.message || t('auth.loginSuccess'), type: "success" });
       setTimeout(() => navigate("/about"), 1500);
     } catch (error) {
       setNotification({ message: error.message, type: "error" });
@@ -130,7 +130,7 @@ const Login = () => {
           <form onSubmit={handleForgotSubmit}>
             <div className="mb-4">
               <label htmlFor="forgotEmail" className="block text-white/80 font-semibold mb-2">
-                Enter your email to reset password
+                {t('auth.enterEmailReset')}
               </label>
               <input
                 type="email"
@@ -156,7 +156,7 @@ const Login = () => {
                 disabled={forgotLoading}
                 className="bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 transition disabled:opacity-60"
               >
-                {forgotLoading ? "Sending..." : t('auth.sendResetLink')}
+                {forgotLoading ? t('auth.sending') : t('auth.sendResetLink')}
               </button>
             </div>
           </form>
@@ -170,7 +170,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Enter your email"
+                placeholder={t('auth.enterEmail')}
                 value={formData.email}
                 onChange={handleChange}
                 required

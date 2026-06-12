@@ -17,7 +17,7 @@ export default function LettersPage() {
         const res = await fetch(`${api}/letters/user`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        if (!res.ok) throw new Error('Could not load letters');
+        if (!res.ok) throw new Error(t('letters.loadError'));
         setLetters(await res.json());
       } catch (err) {
         console.error(err);
@@ -41,7 +41,7 @@ export default function LettersPage() {
       <section>
         <h2 className="text-2xl font-semibold mb-4">{t('letters.yourLetters')}</h2>
         {loading ? (
-          <p>Loading…</p>
+          <p>{t('letters.loading')}</p>
         ) : letters.length === 0 ? (
           <p className="text-white/60">{t('letters.noLetters')}</p>
         ) : (

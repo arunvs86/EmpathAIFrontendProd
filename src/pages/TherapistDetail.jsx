@@ -1,6 +1,7 @@
 // src/pages/TherapistDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import {
   fetchTherapistById,
@@ -11,7 +12,23 @@ import { fetchOccupiedSlots } from "../services/appointmentApi";
 import { createChat } from "../services/chatApi";
 import { DateTime } from "luxon";
 
+const CONCERNS = [
+  { value: "Anxiety",      labelKey: "concernAnxiety" },
+  { value: "Depression",   labelKey: "concernDepression" },
+  { value: "Stress",       labelKey: "concernStress" },
+  { value: "Relationship", labelKey: "concernRelationship" },
+  { value: "Other",        labelKey: "concernOther" },
+];
+
+const GOALS = [
+  { value: "Coping strategies", labelKey: "goalCoping" },
+  { value: "Improve sleep",     labelKey: "goalSleep" },
+  { value: "Stress management", labelKey: "goalStress" },
+  { value: "Self-esteem",       labelKey: "goalSelfEsteem" },
+];
+
 function TherapistDetail() {
+  const { t } = useTranslation();
   const { id } = useParams();              // therapist PK in route
   const navigate = useNavigate();
 
@@ -123,7 +140,7 @@ function TherapistDetail() {
   const submitBooking = async () => {
     if (!bookingCtx) return;
     if (!primaryConcern || !attendedBefore) {
-      alert("Please answer all required questions.");
+      alert(t('therapist.answerRequired'));
       return;
     }
 
@@ -165,7 +182,7 @@ const scheduledAtISO = DateTime.fromFormat(
       const token = localStorage.getItem("token");
 
       if (!user.id || !token) {
-        alert("Please log in to book.");
+        alert(t('therapist.loginToBook'));
         return;
       }
 
@@ -193,7 +210,7 @@ const scheduledAtISO = DateTime.fromFormat(
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Failed to book appointment");
 
-      alert(data.message || "Appointment requested!");
+      alert(data.message || t('therapist.appointmentRequested'));
 
       // Update UI immediately: mark this slot as "pending"
       setStatusMap((m) => {
@@ -217,25 +234,25 @@ const scheduledAtISO = DateTime.fromFormat(
     try {
       const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
       if (!currentUser.id) {
-        alert("Please log in first.");
+        alert(t('therapist.loginFirst'));
         return;
       }
       if (therapist.user_id === currentUser.id) {
-        alert("You can't message yourself.");
+        alert(t('therapist.cantMessageSelf'));
         return;
       }
       const chat = await createChat(therapist.user_id);
       navigate(`/chats/${chat._id}`);
     } catch (err) {
       console.error("Error creating chat:", err);
-      alert("Failed to create or retrieve chat.");
+      alert(t('therapist.failedChat'));
     }
   };
 
   // ----- Render -----
-  if (loading) return <p className="p-4 text-white/70">Loading therapist details...</p>;
+  if (loading) return <p className="p-4 text-white/70">{t('therapist.loadingDetail')}</p>;
   if (error) return <p className="p-4 text-red-300">{error}</p>;
-  if (!therapist) return <p className="p-4 text-white/70">Therapist not found.</p>;
+  if (!therapist) return <p className="p-4 text-white/70">{t('therapist.notFound')}</p>;
 
   return (
     <div className="max-w-4xl mx-auto mt-6 px-4 relative">
@@ -299,16 +316,16 @@ const scheduledAtISO = DateTime.fromFormat(
         target="_blank"
         rel="noopener noreferrer"
         className="px-3 py-1 rounded-lg text-sm border border-amber-300/70 bg-white/10 text-white hover:bg-white/20 transition"
-        title="Private practising links"
+        title={t('therapist.practising')}
       >
-        Private practising links
+        {t('therapist.practising')}
       </a>
     )}
     <button
       onClick={handleMessageClick}
       className="px-3 py-1 rounded-lg text-sm border border-amber-300/70 bg-white/10 text-white hover:bg-white/20 transition"
     >
-      Message
+      {t('therapist.message')}
     </button>
   </div>
 
@@ -357,16 +374,16 @@ const scheduledAtISO = DateTime.fromFormat(
         {/* meta row */}
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
           <div className="text-white/90">
-            <span className="text-white/60">Experience:</span>{" "}
-            <span className="font-medium text-white">{therapist.experience_years} years</span>
+            <span className="text-white/60">{t('therapist.experience')}:</span>{" "}
+            <span className="font-medium text-white">{therapist.experience_years} {t('therapist.years')}</span>
           </div>
           <div className="text-white/90">
-            <span className="text-white/60">License No.:</span>{" "}
+            <span className="text-white/60">{t('therapist.licenseNo')}</span>{" "}
             <span className="font-medium text-white">{therapist.license_number}</span>
           </div>
           {Array.isArray(therapist.languages_spoken) && therapist.languages_spoken.length > 0 && (
             <div className="text-white/90">
-              <span className="text-white/60">Languages:</span>{" "}
+              <span className="text-white/60">{t('therapist.languages')}:</span>{" "}
               <span className="font-medium text-white">{therapist.languages_spoken.join(", ")}</span>
             </div>
           )}
@@ -387,10 +404,10 @@ const scheduledAtISO = DateTime.fromFormat(
 
       {/* Availability */}
       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 mt-2">
-        <h3 className="text-xl font-semibold mb-4 text-white">Available Slots</h3>
+        <h3 className="text-xl font-semibold mb-4 text-white">{t('therapist.availableSlots')}</h3>
 
         {dates.length === 0 && (
-          <p className="text-white/70">No available dates at the moment.</p>
+          <p className="text-white/70">{t('therapist.noAvailableDates')}</p>
         )}
 
         {dates.map((date) => (
@@ -408,10 +425,10 @@ const scheduledAtISO = DateTime.fromFormat(
                 const disabled = ["confirmed", "pending", "reschedule_pending"].includes(status);
                 const label =
                   status === "confirmed"
-                    ? "Booked"
+                    ? t('therapist.booked')
                     : status === "pending" || status === "reschedule_pending"
-                    ? "Pending"
-                    : "Book";
+                    ? t('therapist.pending')
+                    : t('therapist.book');
 
                 return (
                   <div
@@ -436,7 +453,7 @@ const scheduledAtISO = DateTime.fromFormat(
                 );
               })
             ) : (
-              <p className="text-sm text-white/50">No time slots for this date.</p>
+              <p className="text-sm text-white/50">{t('therapist.noTimeSlots')}</p>
             )}
           </div>
         ))}
@@ -446,45 +463,43 @@ const scheduledAtISO = DateTime.fromFormat(
       {bookingCtx && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-20">
           <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-11/12 max-w-lg shadow-2xl">
-            <h3 className="text-xl font-semibold mb-4 text-white">Before We Book…</h3>
+            <h3 className="text-xl font-semibold mb-4 text-white">{t('therapist.beforeWeBook')}</h3>
 
             {/* Q1 */}
             <div className="mb-4">
-              <p className="font-medium mb-2 text-white/90">1. Primary concern:</p>
+              <p className="font-medium mb-2 text-white/90">{t('therapist.primaryConcern')}</p>
               <div className="flex flex-wrap gap-2">
-              {["Anxiety", "Depression", "Stress", "Relationship", "Other"].map(
-                (opt) => (
-                  <label key={opt} className="inline-flex items-center text-white/80 cursor-pointer">
+              {CONCERNS.map(({ value, labelKey }) => (
+                  <label key={value} className="inline-flex items-center text-white/80 cursor-pointer">
                     <input
                       type="radio"
                       name="primaryConcern"
-                      value={opt}
-                      checked={primaryConcern === opt}
-                      onChange={() => setPrimaryConcern(opt)}
+                      value={value}
+                      checked={primaryConcern === value}
+                      onChange={() => setPrimaryConcern(value)}
                       className="mr-1 accent-amber-400"
                     />
-                    {opt}
+                    {t(`therapist.${labelKey}`)}
                   </label>
-                )
-              )}
+                ))}
               </div>
             </div>
 
             {/* Q2 */}
             <div className="mb-4">
-              <p className="font-medium mb-2 text-white/90">2. Have you attended therapy before?</p>
+              <p className="font-medium mb-2 text-white/90">{t('therapist.attendedBefore')}</p>
               <div className="flex gap-4">
-              {["yes", "no"].map((opt) => (
-                <label key={opt} className="inline-flex items-center text-white/80 cursor-pointer">
+              {[{ value: "yes", labelKey: "auth.yes" }, { value: "no", labelKey: "auth.no" }].map(({ value, labelKey }) => (
+                <label key={value} className="inline-flex items-center text-white/80 cursor-pointer">
                   <input
                     type="radio"
                     name="attendedBefore"
-                    value={opt}
-                    checked={attendedBefore === opt}
-                    onChange={() => setAttendedBefore(opt)}
+                    value={value}
+                    checked={attendedBefore === value}
+                    onChange={() => setAttendedBefore(value)}
                     className="mr-1 accent-amber-400"
                   />
-                  {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                  {t(labelKey)}
                 </label>
               ))}
               </div>
@@ -492,32 +507,30 @@ const scheduledAtISO = DateTime.fromFormat(
 
             {/* Q3 */}
             <div className="mb-4">
-              <p className="font-medium mb-2 text-white/90">3. What are your session goals? (check all that apply)</p>
-              {["Coping strategies", "Improve sleep", "Stress management", "Self-esteem"].map(
-                (goal) => (
-                  <label key={goal} className="flex items-center text-white/80 cursor-pointer mb-1">
+              <p className="font-medium mb-2 text-white/90">{t('therapist.sessionGoals')}</p>
+              {GOALS.map(({ value, labelKey }) => (
+                  <label key={value} className="flex items-center text-white/80 cursor-pointer mb-1">
                     <input
                       type="checkbox"
-                      value={goal}
-                      checked={sessionGoals.includes(goal)}
-                      onChange={() => toggleGoal(goal)}
+                      value={value}
+                      checked={sessionGoals.includes(value)}
+                      onChange={() => toggleGoal(value)}
                       className="mr-2 accent-amber-400"
                     />
-                    {goal}
+                    {t(`therapist.${labelKey}`)}
                   </label>
-                )
-              )}
+                ))}
             </div>
 
             {/* Q4 */}
             <div className="mb-4">
-              <p className="font-medium mb-2 text-white/90">4. Additional details (optional):</p>
+              <p className="font-medium mb-2 text-white/90">{t('therapist.additionalDetails')}</p>
               <textarea
                 rows={3}
                 value={additionalDetails}
                 onChange={(e) => setAdditionalDetails(e.target.value)}
                 className="w-full bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition resize-none"
-                placeholder="Any other context you'd like the therapist to know?"
+                placeholder={t('therapist.additionalPlaceholder')}
               />
             </div>
 
@@ -527,7 +540,7 @@ const scheduledAtISO = DateTime.fromFormat(
                 onClick={closeQuestionnaire}
                 className="px-4 py-2 rounded-lg border border-white/20 text-white/80 hover:bg-white/10 transition"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={submitBooking}
@@ -536,7 +549,7 @@ const scheduledAtISO = DateTime.fromFormat(
                   loading ? "bg-white/20 text-white/50 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500 text-slate-900"
                 }`}
               >
-                {loading ? "Booking…" : "Submit & Book"}
+                {loading ? t('therapist.booking') : t('therapist.submitBook')}
               </button>
             </div>
           </div>

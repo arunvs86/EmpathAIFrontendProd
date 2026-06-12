@@ -258,7 +258,7 @@ export default function Signup() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message);
+        throw new Error(err.error || err.message || "Registration failed");
       }
       setNotification({ message: t('auth.signupSuccess'), type: "success" });
       setTimeout(() => navigate("/login"), 10000);

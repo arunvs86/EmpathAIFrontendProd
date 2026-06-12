@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   getTherapistAppointments,
   handleAppointmentDecision,
@@ -48,6 +49,7 @@ function normalizeSlot(slot = "") {
 
 function TherapistAvailabilityForm() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // logged-in user
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -162,7 +164,7 @@ function TherapistAvailabilityForm() {
 
     const existing = timeSlotsMap[date] || [];
     if (existing.includes(slot)) {
-      setError("You have already added that slot.");
+      setError(t('avail.alreadyAdded'));
       return;
     }
 
@@ -193,7 +195,7 @@ function TherapistAvailabilityForm() {
         availability_type: "manual",
       });
 
-      setSuccess("Availability saved.");
+      setSuccess(t('avail.saved'));
     } catch (err) {
       setError(err.message || "Failed to save availability");
     }
@@ -361,7 +363,7 @@ function TherapistAvailabilityForm() {
                 : "text-white/50 hover:text-white/80"
             }`}
           >
-            {tab === "availability" ? "Availability" : "Appointments"}
+            {tab === "availability" ? t('avail.tabAvailability') : t('avail.tabAppointments')}
           </button>
         ))}
       </div>
@@ -374,7 +376,7 @@ function TherapistAvailabilityForm() {
           {/* Date picker */}
           <div className="mb-6">
             <label className="block text-sm font-medium mb-1 text-white">
-              Add Date
+              {t('avail.addDate')}
             </label>
             <input
               type="date"
@@ -403,14 +405,14 @@ function TherapistAvailabilityForm() {
                         : "hover:bg-red-600 hover:text-white"
                     }`}
                   >
-                    {dayLoading ? "Removing…" : "Remove day"}
+                    {dayLoading ? t('avail.removing') : t('avail.removeDay')}
                   </button>
                 </div>
 
                 {/* Slot chips */}
                 <div className="flex flex-wrap gap-2">
                   {slots.length === 0 && (
-                    <span className="text-gray-400 text-sm">No slots yet.</span>
+                    <span className="text-gray-400 text-sm">{t('avail.noSlots')}</span>
                   )}
                   {slots.map((slot) => {
                     const isEditing =
@@ -469,7 +471,7 @@ function TherapistAvailabilityForm() {
                               className="text-xs px-2 py-0.5 rounded-md bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold transition"
                               disabled={editBusy}
                             >
-                              {editBusy ? "Saving…" : "Save"}
+                              {editBusy ? t('avail.saving') : t('common.save')}
                             </button>
                             <button
                               type="button"
@@ -477,7 +479,7 @@ function TherapistAvailabilityForm() {
                               className="text-xs px-2 py-0.5 rounded border hover:bg-white/10"
                               disabled={editBusy}
                             >
-                              Cancel
+                              {t('common.cancel')}
                             </button>
                           </div>
                         )}
@@ -499,7 +501,7 @@ function TherapistAvailabilityForm() {
                     className="bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
                   >
                     <option value="" disabled>
-                      Select slot…
+                      {t('avail.selectSlot')}
                     </option>
                     {slotOptions.map((s) => (
                       <option key={s} value={s}>
@@ -512,7 +514,7 @@ function TherapistAvailabilityForm() {
                     onClick={() => addTimeSlot(date)}
                     className="ml-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold px-4 py-2 rounded-lg transition"
                   >
-                    Add
+                    {t('avail.add')}
                   </button>
                 </div>
               </div>
@@ -523,16 +525,16 @@ function TherapistAvailabilityForm() {
             type="submit"
             className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold py-2 rounded-lg transition"
           >
-            Save Availability
+            {t('avail.saveAvailability')}
           </button>
         </form>
       ) : (
         // ===== Appointments tab =====
         <div>
-          {loadingApps && <p className="text-white">Loading appointments…</p>}
+          {loadingApps && <p className="text-white">{t('avail.loadingAppts')}</p>}
           {appsError && <p className="text-red-300">{appsError}</p>}
           {!loadingApps && appointments.length === 0 && (
-            <p className="text-white/60">No pending requests.</p>
+            <p className="text-white/60">{t('avail.noPending')}</p>
           )}
           {appointments.map((appt) => (
             <div
@@ -541,14 +543,14 @@ function TherapistAvailabilityForm() {
             >
               <div>
                 <p className="text-white">
-                  <strong>User:</strong> {appt.User?.username || appt.user_id}
+                  <strong>{t('avail.user')}:</strong> {appt.User?.username || appt.user_id}
                 </p>
                 <p className="text-white">
-  <strong>When:</strong> {formatUK(appt.scheduled_at, appt.session_duration || 30)}
-</p>
+                  <strong>{t('avail.when')}:</strong> {formatUK(appt.scheduled_at, appt.session_duration || 30)}
+                </p>
                 {appt.primary_concern && (
                   <p className="text-white/90">
-                    <strong>Concern:</strong> {appt.primary_concern}
+                    <strong>{t('avail.concern')}:</strong> {appt.primary_concern}
                   </p>
                 )}
               </div>
@@ -563,8 +565,8 @@ function TherapistAvailabilityForm() {
   }`}
 >
   {loadingId === appt.id && loadingAction === "accept"
-    ? "Accepting…"
-    : "Accept"}
+    ? t('avail.accepting')
+    : t('avail.accept')}
 </button>
 
 <button
@@ -577,8 +579,8 @@ function TherapistAvailabilityForm() {
   }`}
 >
   {loadingId === appt.id && loadingAction === "reject"
-    ? "Rejecting…"
-    : "Reject"}
+    ? t('avail.rejecting')
+    : t('avail.reject')}
 </button>
 
               </div>
