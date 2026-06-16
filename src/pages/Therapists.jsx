@@ -38,20 +38,22 @@ function Therapists() {
     getTherapists();
   }, []);
 
-  // When UI is in Spanish, show only therapists who BOTH:
-  //   1) have "Spanish"/"Español" in languages_spoken
-  //   2) registered with a Spanish-speaking country
-  const visibleTherapists = isSpanish
-    ? therapists.filter((therapist) => {
-        const speaksSpanish = (therapist.languages_spoken || []).some((lang) =>
-          SPANISH_LANGUAGES.includes(lang.toLowerCase())
-        );
-        const fromSpanishCountry = SPANISH_COUNTRIES.includes(
-          (therapist.User?.country || "").toLowerCase()
-        );
-        return speaksSpanish && fromSpanishCountry;
-      })
-    : therapists;
+  const visibleTherapists = therapists.filter((therapist) => {
+    const speaksSpanish = (therapist.languages_spoken || []).some((lang) =>
+      SPANISH_LANGUAGES.includes(lang.toLowerCase())
+    );
+    const fromSpanishCountry = SPANISH_COUNTRIES.includes(
+      (therapist.User?.country || "").toLowerCase()
+    );
+
+    if (isSpanish) {
+      // Español mode: show only therapists who speak Spanish AND are from a Spanish-speaking country
+      return speaksSpanish && fromSpanishCountry;
+    } else {
+      // English mode: exclude anyone who speaks Spanish OR is from a Spanish-speaking country
+      return !speaksSpanish && !fromSpanishCountry;
+    }
+  });
 
   if (loading) return <p className="p-4 text-white/80">{t('therapist.loading', 'Loading therapists...')}</p>;
   if (error)   return <p className="p-4 text-red-400">{error}</p>;
