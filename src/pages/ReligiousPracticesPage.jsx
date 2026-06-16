@@ -123,12 +123,17 @@ export default function ReligiousPracticesPage() {
           <img src={faith.banner} alt={selectedFaith} className="w-full h-full object-cover" />
           <div className={`absolute inset-0 bg-gradient-to-t ${faith.color} flex flex-col justify-end p-8`}>
             <div className="flex items-center gap-4">
+            <div class="bg-slate-500 border border-slate-800 p-4 rounded-xl shadow-lg">
+
               <img src={faith.icon} alt="" className="w-12 h-12 drop-shadow-lg" />
+              
               <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
                 {t(`faith.labels.${selectedFaith}`)}
               </h2>
-            </div>
             <p className="mt-2 text-lg text-white/90">{t('faith.hero')}</p>
+            </div>
+
+          </div>
           </div>
         </section>
 
@@ -170,9 +175,12 @@ export default function ReligiousPracticesPage() {
             {/* Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4">
               <img src={icon} alt="" className="w-14 h-14 drop-shadow-lg" />
-              <span className="text-white text-xl font-bold drop-shadow-md tracking-wide">
+              <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-lg">
+
+              <span className="text-white text-xl font-bold drop-shadow-lg tracking-wide">
                 {t(`faith.labels.${key}`)}
               </span>
+              </div>
             </div>
           </button>
         ))}
