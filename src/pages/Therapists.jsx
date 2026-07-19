@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetchTherapists } from "../services/therapistApi";
 import TherapistCard from "../components/TherapistCard";
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 // Languages that count as "Spanish"
 const SPANISH_LANGUAGES = ["spanish", "español", "espanol"];
@@ -30,7 +31,7 @@ function Therapists() {
         const data = await fetchTherapists();
         setTherapists(data);
       } catch (err) {
-        setError(err.message);
+        setError(tServer(err.message));
       } finally {
         setLoading(false);
       }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 // NotificationPopup component (reuse from Login)
 const NotificationPopup = ({ message, type, onClose }) => {
@@ -64,10 +65,10 @@ export default function ResetPassword() {
         throw new Error(err.error || t('reset.failed'));
       }
       const result = await res.json();
-      setNotification({ message: result.message, type: "success" });
+      setNotification({ message: tServer(result.message), type: "success" });
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      setNotification({ message: err.message, type: "error" });
+      setNotification({ message: tServer(err.message), type: "error" });
     } finally {
       setLoading(false);
     }

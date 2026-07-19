@@ -2,9 +2,11 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
+import Select from "react-select";
 import Lottie from "lottie-react";
 import signupAnim from '/src/signupAnim.json'
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 <Lottie animationData={signupAnim} />
 
@@ -91,7 +93,8 @@ export default function Signup() {
   const { type } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const toggleLang = () => i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en');
+  const setLang = (lang) => { i18n.changeLanguage(lang); localStorage.setItem('lang', lang); };
+  const isES = i18n.language === 'es';
 
   const [notification, setNotification] = useState(null);
   const [countries, setCountries] = useState([]);
@@ -258,24 +261,39 @@ export default function Signup() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || err.message || "Registration failed");
+        throw new Error(err.error || tServer(err.message) || "Registration failed");
       }
       setNotification({ message: t('auth.signupSuccess'), type: "success" });
       setTimeout(() => navigate("/login"), 10000);
     } catch (err) {
-      setNotification({ message: err.message, type: "error" });
+      setNotification({ message: tServer(err.message), type: "error" });
     }
   };
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative">
-      <button
-        onClick={toggleLang}
-        className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-bold text-base transition-all duration-200"
-      >
-        <span className="text-xl leading-none">{i18n.language === 'en' ? '🇪🇸' : '🇬🇧'}</span>
-        <span>{i18n.language === 'en' ? 'Español' : 'English'}</span>
-      </button>
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-1 bg-white/15 border-2 border-white/50 rounded-xl p-1">
+        <button
+          onClick={() => setLang('en')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+            !isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+          }`}
+          title="English"
+        >
+          <span className="text-xl leading-none">🇬🇧</span>
+          <span>EN</span>
+        </button>
+        <button
+          onClick={() => setLang('es')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+            isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+          }`}
+          title="Español"
+        >
+          <span className="text-xl leading-none">🇪🇸</span>
+          <span>ES</span>
+        </button>
+      </div>
 
       {/* ── LEFT PANEL ── */}
       <div className="flex flex-col items-center justify-center px-12 py-12 bg-white/5 border-r border-white/10">
@@ -335,17 +353,26 @@ export default function Signup() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>{t('auth.country')}</label>
-                <select name="country" value={formData.country} onChange={handleChange} className={selectCls}>
-                  <option value="">{t('auth.selectCountry')}</option>
-                  {countries.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
+                <Select
+                  styles={selectStyles}
+                  placeholder={t('auth.searchCountry')}
+                  isClearable
+                  options={countries.map(c => ({ value: c, label: c }))}
+                  value={formData.country ? { value: formData.country, label: formData.country } : null}
+                  onChange={opt => setFormData(p => ({ ...p, country: opt ? opt.value : "", city: "" }))}
+                />
               </div>
               <div>
                 <label className={labelCls}>{t('auth.city')}</label>
-                <select name="city" value={formData.city} onChange={handleChange} disabled={!cities.length} className={`${selectCls} disabled:opacity-40`}>
-                  <option value="">{t('auth.selectCity')}</option>
-                  {cities.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
+                <Select
+                  styles={selectStyles}
+                  placeholder={t('auth.searchCity')}
+                  isClearable
+                  isDisabled={!cities.length}
+                  options={cities.map(c => ({ value: c, label: c }))}
+                  value={formData.city ? { value: formData.city, label: formData.city } : null}
+                  onChange={opt => setFormData(p => ({ ...p, city: opt ? opt.value : "" }))}
+                />
               </div>
             </div>
 
@@ -371,7 +398,8 @@ export default function Signup() {
             {/* Bio */}
             <div>
               <label className={labelCls}>{t('auth.bio')}</label>
-              <textarea name="bio" rows={3} value={formData.bio} onChange={handleChange} className={inputCls} />
+              <textarea name="bio" rows={3} value={formData.bio} onChange={handleChange} placeholder={t('auth.bioPlaceholder')} className={inputCls} />
+              <p className="mt-1 text-xs text-amber-300/90">🌐 {t('auth.bioPublicNote')}</p>
             </div>
 
             {/* Profile Picture */}

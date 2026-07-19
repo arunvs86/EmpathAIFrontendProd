@@ -4,6 +4,7 @@ import { getUserChats } from "../services/chatApi";
 import ChatCard from "../components/ChatCard";
 import { useUnreadChats } from "../contexts/UnreadChatsContext";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 function ChatList() {
   const [chats, setChats] = useState([]);
@@ -20,7 +21,7 @@ function ChatList() {
         const data = await getUserChats();
         setChats(data);
       } catch (err) {
-        setError(err.message);
+        setError(tServer(err.message));
       } finally {
         setLoading(false);
       }

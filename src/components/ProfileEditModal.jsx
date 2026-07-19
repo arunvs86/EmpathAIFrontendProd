@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function ProfileEditModal({ userId, onClose, onSaved }) {
   const { t } = useTranslation();
@@ -108,7 +109,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
       const [uploaded] = await res.json(); // [{ url }]
       setForm(f => ({ ...f, profile_picture: uploaded.url }));
     } catch (err) {
-      alert("Upload failed: " + err.message);
+      alert("Upload failed: " + tServer(err.message));
     } finally {
       setUploading(false);
     }
@@ -126,7 +127,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
       localStorage.clear();
       window.location.href = "/signup/user";
     } catch (err) {
-      alert("Account deletion failed: " + err.message);
+      alert("Account deletion failed: " + tServer(err.message));
     }
   };
 
@@ -173,7 +174,7 @@ export default function ProfileEditModal({ userId, onClose, onSaved }) {
       localStorage.setItem("user", JSON.stringify(updated.user || updated));
       onSaved();
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setSubmitting(false);
     }
@@ -184,15 +185,29 @@ const inputCls = "w-full bg-white/10 border border-white/20 text-white placehold
 const selectCls = "w-full bg-slate-800 border border-white/20 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition";
 const labelCls = "block text-sm font-medium text-white/80 mt-4 mb-1";
 
+const PublicTag = () => (
+  <span className="ml-2 inline-block text-[10px] font-semibold uppercase tracking-wide text-emerald-300 bg-emerald-400/10 border border-emerald-400/30 rounded px-1.5 py-0.5">
+    🌐 {t('profile.publicTag')}
+  </span>
+);
+const PrivateTag = () => (
+  <span className="ml-2 inline-block text-[10px] font-semibold uppercase tracking-wide text-white/60 bg-white/10 border border-white/20 rounded px-1.5 py-0.5">
+    🔒 {t('profile.privateTag')}
+  </span>
+);
+
 return createPortal(
   <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 overflow-auto">
     <div className="bg-slate-900/95 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-lg space-y-2 my-8 max-h-[90vh] overflow-y-auto shadow-2xl">
       <h2 className="text-xl font-semibold text-white">{t('profile.editTitle')}</h2>
+      <p className="text-xs text-white/60 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+        <span className="text-emerald-300">🌐 {t('profile.publicTag')}</span> {t('profile.visibilityLegend')}
+      </p>
 
       {/* Upload + preview */}
       <div className="space-y-2 mt-2">
         <label className={labelCls}>
-          {t('profile.profilePicture')}
+          {t('profile.profilePicture')} <PublicTag />
         </label>
         <div className="flex items-center gap-4">
           {form.profile_picture ? (
@@ -229,7 +244,7 @@ return createPortal(
       </div>
 
       {/* Fields */}
-      <label className={labelCls}>{t('profile.username')}</label>
+      <label className={labelCls}>{t('profile.username')} <PublicTag /></label>
       <input
         name="username"
         value={form.username}
@@ -238,7 +253,7 @@ return createPortal(
         placeholder="Username"
       />
 
-      <label className={labelCls}>{t('profile.bio')}</label>
+      <label className={labelCls}>{t('profile.bio')} <PublicTag /></label>
       <textarea
         name="bio"
         value={form.bio}
@@ -247,7 +262,7 @@ return createPortal(
         placeholder="Bio"
       />
 
-      <label className={labelCls}>{t('profile.dob')}</label>
+      <label className={labelCls}>{t('profile.dob')} <PrivateTag /></label>
       <input
         type="date"
         name="dob"
@@ -256,7 +271,7 @@ return createPortal(
         className={inputCls}
       />
 
-      <label className={labelCls}>{t('profile.gender')}</label>
+      <label className={labelCls}>{t('profile.gender')} <PrivateTag /></label>
       <select
         name="gender"
         value={form.gender}
@@ -270,7 +285,7 @@ return createPortal(
         <option value="prefer not to say">{t('profile.preferNotToSay')}</option>
       </select>
 
-      <label className={labelCls}>{t('profile.country')}</label>
+      <label className={labelCls}>{t('profile.country')} <PublicTag /></label>
       <input
         type="text"
         name="country"
@@ -280,7 +295,7 @@ return createPortal(
         placeholder="Country"
       />
 
-      <label className={labelCls}>{t('profile.city')}</label>
+      <label className={labelCls}>{t('profile.city')} <PublicTag /></label>
       <input
         type="text"
         name="city"
@@ -304,7 +319,7 @@ return createPortal(
       {/* Therapist-only */}
       {isTherapist && (
         <>
-          <label className={labelCls}>{t('profile.experienceYears')}</label>
+          <label className={labelCls}>{t('profile.experienceYears')} <PublicTag /></label>
           <input
             type="number"
             name="experience_years"
@@ -314,7 +329,7 @@ return createPortal(
             placeholder="Years of Experience"
           />
 
-          <label className={labelCls}>{t('profile.licenseNumber')}</label>
+          <label className={labelCls}>{t('profile.licenseNumber')} <PublicTag /></label>
           <input
             name="license_number"
             value={form.license_number}
@@ -323,7 +338,7 @@ return createPortal(
             placeholder="License Number"
           />
 
-          <label className={labelCls}>{t('profile.link')}</label>
+          <label className={labelCls}>{t('profile.link')} <PublicTag /></label>
           <input
             name="link"
             value={form.link}
@@ -332,7 +347,7 @@ return createPortal(
             placeholder="Link"
           />
 
-          <label className={labelCls}>{t('profile.languagesSpoken')}</label>
+          <label className={labelCls}>{t('profile.languagesSpoken')} <PublicTag /></label>
           <input
             name="languages_spoken"
             value={form.languages_spoken}
@@ -341,7 +356,7 @@ return createPortal(
             placeholder={t('profile.languagesPlaceholder')}
           />
 
-          <label className={labelCls}>{t('profile.specializationTags')}</label>
+          <label className={labelCls}>{t('profile.specializationTags')} <PublicTag /></label>
           <input
             name="specialization_tags"
             value={form.specialization_tags}
@@ -350,7 +365,7 @@ return createPortal(
             placeholder={t('profile.specializationPlaceholder')}
           />
 
-          <label className={labelCls}>{t('profile.sessionDuration')}</label>
+          <label className={labelCls}>{t('profile.sessionDuration')} <PublicTag /></label>
           <input
             type="number"
             name="session_duration"
@@ -360,7 +375,7 @@ return createPortal(
             placeholder="Session Duration (mins)"
           />
 
-          <label className={labelCls}>{t('profile.appointmentTypes')}</label>
+          <label className={labelCls}>{t('profile.appointmentTypes')} <PublicTag /></label>
           <input
             name="appointment_types"
             value={form.appointment_types}

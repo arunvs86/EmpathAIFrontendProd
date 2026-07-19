@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { createChat } from "../services/chatApi";
 import { createPortal } from "react-dom";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 function Modal({ children, onClose }) {
   return createPortal(
@@ -80,7 +81,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       if (typeof onPostUpdated === 'function') onPostUpdated(updatedPost);
       setIsEditing(false);
     } catch (err) {
-      setError(err.message);
+      setError(tServer(err.message));
     } finally {
       setLoading(false);
     }
@@ -107,7 +108,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       }
       if (typeof onPostDeleted === 'function') onPostDeleted(post._id);
     } catch (err) {
-      setError(err.message);
+      setError(tServer(err.message));
     } finally {
       setLoading(false);
     }
@@ -135,7 +136,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       const data = await response.json();
       setComments(data);
     } catch (err) {
-      setError(err.message);
+      setError(tServer(err.message));
     } finally {
       setLoadingComments(false);
     }
@@ -171,7 +172,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       setComments((prev) => [addedComment, ...prev]);
       setNewComment("");
     } catch (err) {
-      setError(err.message);
+      setError(tServer(err.message));
     }
   };
 
@@ -234,7 +235,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       }
       setShowReportModal(false);
     } catch (err) {
-      setReportError(err.message);
+      setReportError(tServer(err.message));
     } finally {
       setReportLoading(false);
     }
@@ -265,7 +266,7 @@ function PostCard({ post, onPostUpdated, onPostDeleted }) {
       });
   
     } catch (err) {
-      console.error("Bookmark error:", err.message);
+      console.error("Bookmark error:", tServer(err.message));
     }
   };
   

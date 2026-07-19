@@ -5,6 +5,7 @@ import { BookOpen, Link as LinkIcon, Calendar, Clock, Mail, X } from "lucide-rea
 import { fetchUpcomingAppointments } from "../services/appointmentApi";
  import { DateTime } from "luxon";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 const API = "https://empathai-server-gkhjhxeahmhkghd6.uksouth-01.azurewebsites.net";
 
@@ -43,7 +44,7 @@ export default function RightSidebar() {
       setErr("");
       fetchUpcomingAppointments()
         .then((data) => setUpcoming(data))
-        .catch((e) => setErr(e.message))
+        .catch((e) => setErr(tServer(e.message)))
         .finally(() => setLoading(false));
     }
   }, [activeSection]);
@@ -138,7 +139,7 @@ export default function RightSidebar() {
       // auto-close after a moment
       setTimeout(() => setOpenContact(false), 1200);
     } catch (e) {
-      setContactMsg({ type: "error", text: e.message || "Something went wrong." });
+      setContactMsg({ type: "error", text: tServer(e.message) || "Something went wrong." });
     } finally {
       setContactSubmitting(false);
     }

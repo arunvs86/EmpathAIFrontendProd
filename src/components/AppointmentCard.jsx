@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { formatUk } from "../utils/datetime";
 import StatusBadge from "./StatusBadge";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function AppointmentCard({
   appointment,
@@ -21,7 +22,7 @@ export default function AppointmentCard({
       await action(...args);
     } catch (err) {
       console.error(err);
-      alert(err.message || "Something went wrong");
+      alert(tServer(err.message) || "Something went wrong");
     } finally {
       setLoading(false);
     }

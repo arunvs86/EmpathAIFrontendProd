@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 // Notification Popup Component
 const NotificationPopup = ({ message, type, onClose }) => {
@@ -24,7 +25,8 @@ const NotificationPopup = ({ message, type, onClose }) => {
 const Login = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const toggleLang = () => i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en');
+  const setLang = (lang) => { i18n.changeLanguage(lang); localStorage.setItem('lang', lang); };
+  const isES = i18n.language === 'es';
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
   const [notification, setNotification] = useState(null);
@@ -65,10 +67,10 @@ const Login = () => {
       if (result.accessToken) localStorage.setItem("token", result.accessToken);
       if (result.user) localStorage.setItem("user", JSON.stringify(result.user));
 
-      setNotification({ message: result.message || t('auth.loginSuccess'), type: "success" });
+      setNotification({ message: tServer(result.message) || t('auth.loginSuccess'), type: "success" });
       setTimeout(() => navigate("/about"), 1500);
     } catch (error) {
-      setNotification({ message: error.message, type: "error" });
+      setNotification({ message: tServer(error.message), type: "error" });
     }
   };
 
@@ -87,11 +89,11 @@ const Login = () => {
         throw new Error(errorData.error || "Request failed");
       }
       const result = await response.json();
-      setNotification({ message: result.message, type: "success" });
+      setNotification({ message: tServer(result.message), type: "success" });
       setShowForgot(false);
       setForgotEmail("");
     } catch (err) {
-      setNotification({ message: err.message, type: "error" });
+      setNotification({ message: tServer(err.message), type: "error" });
     } finally {
       setForgotLoading(false);
     }
@@ -107,13 +109,28 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-8 shadow-2xl relative">
-        <button
-          onClick={toggleLang}
-          className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-bold text-base transition-all duration-200"
-        >
-          <span className="text-xl leading-none">{i18n.language === 'en' ? '🇪🇸' : '🇬🇧'}</span>
-          <span>{i18n.language === 'en' ? 'Español' : 'English'}</span>
-        </button>
+        <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/15 border-2 border-white/50 rounded-xl p-1">
+          <button
+            onClick={() => setLang('en')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+              !isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+            }`}
+            title="English"
+          >
+            <span className="text-xl leading-none">🇬🇧</span>
+            <span>EN</span>
+          </button>
+          <button
+            onClick={() => setLang('es')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+              isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+            }`}
+            title="Español"
+          >
+            <span className="text-xl leading-none">🇪🇸</span>
+            <span>ES</span>
+          </button>
+        </div>
         {notification && (
           <NotificationPopup
             message={notification.message}

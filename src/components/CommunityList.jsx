@@ -4,6 +4,7 @@ import CommunityCard from "./CommunityCard";
 import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { Search, Plus, Globe, Lock } from "lucide-react";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function CommunityList({ onCreateCommunity, onSelectCommunity }) {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
         if (!res.ok) throw new Error((await res.json()).error || "Failed to fetch");
         setCommunities(await res.json());
       } catch (err) {
-        setError(err.message || "Failed to fetch");
+        setError(tServer(err.message) || "Failed to fetch");
       } finally {
         setLoading(false);
       }

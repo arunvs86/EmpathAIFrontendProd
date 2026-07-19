@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 import {
   getTherapistAppointments,
   handleAppointmentDecision,
@@ -28,7 +29,7 @@ function TherapistAppointments() {
         setAppointments(data);
         console.log("appointmentsData", data)
       } catch (err) {
-        setError(err.message);
+        setError(tServer(err.message));
       }
     };
     fetchData();
@@ -47,7 +48,7 @@ function TherapistAppointments() {
         )
       );
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     }
   };
 
@@ -58,7 +59,7 @@ function TherapistAppointments() {
       // Remove the appointment from the list
       setAppointments((prev) => prev.filter((appt) => appt.id !== appointmentId));
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     }
   };
 
@@ -74,7 +75,7 @@ function TherapistAppointments() {
         )
       );
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     }
   };
 

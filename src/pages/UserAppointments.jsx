@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 import {
   fetchUpcomingAppointments,
   cancelAppointment,
@@ -24,7 +25,7 @@ export default function UserAppointments() {
       setAppointments(data);
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setLoading(false);
     }

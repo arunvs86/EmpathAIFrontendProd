@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LetterComposer from '../components/LetterComposer';
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function LettersPage() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function LettersPage() {
         setLetters(await res.json());
       } catch (err) {
         console.error(err);
-        alert(err.message);
+        alert(tServer(err.message));
       } finally {
         setLoading(false);
       }

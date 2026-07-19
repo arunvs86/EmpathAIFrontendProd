@@ -1,6 +1,7 @@
 // frontend/src/pages/UserSummaryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchUserSummary, fetchLoginPatterns } from '../services/dashboardApi';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 import {
   ResponsiveContainer,
   LineChart,
@@ -20,7 +21,7 @@ export default function UserSummaryDetail() {
     // Load overall user summary
     fetchUserSummary()
       .then(data => setSummary(data))
-      .catch(err => setError(err.message));
+      .catch(err => setError(tServer(err.message)));
 
     // Load login patterns by hour
     fetchLoginPatterns()
@@ -32,7 +33,7 @@ export default function UserSummaryDetail() {
         }));
         setLoginData(chartData);
       })
-      .catch(err => setError(err.message));
+      .catch(err => setError(tServer(err.message)));
   }, []);
 
   if (error) {

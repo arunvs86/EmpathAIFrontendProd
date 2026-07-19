@@ -8,6 +8,34 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import CustomCalendar from "../components/CustomCalendar";
 
+// Curated emoji choices for the habit icon picker
+const EMOJI_CHOICES = [
+  "🌱", "💪", "🧘", "📖", "💧", "🏃", "☀️", "😴",
+  "🥗", "🙏", "🚶", "✍️", "🧠", "❤️", "🎯", "⭐",
+  "🎨", "🎵", "🌸", "🔥", "💊", "🚭", "🌙", "☕",
+];
+
+// ─── Date helpers (timezone-safe day keys) ───────────
+// A calendar day the user clicked (local) → "YYYY-MM-DD"
+const localYMD = (d) => {
+  const x = new Date(d);
+  const y = x.getFullYear();
+  const m = String(x.getMonth() + 1).padStart(2, "0");
+  const day = String(x.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+// A stored log date (saved as UTC midnight) → "YYYY-MM-DD" using UTC parts
+const logYMD = (isoOrDate) => {
+  const x = new Date(isoOrDate);
+  const y = x.getUTCFullYear();
+  const m = String(x.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(x.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+// True when a log is a COMPLETED entry for the given local calendar day
+const logDoneOn = (log, habitId, calDate) =>
+  log.habitId === habitId && log.completed === true && logYMD(log.date) === localYMD(calDate);
+
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -64,24 +92,27 @@ export default function ProfileWeeklyHabits() {
     fetchAll();
   }, [userId]);
 
-  // ─── which dates have any log? ──────────────────
+  // ─── which dates have a COMPLETED log? (keyed by local toDateString for the calendar) ──
   const dateSet = useMemo(() => {
     const s = new Set();
-    logs.forEach((l) => s.add(new Date(l.date).toDateString()));
+    logs.forEach((l) => {
+      if (l.completed !== true) return;
+      const [y, m, d] = logYMD(l.date).split("-").map(Number);
+      s.add(new Date(y, m - 1, d).toDateString());
+    });
     return s;
   }, [logs]);
 
-  // ─── streak for a habit ─────────────────────────
+  // ─── streak for a habit (counts consecutive completed days) ─────
   const computeStreak = (habit) => {
-    let count = 0,
-      day = new Date();
-    while (true) {
-      const ds = day.toDateString();
-      const done = logs.some(
-        (l) =>
-          l.habitId === habit._id && new Date(l.date).toDateString() === ds
-      );
-      if (!done) break;
+    const doneOn = (calDate) =>
+      logs.some((l) => logDoneOn(l, habit._id, calDate));
+
+    let count = 0;
+    const day = new Date();
+    // If today isn't logged yet, start from yesterday so an ongoing streak still shows
+    if (!doneOn(day)) day.setDate(day.getDate() - 1);
+    while (doneOn(day)) {
       count++;
       day.setDate(day.getDate() - 1);
     }
@@ -165,7 +196,7 @@ export default function ProfileWeeklyHabits() {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ date, completed }),
+            body: JSON.stringify({ date: localYMD(date), completed }),
           })
         )
     );
@@ -233,14 +264,9 @@ export default function ProfileWeeklyHabits() {
           onDateClick={(d) => {
             if (d <= today) {
               // capture per-habit initial state for this day
-              const dstr = d.toDateString();
               const init = {};
               habits.forEach((h) => {
-                init[h._id] = logs.some(
-                  (l) =>
-                    l.habitId === h._id &&
-                    new Date(l.date).toDateString() === dstr
-                );
+                init[h._id] = logs.some((l) => logDoneOn(l, h._id, d));
               });
               initialLogState.current = init;
 
@@ -284,12 +310,7 @@ export default function ProfileWeeklyHabits() {
                 <tr key={h._id} className="hover:bg-white/80">
                   <td className="py-2">{h.name}</td>
                   {headers.map((hd) => {
-                    const done = logs.some(
-                      (l) =>
-                        l.habitId === h._id &&
-                        new Date(l.date).toDateString() ===
-                          hd.date.toDateString()
-                    );
+                    const done = logs.some((l) => logDoneOn(l, h._id, hd.date));
                     const isFuture = hd.date > today;
                     return (
                       <td key={hd.label} className="text-center">
@@ -298,15 +319,9 @@ export default function ProfileWeeklyHabits() {
                           onClick={() => {
                             if (!isFuture) {
                               // build initialLogState before opening
-                              const dstr = hd.date.toDateString();
                               const init = {};
                               habits.forEach((x) => {
-                                init[x._id] = logs.some(
-                                  (l) =>
-                                    l.habitId === x._id &&
-                                    new Date(l.date).toDateString() ===
-                                      dstr
-                                );
+                                init[x._id] = logs.some((l) => logDoneOn(l, x._id, hd.date));
                               });
                               initialLogState.current = init;
 
@@ -472,13 +487,29 @@ function HabitEditor({ habit, onSave, onCancel }) {
               <label className="block text-white/80 font-medium mb-1">
                 {t('habits.icon')}
               </label>
-              <input
-                value={icon}
-                onChange={(e) => setIcon(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2 text-xl text-center focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
-                maxLength={2}
-              />
+              <div className="flex items-center gap-2 h-10">
+                <span className="text-3xl leading-none">{icon}</span>
+                <span className="text-xs text-white/50">{t('habits.iconHint')}</span>
+              </div>
             </div>
+          </div>
+
+          {/* Emoji picker grid */}
+          <div className="grid grid-cols-8 gap-2 bg-white/5 border border-white/15 rounded-lg p-3">
+            {EMOJI_CHOICES.map((e) => (
+              <button
+                type="button"
+                key={e}
+                onClick={() => setIcon(e)}
+                className={`text-2xl rounded-lg py-1 transition ${
+                  icon === e
+                    ? "bg-amber-400/30 ring-2 ring-amber-400"
+                    : "hover:bg-white/10"
+                }`}
+              >
+                {e}
+              </button>
+            ))}
           </div>
         </div>
         <div className="flex justify-end gap-3 mt-4">
@@ -507,14 +538,9 @@ function HabitLogEditor({ date, habits, logs, onSave, onCancel }) {
   const [state, setState] = useState({});
 
   useEffect(() => {
-    const dstr = date.toDateString();
     const init = {};
     habits.forEach((h) => {
-      init[h._id] = logs.some(
-        (l) =>
-          l.habitId === h._id &&
-          new Date(l.date).toDateString() === dstr
-      );
+      init[h._id] = logs.some((l) => logDoneOn(l, h._id, date));
     });
     setState(init);
   }, [date, habits, logs]);

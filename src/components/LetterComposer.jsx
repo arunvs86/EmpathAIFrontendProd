@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function LetterComposer({ onLetterCreated }) {
   const { t } = useTranslation();
@@ -69,7 +70,7 @@ export default function LetterComposer({ onLetterCreated }) {
       setText('');
       setMediaFiles([]);
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setSubmitting(false);
     }

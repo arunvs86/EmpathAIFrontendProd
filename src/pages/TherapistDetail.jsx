@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 import {
   fetchTherapistById,
@@ -113,7 +114,7 @@ function TherapistDetail() {
         }
         setStatusMap(statuses);
       } catch (err) {
-        setError(err.message || "Failed to load therapist details");
+        setError(tServer(err.message) || "Failed to load therapist details");
       } finally {
         setLoading(false);
       }
@@ -222,7 +223,7 @@ const scheduledAtISO = DateTime.fromFormat(
 
       closeQuestionnaire();
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setLoading(false);
       // No full page reload; UI already reflects "pending"

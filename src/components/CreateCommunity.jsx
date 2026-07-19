@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function CreateCommunity({ onCommunityCreated }) {
     const { t } = useTranslation();
@@ -54,7 +55,7 @@ export default function CreateCommunity({ onCommunityCreated }) {
       onCommunityCreated?.(newCommunity);
       navigate("/communities");
     } catch (err) {
-      setError(err.message);
+      setError(tServer(err.message));
     } finally {
       setLoading(false);
     }

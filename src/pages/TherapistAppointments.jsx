@@ -24,7 +24,7 @@
 //       setAppointments(data);
 //     } catch (err) {
 //       console.error(err);
-//       alert(err.message);
+//       alert(tServer(err.message));
 //     } finally {
 //       setLoading(false);
 //     }
@@ -85,6 +85,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 import {
   getTherapistAppointments,
   cancelAppointment,
@@ -121,7 +122,7 @@ export default function TherapistAppointmentsPage() {
       setAppointments(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
-      alert(err.message || "Failed to load appointments");
+      alert(tServer(err.message) || "Failed to load appointments");
     } finally {
       setLoading(false);
     }
@@ -138,7 +139,7 @@ export default function TherapistAppointmentsPage() {
       await cancelAppointment(id);
       await loadAppointments();
     } catch (e) {
-      alert(e.message);
+      alert(tServer(e.message));
     } finally {
       setActionLoadingId(null);
     }
@@ -150,7 +151,7 @@ export default function TherapistAppointmentsPage() {
       await handleAppointmentDecision(id, decision);
       await loadAppointments();
     } catch (e) {
-      alert(e.message);
+      alert(tServer(e.message));
     } finally {
       setActionLoadingId(null);
     }
@@ -162,7 +163,7 @@ export default function TherapistAppointmentsPage() {
       await handleRescheduleDecision(id, decision);
       await loadAppointments();
     } catch (e) {
-      alert(e.message);
+      alert(tServer(e.message));
     } finally {
       setActionLoadingId(null);
     }

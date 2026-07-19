@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { ImageIcon, VideoIcon, Music, FileText } from 'lucide-react';
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 const CATEGORY_OPTIONS = [
   { value: 'Self-Care', label: 'Self-Care' },
@@ -95,7 +96,7 @@ export default function PostComposer({communityId, onPostCreated }) {
       setCategories([]);
       setMediaFiles([]);
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setSubmitting(false);
     }

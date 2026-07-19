@@ -44,11 +44,11 @@
 //         });
 //         if (!res.ok) {
 //           const err = await res.json();
-//           throw new Error(err.message || "Failed to fetch posts.");
+//           throw new Error(tServer(err.message) || "Failed to fetch posts.");
 //         }
 //         setPosts(await res.json());
 //       } catch (err) {
-//         setError(err.message);
+//         setError(tServer(err.message));
 //       } finally {
 //         setLoading(false);
 //       }
@@ -156,6 +156,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import PostList from "./PostList";
 import PostComposer from "./PostComposer";
 import { useLocation } from "react-router-dom";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 function MainContent() {
   const [posts, setPosts] = useState([]);
@@ -206,13 +207,13 @@ function MainContent() {
 
         if (!res.ok) {
           const err = await res.json();
-          throw new Error(err.message || "Failed to fetch posts.");
+          throw new Error(tServer(err.message) || "Failed to fetch posts.");
         }
         setPosts(await res.json());
         console.log("posts:", posts)
 
       } catch (err) {
-        setError(err.message);
+        setError(tServer(err.message));
       } finally {
         setLoading(false);
       }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 function CreatePost({ onPostCreated }) {
   const [content, setContent] = useState("");
@@ -60,7 +61,7 @@ function CreatePost({ onPostCreated }) {
 //       setContent("");
 //     } catch (err) {
 //       console.error(err);
-//       setError(err.message);
+//       setError(tServer(err.message));
 //     } finally {
 //       setLoading(false);
 //     }
@@ -107,7 +108,7 @@ const handleSubmit = async (e) => {
     setContent("");
   } catch (err) {
     console.error("Submit failed:", err);
-    setError(err.message);
+    setError(tServer(err.message));
   } finally {
     setLoading(false);
   }

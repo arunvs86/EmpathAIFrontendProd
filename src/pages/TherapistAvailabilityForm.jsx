@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 import {
   getTherapistAppointments,
   handleAppointmentDecision,
@@ -77,20 +78,24 @@ function TherapistAvailabilityForm() {
   const [editKey, setEditKey] = useState(null); // {date, oldSlot} or null
   const [editValue, setEditValue] = useState("");
 
-  // 30-minute options
+  // Slot length follows the therapist's chosen session duration (from signup); default 30
+  const slotDuration = Number(therapist?.session_duration) || 30;
+
+  // Time-slot options generated in `slotDuration`-minute increments
   const slotOptions = useMemo(() => {
     const slots = [];
     const pad = (n) => String(n).padStart(2, "0");
-    for (let mins = 0; mins < 24 * 60; mins += 30) {
+    const step = slotDuration;
+    for (let mins = 0; mins + step <= 24 * 60; mins += step) {
       const h1 = Math.floor(mins / 60),
         m1 = mins % 60;
-      const end = mins + 30,
+      const end = mins + step,
         h2 = Math.floor(end / 60) % 24,
         m2 = end % 60;
       slots.push(`${pad(h1)}:${pad(m1)}-${pad(h2)}:${pad(m2)}`);
     }
     return slots;
-  }, []);
+  }, [slotDuration]);
 
   // ===== Load initial therapist + availability on Availability tab =====
   useEffect(() => {
@@ -139,7 +144,7 @@ function TherapistAvailabilityForm() {
         setTimeSlotsMap(finalMap);
       } catch (err) {
         console.error(err);
-        setError(err.message || "Failed to load availability");
+        setError(tServer(err.message) || "Failed to load availability");
       }
     })();
   }, [activeTab, userId]);
@@ -197,7 +202,7 @@ function TherapistAvailabilityForm() {
 
       setSuccess(t('avail.saved'));
     } catch (err) {
-      setError(err.message || "Failed to save availability");
+      setError(tServer(err.message) || "Failed to save availability");
     }
   };
 
@@ -231,7 +236,7 @@ function TherapistAvailabilityForm() {
         ...m,
         [date]: prev,
       }));
-      setError(err.message || "Failed to delete slot");
+      setError(tServer(err.message) || "Failed to delete slot");
     } finally {
       setLoadingKey(null);
     }
@@ -260,7 +265,7 @@ function TherapistAvailabilityForm() {
       // revert
       setTimeSlotsMap(prevMap);
       setSelectedDates(prevDates);
-      setError(err.message || "Failed to delete date");
+      setError(tServer(err.message) || "Failed to delete date");
     } finally {
       setLoadingKey(null);
     }
@@ -303,7 +308,7 @@ function TherapistAvailabilityForm() {
     } catch (err) {
       // revert
       setTimeSlotsMap((m) => ({ ...m, [date]: prev }));
-      setError(err.message || "Failed to edit slot");
+      setError(tServer(err.message) || "Failed to edit slot");
     } finally {
       setLoadingKey(null);
     }
@@ -327,7 +332,7 @@ function TherapistAvailabilityForm() {
         console.log("TherapistAppointmetns", data)
         setAppointments(data.filter((a) => a.status === "pending"));
       } catch (err) {
-        setAppsError(err.message);
+        setAppsError(tServer(err.message));
       } finally {
         setLoadingApps(false);
       }
@@ -342,7 +347,7 @@ function TherapistAvailabilityForm() {
       await handleAppointmentDecision(id, decision);
       setAppointments((list) => list.filter((a) => a.id !== id));
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     } finally {
       setLoadingId(null);
       setLoadingAction(null);

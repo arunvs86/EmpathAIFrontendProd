@@ -7,6 +7,7 @@ import { dedupe } from "../utils/localStorageUtils";
 import { createGroupChat } from "../services/chatApi";
 import PostComposer from "./PostComposer";
 import { createChat } from "../services/chatApi"; // if it's not already imported
+import { translateServerMessage as tServer } from "../utils/serverMessages";
 
 export default function CommunityDetail({ communityId, onBack }) {
   const { t } = useTranslation();
@@ -70,7 +71,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         setCommunity(communityData);
         setPosts(postData);
       } catch (err) {
-        setError(err.message);
+        setError(tServer(err.message));
       } finally {
         setLoading(false);
       }
@@ -203,7 +204,7 @@ export default function CommunityDetail({ communityId, onBack }) {
         }));
       }
     } catch (err) {
-      alert(err.message);
+      alert(tServer(err.message));
     }
   };
 

@@ -17,10 +17,9 @@ export default function Header() {
   const { unreadChats, setUnreadChats } = useUnreadChats();
   const { t, i18n } = useTranslation();
 
-  const toggleLang = () => {
-    const next = i18n.language === 'en' ? 'es' : 'en';
-    i18n.changeLanguage(next);
-    localStorage.setItem('lang', next);
+  const setLang = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('lang', lang);
   };
 
   useEffect(() => {
@@ -101,15 +100,29 @@ export default function Header() {
         {/* Right controls */}
         <div className="flex items-center gap-3">
 
-          {/* Language toggle — flag button */}
-          <button
-            onClick={toggleLang}
-            className="flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-bold text-base transition-all duration-200"
-            title={isES ? 'Switch to English' : 'Cambiar a Español'}
-          >
-            <span className="text-xl leading-none">{isES ? '🇬🇧' : '🇪🇸'}</span>
-            <span className="hidden sm:inline">{isES ? 'English' : 'Español'}</span>
-          </button>
+          {/* Language toggle — both flags, active highlighted */}
+          <div className="flex items-center gap-1 bg-white/15 border-2 border-white/50 rounded-xl p-1">
+            <button
+              onClick={() => setLang('en')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+                !isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+              }`}
+              title="English"
+            >
+              <span className="text-xl leading-none">🇬🇧</span>
+              <span className="hidden sm:inline">EN</span>
+            </button>
+            <button
+              onClick={() => setLang('es')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+                isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
+              }`}
+              title="Español"
+            >
+              <span className="text-xl leading-none">🇪🇸</span>
+              <span className="hidden sm:inline">ES</span>
+            </button>
+          </div>
 
           {/* Messages */}
           <Link
