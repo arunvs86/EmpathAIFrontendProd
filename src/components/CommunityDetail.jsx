@@ -331,16 +331,16 @@ export default function CommunityDetail({ communityId, onBack }) {
   />
 )}
 
-      <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 flex justify-between items-center">
-        <div>
-          <h1 className="font-calligraphy text-4xl text-white">
+      <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <div className="min-w-0">
+          <h1 className="font-calligraphy text-2xl sm:text-4xl text-white break-words">
             {community.name}
           </h1>
-          <p className="text-gray-100 mt-1 leading-snug">
+          <p className="text-gray-100 mt-1 leading-snug break-words">
             {community.description}
           </p>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 sm:flex-shrink-0">
           <button onClick={toggleFavorite} className="text-2xl text-white/80 hover:text-white">
             {isFavorited ? "★" : "☆"}
           </button>
@@ -386,7 +386,7 @@ export default function CommunityDetail({ communityId, onBack }) {
       </div>
 
       {/* Membership Actions */}
-      <div className="flex space-x-4">
+      <div className="flex flex-wrap gap-3">
         {!community.members.includes(currentUser.id) ? (
           community.type === "public" ? (
             <button onClick={handleJoin} className="bg-white/20 hover:bg-amber-500/40 text-white px-4 py-2 rounded-full transition">

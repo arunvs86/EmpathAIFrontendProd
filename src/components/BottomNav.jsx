@@ -39,10 +39,6 @@ function BottomNav() {
         <span className="text-lg">👥</span>
         <span>Community</span>
       </button>
-      <button onClick={() => navigate("/create")} className={getButtonClass("/create")}>
-        <span className="text-lg">✏️</span>
-        <span>Create</span>
-      </button>
       <button onClick={() => navigate("/chats")} className={getButtonClass("/chats")}>
         <span className="text-lg">💬</span>
         <span>Messages</span>

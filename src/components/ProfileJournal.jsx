@@ -506,9 +506,9 @@ export default function ProfileJournals() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeIn} className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-4xl font-calligraphy text-white drop-shadow-lg">📝 My Journal</h2>
-        <button onClick={() => { setEditingEntry(null); setShowEditor(true); }} className="bg-emerald-600 hover:bg-emerald-700 transition text-white px-6 py-2 rounded-full shadow-md text-lg">➕ New Entry</button>
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+        <h2 className="text-2xl sm:text-4xl font-calligraphy text-white drop-shadow-lg">📝 My Journal</h2>
+        <button onClick={() => { setEditingEntry(null); setShowEditor(true); }} className="bg-emerald-600 hover:bg-emerald-700 transition text-white px-4 sm:px-6 py-2 rounded-full shadow-md text-base sm:text-lg">➕ New Entry</button>
       </div>
 
       <AnimatePresence>

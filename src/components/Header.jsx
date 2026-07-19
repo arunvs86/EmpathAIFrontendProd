@@ -68,29 +68,30 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/10 backdrop-blur-lg shadow-lg z-50">
-      <div className="h-18 flex items-center justify-between px-6 max-w-7xl mx-auto py-3">
+      <div className="h-18 flex items-center justify-between px-3 sm:px-6 max-w-7xl mx-auto py-3 gap-2">
 
         {/* Logo + Title */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <img
             src="/assets/images/Nottingham_Blue_white_text_logo_SCREEN.png"
             alt="University of Nottingham"
-            className="h-10 w-auto cursor-pointer"
+            className="hidden sm:block h-8 sm:h-10 w-auto cursor-pointer flex-shrink-0"
             onClick={() => navigate("/about")}
           />
           <a
             href="http://www.elartedelbuenvivir.es/"
             target="_blank"
             rel="noopener noreferrer"
+            className="flex-shrink-0"
           >
             <img
               src="/assets/images/LogoNewVectorized.png"
               alt="EmpathAI Logo"
-              className="h-10 w-auto hover:opacity-80 transition"
+              className="h-8 sm:h-10 w-auto hover:opacity-80 transition"
             />
           </a>
           <h1
-            className="hover:text-amber-300 font-bold font-calligraphy text-2xl text-white leading-none cursor-pointer"
+            className="hover:text-amber-300 font-bold font-calligraphy text-lg sm:text-2xl text-white leading-none cursor-pointer truncate"
             onClick={() => navigate("/about")}
           >
             EmpathAI
@@ -98,13 +99,13 @@ export default function Header() {
         </div>
 
         {/* Right controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
 
           {/* Language toggle — both flags, active highlighted */}
           <div className="flex items-center gap-1 bg-white/15 border-2 border-white/50 rounded-xl p-1">
             <button
               onClick={() => setLang('en')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+              className={`flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
                 !isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
               }`}
               title="English"
@@ -114,7 +115,7 @@ export default function Header() {
             </button>
             <button
               onClick={() => setLang('es')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
+              className={`flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-base font-bold transition-all duration-200 ${
                 isES ? 'bg-amber-400 text-slate-900 shadow' : 'text-white/50 hover:text-white grayscale hover:grayscale-0'
               }`}
               title="Español"
@@ -127,7 +128,7 @@ export default function Header() {
           {/* Messages */}
           <Link
             to="/chats"
-            className="relative flex items-center justify-center w-11 h-11 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white transition-all duration-200"
+            className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white transition-all duration-200 flex-shrink-0"
           >
             <MessageCircle className="w-6 h-6" />
             {totalUnread > 0 && (
@@ -141,21 +142,21 @@ export default function Header() {
           <div className="relative" ref={userRef}>
             <button
               onClick={() => setOpenUser(u => !u)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-semibold text-base transition-all duration-200"
+              className="flex items-center gap-2 px-2 sm:px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/50 hover:border-amber-400 rounded-xl text-white font-semibold text-base transition-all duration-200"
             >
               <img
                 src={avatarUrl}
                 onClick={(e) => { e.stopPropagation(); goProfile(); }}
                 alt="Avatar"
-                className="w-8 h-8 rounded-full object-cover border-2 border-white/40"
+                className="w-8 h-8 rounded-full object-cover border-2 border-white/40 flex-shrink-0"
               />
               <span
-                className="hidden sm:inline cursor-pointer hover:text-amber-300 transition"
+                className="hidden sm:inline cursor-pointer hover:text-amber-300 transition max-w-[120px] truncate"
                 onClick={(e) => { e.stopPropagation(); goProfile(); }}
               >
                 {currentUser.username}
               </span>
-              <ChevronDown className="w-4 h-4 opacity-70" />
+              <ChevronDown className="w-4 h-4 opacity-70 hidden sm:block" />
             </button>
 
             {openUser && (

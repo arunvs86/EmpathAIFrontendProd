@@ -872,7 +872,7 @@ function ChatDetail() {
         <div className="flex space-x-2 items-center">
           <textarea
             rows={1}
-            className="flex-grow resize-none bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
+            className="flex-grow min-w-0 resize-none bg-white/10 border border-white/20 text-white placeholder-white/40 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
             value={newContent}
             onChange={(e) => setNewContent(e.target.value)}
             onKeyDown={(e) => {

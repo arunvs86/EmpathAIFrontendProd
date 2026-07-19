@@ -296,12 +296,12 @@ export default function Signup() {
       </div>
 
       {/* ── LEFT PANEL ── */}
-      <div className="flex flex-col items-center justify-center px-12 py-12 bg-white/5 border-r border-white/10">
-        <h2 className="text-4xl font-calligraphy font-bold mb-4 text-amber-300">{t('auth.joinTitle')}</h2>
-        <p className="text-center text-lg text-white/80 italic mb-8">
+      <div className="flex flex-col items-center justify-center px-6 py-8 pt-20 md:px-12 md:py-12 md:pt-12 bg-white/5 border-r border-white/10">
+        <h2 className="text-3xl md:text-4xl font-calligraphy font-bold mb-4 text-amber-300">{t('auth.joinTitle')}</h2>
+        <p className="text-center text-base md:text-lg text-white/80 italic mb-6 md:mb-8">
           {t('auth.joinSubtitle')}
         </p>
-        <div className="w-64 h-64 mb-8">
+        <div className="w-40 h-40 md:w-64 md:h-64 mb-6 md:mb-8">
           <Lottie animationData={signupAnim} loop autoplay />
         </div>
         <ul className="space-y-3 text-base text-white/90">
@@ -313,8 +313,8 @@ export default function Signup() {
       </div>
 
       {/* ── RIGHT PANEL ── */}
-      <div className="flex items-start justify-center p-8 overflow-y-auto">
-        <div className="w-full max-w-xl py-8">
+      <div className="flex items-start justify-center p-4 sm:p-8 overflow-y-auto">
+        <div className="w-full max-w-xl py-4 sm:py-8">
           <h1 className="text-3xl font-calligraphy font-bold text-center mb-6 text-amber-300">
             {t('auth.signUpTitle')}
           </h1>

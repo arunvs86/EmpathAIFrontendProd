@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import BottomNav from '../components/BottomNav';
+import { Menu, X } from 'lucide-react';
 
 import bgVideoMorning from '/assets/background_morning.mp4';
 import { useState } from "react";
@@ -25,7 +26,13 @@ export default function HomeLayout() {
 
   const mainRef = useRef(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const videoRef = useRef(null);
+
+  // Close the mobile drawer whenever the route changes (e.g. a sidebar link was tapped)
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -91,11 +98,20 @@ useEffect(() => {
 
         {/* Centre Content */}
         <main   ref={mainRef}
-              className="flex-1 overflow-y-auto px-6 pb-24 relative pointer-events-auto z-30">
+              className="flex-1 overflow-y-auto px-3 sm:px-6 pb-24 relative pointer-events-auto z-30">
+          {/* Mobile: open the sidebar drawer */}
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="md:hidden flex items-center gap-2 mb-4 px-4 py-2 bg-white/15 hover:bg-white/25 border-2 border-white/40 hover:border-amber-400 rounded-xl text-white font-bold text-base transition"
+            aria-label={t('layout.menu')}
+          >
+            <Menu className="w-5 h-5" /> {t('layout.menu')}
+          </button>
+
           <div className="max-w-3xl mx-auto space-y-8">
             {/* Hero */}
             {/* <div className="mx-auto max-w-2xl bg-white/20 backdrop-blur-lg rounded-3xl p-8 text-center shadow-lg"> */}
-              <h1 className="font-calligraphy text-center text-5xl leading-tight">
+              <h1 className="font-calligraphy text-center text-3xl sm:text-4xl lg:text-5xl leading-tight">
                   {tagline}
               </h1>
             {/* </div> */}
@@ -103,7 +119,7 @@ useEffect(() => {
 
 
             {/* Post + Feed */}
-            <div className="rounded-2xl shadow-lg p-6">
+            <div className="rounded-2xl shadow-lg p-3 sm:p-6">
               <Outlet />
             </div>
           </div>
@@ -125,6 +141,33 @@ useEffect(() => {
       </div>
 
       
+
+      {/* Mobile sidebar drawer — reuses the existing Left/Right sidebars */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-[60]">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setDrawerOpen(false)}
+          />
+          {/* Sliding panel */}
+          <div className="absolute top-0 left-0 h-full w-72 max-w-[85%] bg-slate-900/95 backdrop-blur-md border-r-2 border-white/20 shadow-2xl overflow-y-auto pointer-events-auto">
+            <div className="flex justify-end p-2 sticky top-0">
+              <button
+                onClick={() => setDrawerOpen(false)}
+                aria-label="Close menu"
+                className="p-2 text-white/70 hover:text-white transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            {/* Wrapped in plain divs so the sidebars' h-full flows naturally when stacked */}
+            <div><LeftSidebar /></div>
+            <div className="border-t border-white/10 mx-4 my-2" />
+            <div><RightSidebar /></div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Nav (mobile) */}
       <div className="md:hidden relative z-50 pointer-events-auto">

@@ -292,8 +292,8 @@ export default function ProfileWeeklyHabits() {
       {loading ? (
         <p className="text-white/60">{t('habits.loading')}</p>
       ) : (
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 overflow-auto text-white">
-          <table className="w-full table-fixed">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-3 sm:p-6 overflow-x-auto text-white">
+          <table className="w-full min-w-[560px] table-fixed">
             <thead>
               <tr>
                 <th className="text-left">{t('habits.habit')}</th>

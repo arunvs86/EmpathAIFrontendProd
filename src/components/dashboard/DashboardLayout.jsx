@@ -229,9 +229,9 @@ export default function DashboardLayout() {
   }, []);
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r p-6 flex flex-col">
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Sidebar — full-width scrollable panel on mobile, fixed rail on desktop */}
+      <aside className="w-full md:w-64 flex-shrink-0 bg-white border-b md:border-b-0 md:border-r p-4 md:p-6 flex flex-col max-h-[45vh] md:max-h-none">
         <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
 
         {/* User selector */}
@@ -424,7 +424,7 @@ export default function DashboardLayout() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 bg-gray-50 p-8 overflow-auto">
+      <main className="flex-1 bg-gray-50 p-4 md:p-8 overflow-auto">
         <Outlet />
       </main>
     </div>

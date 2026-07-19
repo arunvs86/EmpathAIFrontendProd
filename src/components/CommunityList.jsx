@@ -72,10 +72,10 @@ export default function CommunityList({ onCreateCommunity, onSelectCommunity }) 
     <div className="space-y-8">
 
       {/* ── Controls bar ── */}
-      <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+      <div className="flex flex-wrap gap-2 items-center">
 
         {/* Search */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 pointer-events-none" />
           <input
             type="text"
