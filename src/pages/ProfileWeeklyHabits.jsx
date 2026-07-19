@@ -307,7 +307,7 @@ export default function ProfileWeeklyHabits() {
             </thead>
             <tbody>
               {habits.map((h) => (
-                <tr key={h._id} className="hover:bg-white/80">
+                <tr key={h._id}>
                   <td className="py-2">{h.name}</td>
                   {headers.map((hd) => {
                     const done = logs.some((l) => logDoneOn(l, h._id, hd.date));
