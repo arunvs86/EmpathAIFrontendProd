@@ -78,8 +78,17 @@ function TherapistAvailabilityForm() {
   const [editKey, setEditKey] = useState(null); // {date, oldSlot} or null
   const [editValue, setEditValue] = useState("");
 
-  // Slot length follows the therapist's chosen session duration (from signup); default 30
-  const slotDuration = Number(therapist?.session_duration) || 30;
+  // Slot length follows the therapist's chosen session duration (from signup).
+  // Sanitised + clamped so bad/missing data can never empty the dropdown or loop:
+  //  - missing / 0 / NaN / negative  -> fall back to 30
+  //  - absurd values (e.g. stored in seconds) -> clamped to 15..240 minutes
+  const MIN_SLOT_MINS = 15;
+  const MAX_SLOT_MINS = 240;
+  const slotDuration = useMemo(() => {
+    const raw = Number(therapist?.session_duration);
+    if (!Number.isFinite(raw) || raw <= 0) return 30;
+    return Math.min(Math.max(Math.round(raw), MIN_SLOT_MINS), MAX_SLOT_MINS);
+  }, [therapist]);
 
   // Time-slot options generated in `slotDuration`-minute increments
   const slotOptions = useMemo(() => {

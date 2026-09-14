@@ -667,7 +667,9 @@ function ChatDetail() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               question: transcript,
-              session_id: chatId,
+              // Stable per-user id so the bot's memory persists across logins
+              // and is shared with the text path (was chatId, which reset).
+              session_id: currentUserId,
             }),
           }
         );

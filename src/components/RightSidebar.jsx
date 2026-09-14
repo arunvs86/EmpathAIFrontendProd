@@ -211,7 +211,10 @@ export default function RightSidebar() {
                   // const countdown = countdowns[appt.id] || getTimeRemaining(appt.scheduled_at);
                   const countdown = countdowns[appt.id] || getTimeRemaining(appt.scheduled_at, appt.scheduled_at_uk_iso);
 
-                  const within15Min = countdown.total <= 15 * 60 * 1000 && countdown.total > 0;
+                  // Join window: from 15 min before the session until it ends (+5 min grace),
+                  // so the button doesn't disable the instant the session starts.
+                  const graceMs = ((Number(appt.session_duration) || 60) + 5) * 60 * 1000;
+                  const canJoin = countdown.total <= 15 * 60 * 1000 && countdown.total > -graceMs;
 
                   // const apptTime = new Date(appt.scheduled_at).toLocaleString();
                   const ukISO = appt.scheduled_at_uk_iso || DateTime
@@ -230,11 +233,11 @@ export default function RightSidebar() {
 
   <div className="relative group">
   <button
-    disabled={!within15Min || !appt.join_url}
+    disabled={!canJoin || !appt.join_url}
     onClick={() => window.open(appt.join_url, "_blank")}
     className={`mt-1 text-xs px-3 py-1 rounded-lg transition
       ${
-        within15Min && appt.join_url
+        canJoin && appt.join_url
           ? "bg-green-600 text-white hover:bg-green-700"
           : "bg-gray-400 text-gray-200 cursor-not-allowed"
       }`}
@@ -242,7 +245,7 @@ export default function RightSidebar() {
     {t('sidebar.joinSession')}
   </button>
 
-  {(!within15Min || !appt.join_url) && (
+  {(!canJoin || !appt.join_url) && (
     <div className="absolute z-10 ml-2 mt-1 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-52">
       {!appt.join_url
         ? t('sidebar.linkNotReady')
