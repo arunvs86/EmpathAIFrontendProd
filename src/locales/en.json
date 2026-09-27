@@ -444,6 +444,8 @@
     "removing": "Removing…",
     "saving": "Saving…",
     "alreadyAdded": "You have already added that slot.",
+    "pickSlotFirst": "Choose a time slot first, then press Add.",
+    "needSlotForDate": "Add at least one time slot for {{dates}} before saving.",
     "saved": "Availability saved.",
     "loadingAppts": "Loading appointments…",
     "noPending": "No pending requests.",

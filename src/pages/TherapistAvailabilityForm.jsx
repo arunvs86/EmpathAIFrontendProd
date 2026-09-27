@@ -21,6 +21,8 @@ import {
   deleteAvailabilityDate,
 } from "../services/therapistApi";
 
+import { buildSlotOptions, normalizeSlotDuration } from "../utils/slots";
+
 import { DateTime } from "luxon";
 
 /** Format an ISO datetime in UK time (handles BST/GMT) */
@@ -79,32 +81,21 @@ function TherapistAvailabilityForm() {
   const [editValue, setEditValue] = useState("");
 
   // Slot length follows the therapist's chosen session duration (from signup).
-  // Sanitised + clamped so bad/missing data can never empty the dropdown or loop:
-  //  - missing / 0 / NaN / negative  -> fall back to 30
-  //  - absurd values (e.g. stored in seconds) -> clamped to 15..240 minutes
-  const MIN_SLOT_MINS = 15;
-  const MAX_SLOT_MINS = 240;
-  const slotDuration = useMemo(() => {
-    const raw = Number(therapist?.session_duration);
-    if (!Number.isFinite(raw) || raw <= 0) return 30;
-    return Math.min(Math.max(Math.round(raw), MIN_SLOT_MINS), MAX_SLOT_MINS);
-  }, [therapist]);
+  const slotDuration = useMemo(
+    () => normalizeSlotDuration(therapist?.session_duration),
+    [therapist]
+  );
 
-  // Time-slot options generated in `slotDuration`-minute increments
-  const slotOptions = useMemo(() => {
-    const slots = [];
-    const pad = (n) => String(n).padStart(2, "0");
-    const step = slotDuration;
-    for (let mins = 0; mins + step <= 24 * 60; mins += step) {
-      const h1 = Math.floor(mins / 60),
-        m1 = mins % 60;
-      const end = mins + step,
-        h2 = Math.floor(end / 60) % 24,
-        m2 = end % 60;
-      slots.push(`${pad(h1)}:${pad(m1)}-${pad(h2)}:${pad(m2)}`);
-    }
-    return slots;
-  }, [slotDuration]);
+  const slotOptions = useMemo(() => buildSlotOptions(slotDuration), [slotDuration]);
+
+  // The slot being edited may predate the therapist's current session length, so it
+  // won't be in slotOptions. Without it the <select> silently renders a different
+  // value than the one held in state.
+  const editSlotOptions = useMemo(() => {
+    const current = editKey?.oldSlot;
+    if (!current || slotOptions.includes(current)) return slotOptions;
+    return [current, ...slotOptions];
+  }, [slotOptions, editKey]);
 
   // ===== Load initial therapist + availability on Availability tab =====
   useEffect(() => {
@@ -173,7 +164,10 @@ function TherapistAvailabilityForm() {
   // Add slot to a date
   const addTimeSlot = (date) => {
     const raw = timeSlotInputs[date];
-    if (!raw) return;
+    if (!raw) {
+      setError(t('avail.pickSlotFirst'));
+      return;
+    }
     const slot = normalizeSlot(raw);
 
     const existing = timeSlotsMap[date] || [];
@@ -195,6 +189,14 @@ function TherapistAvailabilityForm() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    // The server drops dates that carry no slots, so catch them here where we can
+    // say which dates are incomplete instead of reporting a save that didn't happen.
+    const datesWithoutSlots = selectedDates.filter((d) => (timeSlotsMap[d] || []).length === 0);
+    if (datesWithoutSlots.length) {
+      setError(t('avail.needSlotForDate', { dates: datesWithoutSlots.slice().sort().join(', ') }));
+      return;
+    }
 
     try {
       // Build payload
@@ -297,6 +299,14 @@ function TherapistAvailabilityForm() {
     if (!editKey) return;
     const { date, oldSlot } = editKey;
     const newSlot = normalizeSlot(editValue);
+
+    // The edit endpoint defaults to the cancel_and_delete policy, so submitting an
+    // unchanged slot would cancel real appointments in that window for no reason.
+    if (newSlot === normalizeSlot(oldSlot)) {
+      cancelEdit();
+      return;
+    }
+
     const opKey = `${date}|${oldSlot}|edit`;
     setLoadingKey(opKey);
     setError("");
@@ -473,7 +483,7 @@ function TherapistAvailabilityForm() {
                               }
                               className="bg-slate-800 border border-white/20 text-white rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-400 transition"
                             >
-                              {slotOptions.map((s) => (
+                              {editSlotOptions.map((s) => (
                                 <option key={s} value={s}>
                                   {s}
                                 </option>

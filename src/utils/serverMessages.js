@@ -235,6 +235,8 @@ const DYNAMIC_PATTERNS = [
   { re: /^Reschedule request (\w+) successfully!$/, es: (m) => `¡Solicitud de reprogramación ${verb(m[1])} con éxito!` },
   // "Join request approved/rejected successfully!"
   { re: /^Join request (\w+) successfully!$/, es: (m) => `¡Solicitud para unirte ${verb(m[1])} con éxito!` },
+  // "Add at least one time slot for: <dates>"
+  { re: /^Add at least one time slot for: (.+)$/, es: (m) => `Añade al menos un horario para: ${m[1]}` },
   // "Unknown topic: <topic>"
   { re: /^Unknown topic: (.+)$/, es: (m) => `Tema desconocido: ${m[1]}` },
   // "Slot <slot> on <date> is now booked."

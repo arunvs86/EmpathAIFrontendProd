@@ -11,6 +11,7 @@ import {
 
 import { fetchOccupiedSlots } from "../services/appointmentApi";
 import { createChat } from "../services/chatApi";
+import { slotStatus } from "../utils/slots";
 import { DateTime } from "luxon";
 
 const CONCERNS = [
@@ -27,6 +28,7 @@ const GOALS = [
   { value: "Stress management", labelKey: "goalStress" },
   { value: "Self-esteem",       labelKey: "goalSelfEsteem" },
 ];
+
 
 function TherapistDetail() {
   const { t } = useTranslation();
@@ -104,12 +106,12 @@ function TherapistDetail() {
           }
         }
 
-        // 5) Build statusMap, preferring occupied status; fallback "available"
+        // 5) Build statusMap by overlap against the booked intervals
         const statuses = {};
         for (const d of finalDates) {
           statuses[d] = {};
           for (const slot of finalMap[d]) {
-            statuses[d][slot] = (occMap[d] && occMap[d][slot]) || "available";
+            statuses[d][slot] = slotStatus(slot, occMap[d] || []);
           }
         }
         setStatusMap(statuses);
@@ -191,7 +193,6 @@ const scheduledAtISO = DateTime.fromFormat(
         user_id: user.id,
         therapist_id: therapist.id, // therapist PK
         scheduled_at: scheduledAtISO,
-        session_duration: 30,
         session_type: "video",
         primary_concern: primaryConcern,
         attended_before: attendedBefore === "yes",

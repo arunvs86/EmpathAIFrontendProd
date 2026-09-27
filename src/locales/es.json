@@ -444,6 +444,8 @@
     "removing": "Eliminando…",
     "saving": "Guardando…",
     "alreadyAdded": "Ya has añadido ese horario.",
+    "pickSlotFirst": "Elige primero un horario y luego pulsa Añadir.",
+    "needSlotForDate": "Añade al menos un horario para {{dates}} antes de guardar.",
     "saved": "Disponibilidad guardada.",
     "loadingAppts": "Cargando citas…",
     "noPending": "No hay solicitudes pendientes.",
