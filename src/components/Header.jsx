@@ -90,6 +90,18 @@ export default function Header() {
               className="h-8 sm:h-10 w-auto hover:opacity-80 transition"
             />
           </a>
+          <a
+            href="https://asociacionraydi.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0"
+          >
+            <img
+              src="/assets/images/RAYDI_imagotipo_azul.jpg"
+              alt="RAYDI Logo"
+              className="h-8 sm:h-10 w-auto hover:opacity-80 transition"
+            />
+          </a>
           <h1
             className="hover:text-amber-300 font-bold font-calligraphy text-lg sm:text-2xl text-white leading-none cursor-pointer truncate"
             onClick={() => navigate("/about")}
